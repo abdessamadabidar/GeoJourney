@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="451.0" prefWidth="848.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="697.6" minWidth="10.0" prefWidth="443.79998779296875" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="411.0000244140625" minWidth="10.0" prefWidth="403.8000122070313" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="194.79999389648438" minHeight="10.0" prefHeight="177.19998779296876" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="242.79999389648438" minHeight="10.0" prefHeight="223.60001220703126" vgrow="SOMETIMES" />
+  </rowConstraints>
+  <children>
+    <VBox prefHeight="183.0" prefWidth="545.0" GridPane.rowSpan="2">
+      <children>
+        <HBox alignment="BASELINE_LEFT" prefHeight="76.0" prefWidth="300.0">
+          <children>
+            <ImageView fitHeight="68.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../assets/icons8-location-94.png" />
+              </image>
+              <HBox.margin>
+                <Insets right="20.0" />
+              </HBox.margin>
+            </ImageView>
+            <Text fx:id="appName" strokeType="OUTSIDE" strokeWidth="0.0" text="GeoJourney" wrappingWidth="396.3830966949463" />
+          </children>
+        </HBox>
+        <VBox prefHeight="200.0" prefWidth="100.0">
+          <children>
+            <Text fx:id="tagline" strokeType="OUTSIDE" strokeWidth="0.0" text="GeoJourney, navigate your way with ease" wrappingWidth="622.7831211090088">
+              <VBox.margin>
+                <Insets bottom="10.0" />
+              </VBox.margin>
+            </Text>
+            <TextFlow lineSpacing="2.0" prefHeight="182.0" prefWidth="278.0">
+              <children>
+                <Text fx:id="description" strokeType="OUTSIDE" strokeWidth="0.0" text="Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum." />
+              </children>
+              <VBox.margin>
+                <Insets bottom="30.0" />
+              </VBox.margin>
+            </TextFlow>
+            <HBox alignment="CENTER" prefHeight="41.0" prefWidth="623.0" style="-fx-spacing: 20;">
+              <children>
+                <Button fx:id="whereamiBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="250.0" text="Whereami ">
+                  <padding>
+                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                  </padding>
+                  <cursor>
+                    <Cursor fx:constant="HAND" />
+                  </cursor>
+                  <graphic>
+                    <ImageView fitHeight="21.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                      <image>
+                        <Image url="@../assets/icons8-epingle-de-carte-50.png" />
+                      </image>
+                    </ImageView>
+                  </graphic>
+                </Button>
+                <Button fx:id="navigateBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Navigate">
+                  <padding>
+                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                  </padding>
+                  <cursor>
+                    <Cursor fx:constant="HAND" />
+                  </cursor>
+                </Button>
+              </children>
+              <VBox.margin>
+                <Insets bottom="20.0" />
+              </VBox.margin>
+            </HBox>
+            <HBox alignment="BOTTOM_CENTER" prefHeight="20.0" prefWidth="493.0">
+              <ImageView fitHeight="20.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../assets/icons8-marqueur-24.png"/>
+              </ImageView>
+              <Text fx:id="request" strokeType="OUTSIDE" strokeWidth="0.0"
+                    text="Please grant permission to access your location" wrappingWidth="298.78312039375305"/>
+            </HBox>
+          </children>
+        </VBox>
+      </children>
+    </VBox>
+    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowSpan="2">
+      <ImageView fitHeight="420.0" fitWidth="400.0" layoutX="66.0" layoutY="108.0" pickOnBounds="true"
+                 preserveRatio="true">
+        <image>
+          <Image url="@../assets/3d-casual-life-trail-map.png"/>
+        </image>
+      </ImageView>
+    </AnchorPane>
+  </children>
+</GridPane>

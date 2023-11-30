@@ -1,0 +1,69 @@
+#aside {
+    -fx-background-radius: 10;
+    -fx-background-color: #f8f9fa;
+    -fx-scale-z: 9999999;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
+}
+
+
+#title {
+    -fx-font-weight: 800;
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-font-size: 35;
+    -fx-fill: #3283CA;
+}
+
+#search {
+    -fx-background-radius: 8;
+    -fx-border-width: 0;
+    -fx-background-color: #f8f9fa;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
+    -fx-font-size: 14;
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-padding: 15;
+    -fx-text-fill: #adb5bd;
+    -fx-font-weight: 600;
+
+}
+
+#options {
+    -fx-background-radius: 30;
+    -fx-background-color: #f8f9fa;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
+}
+
+#searchBtn {
+    -fx-background-radius: 50;
+}
+
+#zoomin {
+    -fx-background-color: #FFF;
+    -fx-background-radius: 30 30 0 0;
+    -fx-cursor: hand;
+}
+
+#zoomout{
+    -fx-background-color: #FFF;
+    -fx-background-radius: 0 0 30 30;
+    -fx-cursor: hand;
+}
+
+#bullseye {
+    -fx-background-color: #FFF;
+    -fx-cursor: hand;
+}
+
+
+#satellite {
+    -fx-background-color: #FFF;
+    -fx-cursor: hand;
+}
+
+#layers {
+    -fx-background-color: #FFF;
+    -fx-cursor: hand;
+}
+
+#bullseye:hover{
+    -fx-background-color: red;
+}

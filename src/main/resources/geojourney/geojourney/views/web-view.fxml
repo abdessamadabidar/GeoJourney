@@ -1,24 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="773.0" prefWidth="1839.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="geojourney.geojourney.WebController">
     <children>
-        <WebView fx:id="webView" prefHeight="769.0" prefWidth="1839.0">
+        <WebView fx:id="webView" layoutX="-2.0" layoutY="2.0" prefHeight="770.0" prefWidth="1858.0">
          <cursor>
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </WebView>
-      <Pane fx:id="aside" layoutX="39.0" layoutY="18.0" prefHeight="653.0" prefWidth="378.0" style="-fx-background-radius: 10; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="24.0" />
+      <Pane fx:id="aside" layoutX="39.0" layoutY="18.0" prefHeight="653.0" prefWidth="378.0" style="-fx-background-radius: 10; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="24.0">
+         <children>
+            <Button fx:id="closePane" layoutX="167.0" layoutY="670.0" mnemonicParsing="false" onAction="#hideAsidePane" prefHeight="44.0" prefWidth="45.0" style="-fx-background-radius: 50; -fx-background-color: #FFF;">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-close-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children></Pane>
       <TextField fx:id="search" layoutX="727.0" layoutY="25.0" prefHeight="50.0" prefWidth="454.0" promptText="search" style="-fx-background-radius: 8; -fx-border-width: 0; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0); -fx-font-size: 14; -fx-font-family: 'Poppins', sans-serif; -fx-padding: 15; -fx-text-fill: #495057; -fx-font-weight: 600;" AnchorPane.topAnchor="25.0" />
+      <Button fx:id="clearSearchBtn" layoutX="1140.0" layoutY="34.0" minHeight="-Infinity" minWidth="35.0" mnemonicParsing="false" onAction="#clearSearch" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: transparent;" styleClass="close" AnchorPane.topAnchor="34.0">
+         <graphic>
+            <ImageView fitHeight="15.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/icons8-close-50.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
       <VBox fx:id="options" layoutX="1845.0" layoutY="151.0" prefHeight="400.0" prefWidth="40.0" style="-fx-background-radius: 30; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);" AnchorPane.rightAnchor="24.0">
          <children>
             <Button fx:id="zoomin" mnemonicParsing="false" prefHeight="40.0" prefWidth="54.0" style="-fx-background-color: #FFF;">
@@ -56,11 +81,23 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="layers" minHeight="54.0" mnemonicParsing="false" prefWidth="40.0" style="-fx-background-color: #FFF;">
+            <Button fx:id="layers" minHeight="54.0" mnemonicParsing="false" onAction="#showLayers" prefWidth="40.0" style="-fx-background-color: #FFF;">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../assets/icons8-layers-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="layers1" layoutX="10.0" layoutY="138.0" mnemonicParsing="false" onAction="#showLayers" prefHeight="44.0" prefWidth="54.0" style="-fx-background-color: #FFF;">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-print-30.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -82,5 +119,122 @@
             </Button>
          </children>
       </VBox>
+      <Button fx:id="openSearch" layoutX="1684.0" layoutY="43.0" mnemonicParsing="false" onAction="#showSearchInput" prefHeight="44.0" prefWidth="45.0" style="-fx-background-radius: 50; -fx-background-color: #FFF;" AnchorPane.rightAnchor="25.40000000000009" AnchorPane.topAnchor="28.0">
+         <graphic>
+            <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/icons8-search-50.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="closeSearch" layoutX="1768.0" layoutY="28.0" mnemonicParsing="false" onAction="#hideSearchInput" prefHeight="44.0" prefWidth="45.0" style="-fx-background-color: #FFF; -fx-background-radius: 50;" styleClass="close" AnchorPane.rightAnchor="25.40000000000009" AnchorPane.topAnchor="28.0">
+         <graphic>
+            <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/icons8-close-50.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="openPane" layoutX="655.0" layoutY="28.0" mnemonicParsing="false" onAction="#showAsidePane" prefHeight="44.0" prefWidth="45.0" style="-fx-background-radius: 50; -fx-background-color: #FFF;" styleClass="close" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="28.0">
+         <graphic>
+            <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/icons8-open-48.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <VBox fx:id="radioGroup" alignment="CENTER_LEFT" layoutX="1498.0" layoutY="256.0" prefHeight="61.0" prefWidth="187.0" AnchorPane.rightAnchor="100.0">
+         <children>
+            <RadioButton fx:id="radioButton1" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="19.0" prefWidth="187.0" text="layer 1">
+               <toggleGroup>
+                  <ToggleGroup fx:id="tileLayer" />
+               </toggleGroup>
+               <padding>
+                  <Insets bottom="8.0" top="8.0" />
+               </padding>
+            </RadioButton>
+            <RadioButton fx:id="radioButton2" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="20.0" prefWidth="188.0" text="layer 2" toggleGroup="$tileLayer">
+               <padding>
+                  <Insets bottom="8.0" top="8.0" />
+               </padding>
+            </RadioButton>
+            <RadioButton fx:id="radioButton3" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="19.0" prefWidth="190.0" text="layer 3" toggleGroup="$tileLayer">
+               <padding>
+                  <Insets bottom="8.0" top="8.0" />
+               </padding>
+            </RadioButton>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" layoutX="748.0" layoutY="713.0" prefHeight="34.0" prefWidth="378.0" spacing="15.0" AnchorPane.bottomAnchor="28.0">
+         <children>
+            <Button fx:id="restaurantsBtn" mnemonicParsing="false" style="-fx-background-color: #FFF; -fx-background-radius: 30;" text="Resaurants">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-restaurant-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="hotelsBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="92.0" style="-fx-background-color: #FFF; -fx-background-radius: 30;" text="Hotels">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-bed-30.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="banksBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="92.0" style="-fx-background-color: #FFF; -fx-background-radius: 30;" text="Banks">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-bank-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <HBox fx:id="layersGroup" layoutX="1097.0" layoutY="267.0">
+         <children>
+            <VBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <ImageView fitHeight="47.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true" style="fx-border-radius: 10; -fx-background-radius: 10;">
+                     <image>
+                        <Image url="@../assets/0Me0YPtu6I.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #6c757d;" text="lorem " textAlignment="CENTER" wrappingWidth="48.60235595703125" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="5.0">
+               <children>
+                  <ImageView fitHeight="47.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/0Me0YPtu6I.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #6c757d;" text="lorem " textAlignment="CENTER" wrappingWidth="48.60235595703125" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="92.0" layoutY="10.0" spacing="5.0">
+               <children>
+                  <ImageView fitHeight="47.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/0Me0YPtu6I.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #6c757d;" text="lorem " textAlignment="CENTER" wrappingWidth="48.60235595703125" />
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+         </padding>
+      </HBox>
     </children>
 </AnchorPane>

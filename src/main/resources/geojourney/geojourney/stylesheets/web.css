@@ -19,7 +19,7 @@
     -fx-background-color: #f8f9fa;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
     -fx-font-size: 14;
-    -fx-font-family: 'Poppins', sans-serif;
+    -fx-font-family: 'Product Sans', sans-serif;
     -fx-padding: 15;
     -fx-text-fill: #adb5bd;
     -fx-font-weight: 600;
@@ -32,8 +32,12 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
 }
 
-#searchBtn {
+
+#closeSearch, #closePane, #openSearch, #openPane {
     -fx-background-radius: 50;
+    -fx-background-color: #FFF;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
+    -fx-cursor: hand;
 }
 
 #zoomin {
@@ -48,22 +52,78 @@
     -fx-cursor: hand;
 }
 
-#bullseye {
+
+#satellite, #layers, #bullseye  {
     -fx-background-color: #FFF;
     -fx-cursor: hand;
 }
 
-
-#satellite {
-    -fx-background-color: #FFF;
+#clearSearchBtn {
+    -fx-background-color: transparent;
     -fx-cursor: hand;
+
 }
 
-#layers {
+#radioGroup {
     -fx-background-color: #FFF;
-    -fx-cursor: hand;
+    -fx-background-radius: 8;
 }
 
-#bullseye:hover{
-    -fx-background-color: red;
+#radioButton1, #radioButton2 {
+    -fx-font-family: 'Product Sans', sans-serif;
+    -fx-font-size: 14;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-text-fill: #6c757d;
+    -fx-border-color: #adb5bd;
+    -fx-border-width: 0 0 0.5 0;
+}
+
+#radioButton3 {
+    -fx-font-family: 'Product Sans', sans-serif;
+    -fx-font-size: 14;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-text-fill: #6c757d;
+}
+
+.radio-button .radio {
+    visibility: false;
+}
+
+#radioButton1:hover{
+    -fx-background-color: #e9ecef;
+    -fx-background-radius: 8 8 0 0;
+}
+
+#radioButton2:hover{
+    -fx-background-color: #e9ecef;
+}
+
+#radioButton3:hover {
+    -fx-background-color: #e9ecef;
+    -fx-background-radius: 0 0 8 8;
+}
+
+#restaurantsBtn, #hotelsBtn, #banksBtn {
+    -fx-background-color: #FFF;
+    -fx-background-radius: 30;
+    -fx-font-family: 'Product Sans', sans-serif;
+    -fx-font-size: 16;
+    -fx-text-fill: #6c757d;
+    -fx-padding: 5 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
+
+}
+
+#layersGroup {
+    -fx-background-radius: 10;
+    -fx-background-color: #FFF;
+    -fx-spacing: 15;
+    -fx-font-family: 'Product Sans', sans-serif;
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6c757d;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
 }

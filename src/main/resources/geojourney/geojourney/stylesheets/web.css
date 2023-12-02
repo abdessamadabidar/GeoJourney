@@ -69,7 +69,7 @@
     -fx-background-radius: 8;
 }
 
-#radioButton1, #radioButton2 {
+#osm, #googleHybrid, #googleStreets, #cyclOSM {
     -fx-font-family: 'Product Sans', sans-serif;
     -fx-font-size: 14;
     -fx-font-weight: 600;
@@ -79,7 +79,7 @@
     -fx-border-width: 0 0 0.5 0;
 }
 
-#radioButton3 {
+#googleTerrain {
     -fx-font-family: 'Product Sans', sans-serif;
     -fx-font-size: 14;
     -fx-font-weight: 600;
@@ -91,16 +91,16 @@
     visibility: false;
 }
 
-#radioButton1:hover{
+#osm:hover{
     -fx-background-color: #e9ecef;
     -fx-background-radius: 8 8 0 0;
 }
 
-#radioButton2:hover{
+#googleHybrid:hover, #googleStreets:hover, #cyclOSM:hover{
     -fx-background-color: #e9ecef;
 }
 
-#radioButton3:hover {
+#googleTerrain:hover {
     -fx-background-color: #e9ecef;
     -fx-background-radius: 0 0 8 8;
 }
@@ -116,6 +116,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
 
 }
+
 
 #layersGroup {
     -fx-background-radius: 10;

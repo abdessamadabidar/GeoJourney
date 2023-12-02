@@ -32,15 +32,18 @@ public class WebController implements Initializable {
     @FXML
     private Pane aside;
     @FXML
-    private RadioButton radioButton1;
+    private RadioButton osm;
     @FXML
-    private RadioButton radioButton2;
+    private RadioButton googleHybrid;
     @FXML
-    private RadioButton radioButton3;
+    private RadioButton googleStreets;
+    @FXML
+    private RadioButton cyclOSM;
+    @FXML
+    private RadioButton googleTerrain;
     @FXML
     private VBox radioGroup;
-    @FXML
-    private Button layers;
+
 
 
     @Override
@@ -51,6 +54,7 @@ public class WebController implements Initializable {
             clearSearchBtn.setVisible(!newValue.isEmpty());
         }));
         radioGroup.setVisible(false);
+
     }
 
     public void showSearchInput(ActionEvent event) {
@@ -85,20 +89,40 @@ public class WebController implements Initializable {
     }
 
     public void handleTileLayerChange(ActionEvent event) {
-        if (radioButton1.isSelected()) {
-            radioButton1.setStyle("-fx-background-color: #e9ecef; -fx-background-radius: 8 8 0 0");
-            radioButton2.setStyle("-fx-background-color: transparent");
-            radioButton3.setStyle("-fx-background-color: transparent");
+        if (osm.isSelected()) {
+            osm.setStyle("-fx-background-color: #e9ecef; -fx-background-radius: 8 8 0 0");
+            googleHybrid.setStyle("-fx-background-color: transparent");
+            googleStreets.setStyle("-fx-background-color: transparent");
+            cyclOSM.setStyle("-fx-background-color: transparent");
+            googleTerrain.setStyle("-fx-background-color: transparent");
         }
-        else if (radioButton2.isSelected()) {
-            radioButton2.setStyle("-fx-background-color: #e9ecef;");
-            radioButton1.setStyle("-fx-background-color: transparent");
-            radioButton3.setStyle("-fx-background-color: transparent");
+        else if (googleHybrid.isSelected()) {
+            googleHybrid.setStyle("-fx-background-color: #e9ecef;");
+            osm.setStyle("-fx-background-color: transparent");
+            googleStreets.setStyle("-fx-background-color: transparent");
+            cyclOSM.setStyle("-fx-background-color: transparent");
+            googleTerrain.setStyle("-fx-background-color: transparent");
+        }
+        else if (googleStreets.isSelected()) {
+            googleStreets.setStyle("-fx-background-color: #e9ecef;");
+            osm.setStyle("-fx-background-color: transparent");
+            googleHybrid.setStyle("-fx-background-color: transparent");
+            cyclOSM.setStyle("-fx-background-color: transparent");
+            googleTerrain.setStyle("-fx-background-color: transparent");
+        }
+        else if (cyclOSM.isSelected()) {
+            cyclOSM.setStyle("-fx-background-color: #e9ecef;");
+            osm.setStyle("-fx-background-color: transparent");
+            googleStreets.setStyle("-fx-background-color: transparent");
+            googleHybrid.setStyle("-fx-background-color: transparent");
+            googleTerrain.setStyle("-fx-background-color: transparent");
         }
         else {
-            radioButton3.setStyle("-fx-background-color: #e9ecef; -fx-background-radius: 0 0 8 8");
-            radioButton1.setStyle("-fx-background-color: transparent");
-            radioButton2.setStyle("-fx-background-color: transparent");
+            googleTerrain.setStyle("-fx-background-color: #e9ecef; -fx-background-radius: 0 0 8 8");
+            osm.setStyle("-fx-background-color: transparent");
+            googleHybrid.setStyle("-fx-background-color: transparent");
+            googleStreets.setStyle("-fx-background-color: transparent");
+            cyclOSM.setStyle("-fx-background-color: transparent");
         }
     }
 

@@ -19,16 +19,54 @@ document.addEventListener("DOMContentLoaded",  () => {
    // MAP.zoomControl.setPosition('topright')
 
     // marker
-    L.marker(POSITION, {icon: CUSTOM_ICON}).addTo(MAP);
-
+    const marker = L.marker(POSITION, {icon: CUSTOM_ICON});
 
 
     // default tileLayer
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+
+    // different layers
+    const cyclOSM = L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {
+        attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+
+    const googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
     }).addTo(MAP);
 
+    const googleHybrid = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    });
+
+    // const googleSat = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',{
+    //     maxZoom: 20,
+    //     subdomains:['mt0','mt1','mt2','mt3']
+    // });
+
+    const googleTerrain = L.tileLayer('http://{s}.google.com/vt?lyrs=p&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    });
 
 
+    const baseLayers = {
+        "OpenStreetMap": osm,
+        "Google Hybrid": googleHybrid,
+        "Google Streets": googleStreets,
+        "Cycle OpenStreetMap": cyclOSM,
+        "Google Terrain": googleTerrain
+    };
+
+    const overlays = {
+        "Marker": marker,
+    };
+
+    L.control.layers(baseLayers, overlays).addTo(MAP);
 
 })

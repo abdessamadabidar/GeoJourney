@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="773.0" prefWidth="1839.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="geojourney.geojourney.WebController">
@@ -44,7 +43,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <VBox fx:id="options" layoutX="1845.0" layoutY="151.0" prefHeight="400.0" prefWidth="40.0" style="-fx-background-radius: 30; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);" AnchorPane.rightAnchor="24.0">
+      <VBox fx:id="options" layoutX="1760.0" layoutY="230.0" prefWidth="40.0" style="-fx-background-radius: 30; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);" AnchorPane.rightAnchor="24.0">
          <children>
             <Button fx:id="zoomin" mnemonicParsing="false" prefHeight="40.0" prefWidth="54.0" style="-fx-background-color: #FFF;">
                <graphic>
@@ -146,9 +145,9 @@
             </ImageView>
          </graphic>
       </Button>
-      <VBox fx:id="radioGroup" alignment="CENTER_LEFT" layoutX="1498.0" layoutY="256.0" prefHeight="61.0" prefWidth="187.0" AnchorPane.rightAnchor="100.0">
+      <VBox fx:id="radioGroup" alignment="CENTER_LEFT" layoutX="1549.0" layoutY="274.0" prefHeight="61.0" prefWidth="187.0" AnchorPane.rightAnchor="102.79999999999995">
          <children>
-            <RadioButton fx:id="radioButton1" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="19.0" prefWidth="187.0" text="layer 1">
+            <RadioButton fx:id="osm" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="19.0" prefWidth="187.0" text="OpenStreetMap">
                <toggleGroup>
                   <ToggleGroup fx:id="tileLayer" />
                </toggleGroup>
@@ -156,12 +155,22 @@
                   <Insets bottom="8.0" top="8.0" />
                </padding>
             </RadioButton>
-            <RadioButton fx:id="radioButton2" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="20.0" prefWidth="188.0" text="layer 2" toggleGroup="$tileLayer">
+            <RadioButton fx:id="googleHybrid" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="20.0" prefWidth="188.0" text="Google Hybrid" toggleGroup="$tileLayer">
                <padding>
                   <Insets bottom="8.0" top="8.0" />
                </padding>
             </RadioButton>
-            <RadioButton fx:id="radioButton3" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="19.0" prefWidth="190.0" text="layer 3" toggleGroup="$tileLayer">
+            <RadioButton fx:id="googleStreets" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="19.0" prefWidth="190.0" text="Google Streets" toggleGroup="$tileLayer">
+               <padding>
+                  <Insets bottom="8.0" top="8.0" />
+               </padding>
+            </RadioButton>
+            <RadioButton fx:id="cyclOSM" layoutX="10.0" layoutY="79.0" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="19.0" prefWidth="190.0" text="Cycle OpenStreetMap" toggleGroup="$tileLayer">
+               <padding>
+                  <Insets bottom="8.0" top="8.0" />
+               </padding>
+            </RadioButton>
+            <RadioButton fx:id="googleTerrain" layoutX="10.0" layoutY="113.0" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="19.0" prefWidth="190.0" text="Google Terrain" toggleGroup="$tileLayer">
                <padding>
                   <Insets bottom="8.0" top="8.0" />
                </padding>
@@ -198,43 +207,6 @@
                </graphic>
             </Button>
          </children>
-      </HBox>
-      <HBox fx:id="layersGroup" layoutX="1097.0" layoutY="267.0">
-         <children>
-            <VBox alignment="CENTER" spacing="5.0">
-               <children>
-                  <ImageView fitHeight="47.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true" style="fx-border-radius: 10; -fx-background-radius: 10;">
-                     <image>
-                        <Image url="@../assets/0Me0YPtu6I.png" />
-                     </image>
-                  </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #6c757d;" text="lorem " textAlignment="CENTER" wrappingWidth="48.60235595703125" />
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="5.0">
-               <children>
-                  <ImageView fitHeight="47.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/0Me0YPtu6I.png" />
-                     </image>
-                  </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #6c757d;" text="lorem " textAlignment="CENTER" wrappingWidth="48.60235595703125" />
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" layoutX="92.0" layoutY="10.0" spacing="5.0">
-               <children>
-                  <ImageView fitHeight="47.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/0Me0YPtu6I.png" />
-                     </image>
-                  </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #6c757d;" text="lorem " textAlignment="CENTER" wrappingWidth="48.60235595703125" />
-               </children>
-            </VBox>
-         </children>
-         <padding>
-            <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
-         </padding>
       </HBox>
     </children>
 </AnchorPane>

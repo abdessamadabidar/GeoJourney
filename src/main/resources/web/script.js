@@ -14,9 +14,9 @@ document.addEventListener("DOMContentLoaded",  () => {
     // custom map
     const MAP = L.map('map', {
         zoomControl: false
-    }).setView(POSITION, ZOOM_LEVEL);
+    }).setView(POSITION, ZOOM_LEVEL).setMinZoom(3);
 
-   // MAP.zoomControl.setPosition('topright')
+
 
     // marker
     const marker = L.marker(POSITION, {icon: CUSTOM_ICON});
@@ -68,5 +68,10 @@ document.addEventListener("DOMContentLoaded",  () => {
     };
 
     L.control.layers(baseLayers, overlays).addTo(MAP);
+
+
+    function setZoomIn() {
+        MAP.zoomIn();
+    }
 
 })

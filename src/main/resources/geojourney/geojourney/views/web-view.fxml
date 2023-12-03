@@ -16,7 +16,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="773.0" prefWidth="1839.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="geojourney.geojourney.WebController">
     <children>
-        <WebView fx:id="webView" layoutX="-2.0" layoutY="2.0" prefHeight="770.0" prefWidth="1858.0">
+        <WebView fx:id="webView" layoutX="-2.0" layoutY="2.0" prefHeight="770.0" prefWidth="1839.0">
          <cursor>
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
@@ -45,7 +45,7 @@
       </Button>
       <VBox fx:id="options" layoutX="1760.0" layoutY="230.0" prefWidth="40.0" style="-fx-background-radius: 30; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);" AnchorPane.rightAnchor="24.0">
          <children>
-            <Button fx:id="zoomin" mnemonicParsing="false" prefHeight="40.0" prefWidth="54.0" style="-fx-background-color: #FFF;">
+            <Button fx:id="zoomin" mnemonicParsing="false" onAction="#handleZoomIn" prefHeight="40.0" prefWidth="54.0">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -56,7 +56,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="bullseye" mnemonicParsing="false" prefHeight="44.0" prefWidth="54.0" style="-fx-background-color: #FFF;">
+            <Button fx:id="bullseye" mnemonicParsing="false" prefHeight="44.0" prefWidth="54.0">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -68,7 +68,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="satellite" mnemonicParsing="false" prefHeight="44.0" prefWidth="54.0" style="-fx-background-color: #FFF;">
+            <Button fx:id="satellite" mnemonicParsing="false" prefHeight="44.0" prefWidth="54.0">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -80,7 +80,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="layers" minHeight="54.0" mnemonicParsing="false" onAction="#showLayers" prefWidth="40.0" style="-fx-background-color: #FFF;">
+            <Button fx:id="layers" minHeight="54.0" mnemonicParsing="false" onAction="#showLayers" prefWidth="40.0">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -92,7 +92,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="layers1" layoutX="10.0" layoutY="138.0" mnemonicParsing="false" onAction="#showLayers" prefHeight="44.0" prefWidth="54.0" style="-fx-background-color: #FFF;">
+            <Button fx:id="print" layoutX="10.0" layoutY="138.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="54.0">
                <graphic>
                   <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -104,7 +104,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="zoomout" mnemonicParsing="false" prefHeight="40.0" prefWidth="54.0" style="-fx-background-color: #FFF;">
+            <Button fx:id="zoomout" mnemonicParsing="false" onAction="#handleZoomOut" prefHeight="40.0" prefWidth="54.0">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -179,7 +179,7 @@
       </VBox>
       <HBox alignment="CENTER" layoutX="748.0" layoutY="713.0" prefHeight="34.0" prefWidth="378.0" spacing="15.0" AnchorPane.bottomAnchor="28.0">
          <children>
-            <Button fx:id="restaurantsBtn" mnemonicParsing="false" style="-fx-background-color: #FFF; -fx-background-radius: 30;" text="Resaurants">
+            <Button fx:id="restaurantsBtn" mnemonicParsing="false" style="-fx-background-radius: 30;" text="Resaurants">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -188,7 +188,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="hotelsBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="92.0" style="-fx-background-color: #FFF; -fx-background-radius: 30;" text="Hotels">
+            <Button fx:id="hotelsBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="92.0" style="-fx-background-radius: 30;" text="Hotels">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -197,7 +197,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="banksBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="92.0" style="-fx-background-color: #FFF; -fx-background-radius: 30;" text="Banks">
+            <Button fx:id="banksBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="92.0" style="-fx-background-radius: 30;" text="Banks">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>

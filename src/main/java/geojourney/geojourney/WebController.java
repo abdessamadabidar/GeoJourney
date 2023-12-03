@@ -9,6 +9,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchPoint;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -19,6 +23,8 @@ public class WebController implements Initializable {
 
     @FXML
     private WebView webView;
+    @FXML
+    private WebEngine webEngine;
     @FXML
     private TextField search;
     @FXML
@@ -43,17 +49,22 @@ public class WebController implements Initializable {
     private RadioButton googleTerrain;
     @FXML
     private VBox radioGroup;
+    @FXML
+    private Button zoomin;
+    @FXML
+    private Button zoomout;
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        WebEngine webEngine = webView.getEngine();
+        webEngine = webView.getEngine();
         webEngine.load(getClass().getResource("/web/index.html").toExternalForm());
         search.textProperty().addListener(((observableValue, oldValue, newValue) -> {
             clearSearchBtn.setVisible(!newValue.isEmpty());
         }));
         radioGroup.setVisible(false);
+
 
     }
 
@@ -128,6 +139,15 @@ public class WebController implements Initializable {
 
     public void showLayers(ActionEvent event) {
         radioGroup.setVisible(!radioGroup.isVisible());
+    }
+
+    public void handleZoomIn(ActionEvent event) {
+        
+    }
+
+
+    public void handleZoomOut(ActionEvent event) {
+//        webEngine.executeScript("MAP.zoomOut()");
     }
 
 

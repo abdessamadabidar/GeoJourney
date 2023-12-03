@@ -28,7 +28,6 @@
 
 #options {
     -fx-background-radius: 30;
-    -fx-background-color: #f8f9fa;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
 }
 
@@ -46,6 +45,7 @@
     -fx-cursor: hand;
 }
 
+
 #zoomout{
     -fx-background-color: #FFF;
     -fx-background-radius: 0 0 30 30;
@@ -53,9 +53,13 @@
 }
 
 
-#satellite, #layers, #bullseye  {
+#satellite, #layers, #bullseye, #print  {
     -fx-background-color: #FFF;
     -fx-cursor: hand;
+}
+
+#zoomin:hover, #zoomout:hover, #satellite:hover, #layers:hover, #bullseye:hover, #print:hover {
+    -fx-background-color: #e9ecef;
 }
 
 #clearSearchBtn {
@@ -117,6 +121,9 @@
 
 }
 
+#restaurantsBtn:hover, #hotelsBtn:hover, #banksBtn:hover {
+    -fx-background-color: #e9ecef;
+}
 
 #layersGroup {
     -fx-background-radius: 10;

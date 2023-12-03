@@ -2,59 +2,53 @@
 /*@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600;700;800&display=swap');*/
 
 .root {
-    -fx-background-image: url('../assets/colors_of_sky.jpg');
+    -fx-background-image: url('../assets/bg-grid-lighter.4c1e8196.jpg');
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
+    -fx-background-size: cover;
 }
 
 
 
 #appName {
     -fx-font-weight: 800;
-    -fx-font-family: 'Poppins', sans-serif;
+    -fx-font-family: 'Product Sans', sans-serif;
     -fx-font-size: 60;
     -fx-fill: #3283CA;
 }
 
 #tagline {
-    -fx-font-weight: 700;
-    -fx-font-family: 'Poppins', sans-serif;
+
+    -fx-font-family: 'Product Sans', sans-serif;
     -fx-font-size: 28;
     -fx-fill: #403d39;
 }
 
 #description {
-    -fx-font-weight: 200;
-    -fx-font-family: 'Poppins', sans-serif;
+    -fx-font-weight: lighter;
+    -fx-font-family: 'poppins', sans-serif;
     -fx-font-size: 16;
     -fx-fill: #403d39;
 }
 
-#whereamiBtn {
-    -fx-background-color: #3283CA;
-    -fx-text-fill: white;
-    -fx-font-weight: 400;
-    -fx-font-family: 'Poppins', sans-serif;
+
+#startBtn {
+    -fx-background-color: linear-gradient(to left bottom, #3283ca, #298ace, #2090d2, #1697d5, #0b9dd8, #00a2d9, #00a8da, #00addb, #00b3da, #00b9d7, #00bed4, #00c3d0);
+    -fx-fill: #FFF;
+    -fx-font-family: 'Product Sans', sans-serif;
     -fx-font-size: 14;
-    -fx-background-radius: 5;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05) ,0 ,1, 2 ,0);
-
-
-
+    -fx-background-radius: 30;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
 }
 
-#navigateBtn {
-    -fx-background-color: white;
-    -fx-font-weight: 600;
-    -fx-font-family: 'Poppins', sans-serif;
-    -fx-font-size: 14;
-    -fx-background-radius: 5;
-    -fx-text-fill: #3283CA;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05) ,0 ,1, 2 ,0);
+#startBtn:hover {
+    -fx-opacity: 0.8;
 }
 
-#request {
-    -fx-font-family: 'Poppins', sans-serif;
-    -fx-font-size: 12;
+#signature {
+    -fx-font-family: 'Product Sans', sans-serif;
     -fx-fill: #403d39;
+    -fx-font-style: italic;
+    -fx-font-size: 14;
 }

@@ -29,8 +29,8 @@ public class OpeningApplication extends Application {
 
 
             // set width & and height to stage
-            stage.setWidth(1400);
-            stage.setHeight(600);
+            stage.setWidth(1250);
+            stage.setHeight(550);
 
 
             // Add Icon

@@ -53,12 +53,12 @@
 }
 
 
-#satellite, #layers, #bullseye, #print  {
+#satellite, #layers, #locate, #print  {
     -fx-background-color: #FFF;
     -fx-cursor: hand;
 }
 
-#zoomin:hover, #zoomout:hover, #satellite:hover, #layers:hover, #bullseye:hover, #print:hover {
+#zoomin:hover, #zoomout:hover, #satellite:hover, #layers:hover, #locate:hover, #print:hover {
     -fx-background-color: #e9ecef;
 }
 

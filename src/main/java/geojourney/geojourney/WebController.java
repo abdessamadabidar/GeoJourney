@@ -1,6 +1,7 @@
 package geojourney.geojourney;
 
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -13,6 +14,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import netscape.javascript.JSObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class WebController implements Initializable {
 
@@ -54,6 +58,13 @@ public class WebController implements Initializable {
         webEngine.load(getClass().getResource("/web/index.html").toExternalForm());
         search.textProperty().addListener(((observableValue, oldValue, newValue) -> {
             clearSearchBtn.setVisible(!newValue.isEmpty());
+            JSObject results = (JSObject) webEngine.executeScript("setSearchValue('" +  newValue  + "')");
+            if (results != null) {
+                System.out.println(results.getMember("0"));
+            }
+            else System.out.println("null value gotten");
+
+
         }));
         radioGroup.setVisible(false);
         webEngine.setJavaScriptEnabled(true);
@@ -154,6 +165,10 @@ public class WebController implements Initializable {
         webEngine.executeScript("locateMe()");
     }
 
+    @FXML
+    public void setSatelliteLayer(ActionEvent event) {
+        webEngine.executeScript("setSatellite();");
+    }
 
 
 

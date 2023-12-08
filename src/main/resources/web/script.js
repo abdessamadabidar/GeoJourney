@@ -1,3 +1,4 @@
+
 // current position
 const POSITION = [35.173635, -3.865641]
 
@@ -44,10 +45,10 @@ const googleHybrid = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&
     subdomains:['mt0','mt1','mt2','mt3']
 });
 
-// const googleSat = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',{
-//     maxZoom: 20,
-//     subdomains:['mt0','mt1','mt2','mt3']
-// });
+const googleSat = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+});
 
 const googleTerrain = L.tileLayer('http://{s}.google.com/vt?lyrs=p&x={x}&y={y}&z={z}',{
     maxZoom: 20,
@@ -84,20 +85,156 @@ function changeTileLayer(layer) {
         MAP.removeLayer(activeLayer)
         MAP.addLayer(baseLayers[layer])
     })
+}
 
+function setSatellite() {
+    MAP.eachLayer((currentLayer) => {
+        MAP.removeLayer(currentLayer);
+        MAP.addLayer(googleSat);
+    })
 }
 
 //Locate
 const locate = L.control.locate({flyTo: true}).addTo(MAP);
-// locate.getContainer().style.display = 'none';
+locate.getContainer().style.display = 'none';
 
 function locateMe() {
-
-
-
     locate.start();
 }
 
-locateMe()
+
+function searchPlace(query) {
+    geoCoder.setQuery(query);
+    geoCoder.markGeocode();
+}
+
+const addressSearchControl = L.control.addressSearch("c3751eee6c464cc78ccb3b5c4f73d2c4");
+MAP.addControl(addressSearchControl);
+
+
+
+
+let res = document.getElementById("response")
+let search = document.getElementById("sr")
+
+let jsobj = {}
+
+
+/* Process a user input: */
+const MIN_ADDRESS_LENGTH = 3;
+const DEBOUNCE_DELAY = 300;
+
+/* Process a user input: */
+search.addEventListener("input", function(e) {
+    const currentValue = this.value;
+
+
+    // Skip empty or short address strings
+    if (!currentValue || currentValue.length < MIN_ADDRESS_LENGTH) {
+        return false;
+    }
+
+    /* Call the Address Autocomplete API with a delay */
+    currentTimeout = setTimeout(() => {
+        currentTimeout = null;
+
+        /* Create a new promise and send geocoding request */
+        const promise = new Promise((resolve, reject) => {
+            currentPromiseReject = reject;
+
+            // Get an API Key on https://myprojects.geoapify.com
+            const apiKey = "c3751eee6c464cc78ccb3b5c4f73d2c4";
+
+            var url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(currentValue)}&format=json&limit=5&apiKey=${apiKey}`;
+
+            fetch(url)
+                .then(response => {
+                    currentPromiseReject = null;
+
+                    // check if the call was successful
+                    if (response.ok) {
+                        response.json().then(data => resolve(data));
+                    } else {
+                        response.json().then(data => reject(data));
+                    }
+                });
+        });
+
+        promise.then((data) => {
+            // here we get address suggestions
+            for (const key in data["results"]) {
+                jsobj[key.toString()] = data["results"][key].formatted
+            }
+
+            console.log(jsobj)
+
+        }, (err) => {
+            if (!err.canceled) {
+                console.log(err);
+            }
+        });
+    }, DEBOUNCE_DELAY);
+});
+
+
+
+
+function setSearchValue(value) {
+
+    let JSObject = {}
+    const MIN_ADDRESS_LENGTH = 3;
+    const DEBOUNCE_DELAY = 300;
+    let currentValue = value
+    // Skip empty or short address strings
+    if (!currentValue || currentValue.length < MIN_ADDRESS_LENGTH) {
+        return false;
+    }
+
+    /* Call the Address Autocomplete API with a delay */
+    currentTimeout = setTimeout(() => {
+        currentTimeout = null;
+
+        /* Create a new promise and send geocoding request */
+        const promise = new Promise((resolve, reject) => {
+            currentPromiseReject = reject;
+
+            // Get an API Key on https://myprojects.geoapify.com
+            const apiKey = "c3751eee6c464cc78ccb3b5c4f73d2c4";
+
+            var url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(currentValue)}&format=json&limit=5&apiKey=${apiKey}`;
+
+            fetch(url)
+                .then(response => {
+                    currentPromiseReject = null;
+
+                    // check if the call was successful
+                    if (response.ok) {
+                        response.json().then(data => resolve(data));
+                    } else {
+                        response.json().then(data => reject(data));
+                    }
+                });
+        });
+
+
+        promise.then((data) => {
+            // here we get address suggestions
+            for (const key in data["results"]) {
+                JSObject[key.toString()] = data["results"][key].formatted
+            }
+            let results = document.createTextNode(JSON.stringify(JSObject))
+            res.appendChild(results)
+            console.log(data)
+        }, (err) => {
+            if (!err.canceled) {
+                console.log(err);
+            }
+        });
+    }, DEBOUNCE_DELAY);
+
+
+
+    return JSObject;
+}
 
 

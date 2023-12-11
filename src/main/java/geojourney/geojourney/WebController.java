@@ -1,22 +1,19 @@
 package geojourney.geojourney;
 
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import netscape.javascript.JSObject;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 public class WebController implements Initializable {
 
@@ -48,25 +45,27 @@ public class WebController implements Initializable {
     private RadioButton googleTerrain;
     @FXML
     private VBox radioGroup;
+    @FXML
+    private ListView<String> listView;
 
 
+    String[] addresses = {"Le Lorem Ipsum est simplement du faux", "texte employé dans la composition et la mise en", " page avant impression. Le Lorem Ipsum"};
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         webEngine = webView.getEngine();
         webEngine.load(getClass().getResource("/web/index.html").toExternalForm());
+        GeocodeAPI geocodeAPI = new GeocodeAPI();
+
         search.textProperty().addListener(((observableValue, oldValue, newValue) -> {
             clearSearchBtn.setVisible(!newValue.isEmpty());
-            JSObject results = (JSObject) webEngine.executeScript("setSearchValue('" +  newValue  + "')");
-            if (results != null) {
-                System.out.println(results.getMember("0"));
-            }
-            else System.out.println("null value gotten");
-
+            Location location = geocodeAPI.fetch(newValue);
+            listView.getItems().add(location.getAddress());
 
         }));
         radioGroup.setVisible(false);
+//        listView.setVisible(false);
         webEngine.setJavaScriptEnabled(true);
 
     }

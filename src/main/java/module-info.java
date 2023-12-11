@@ -4,6 +4,8 @@ module geojourney.geojourney {
     requires javafx.web;
     requires jdk.jsobject;
     requires json.simple;
+    requires org.apache.httpcomponents.httpcore;
+    requires org.apache.httpcomponents.httpclient;
 
 
     opens geojourney.geojourney to javafx.fxml;

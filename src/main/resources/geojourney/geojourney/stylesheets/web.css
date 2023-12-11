@@ -23,7 +23,19 @@
     -fx-padding: 15;
     -fx-text-fill: #adb5bd;
     -fx-font-weight: 600;
+    -fx-focus-traversable: false;
+}
 
+#listView {
+    -fx-background-radius: 8;
+    -fx-border-width: 0;
+    -fx-background-color: #f8f9fa;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
+    -fx-font-size: 14;
+    -fx-font-family: 'Product Sans', sans-serif;
+    -fx-padding: 10;
+    -fx-text-fill: #adb5bd;
+    -fx-focus-traversable: false;
 }
 
 #options {

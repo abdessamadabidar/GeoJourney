@@ -41,9 +41,6 @@ public class HotelsAPI {
 
     }
 
+}
 
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> b26d35f (Add HotelsAPI class)
+

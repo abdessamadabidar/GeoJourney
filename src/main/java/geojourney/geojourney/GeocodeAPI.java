@@ -16,7 +16,7 @@ import java.io.IOException;
 public class GeocodeAPI {
 
 
-    private final String KEY = "c3751eee6c464cc78ccb3b5c4f73d2c4";
+    private final String KEY = System.getenv("GEOAPIFY_API_KEY");
 
     public Location fetch(String query)  {
 

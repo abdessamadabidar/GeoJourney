@@ -14,7 +14,7 @@ import java.io.IOException;
 public class HotelsAPI {
 
     private final String URL = "https://travel-advisor.p.rapidapi.com/locations/v2/auto-complete?query=eiffel%20tower&lang=en_US&units=km";
-    private final String KEY = "32694ffa10msh8c79db97f4f393cp138b51jsned16a84f30cb";
+    private final String KEY = System.getenv("TRAVEL_ADVISOR_API_KEY");
     private final String HOST = "travel-advisor.p.rapidapi.com";
 
     public void fetch() throws IOException {

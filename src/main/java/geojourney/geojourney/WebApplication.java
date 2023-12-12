@@ -12,8 +12,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
-
-
 public class WebApplication extends Application {
 
     public void start(Stage stage) {
@@ -57,11 +55,6 @@ public class WebApplication extends Application {
             // --> aside pane
             Pane asidePane = (Pane) scene.lookup("#aside");
             asidePane.setVisible(false);
-
-
-//            HotelsAPI API = new HotelsAPI();
-//            API.fetch();
-
 
 
 

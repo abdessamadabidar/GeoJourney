@@ -16,6 +16,8 @@ public class WebApplication extends Application {
 
     public void start(Stage stage) {
 
+        System.out.println(System.getenv("GEOAPIFY_API_KEY"));
+
         try {
             Parent root2 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/web-view.fxml")));
             Scene scene = new Scene(root2);

@@ -17,7 +17,7 @@ public class GeocodeAPI {
 
 
 
-    private final String KEY = System.getenv("GEOAPIFY_API_KEY");
+    private final String KEY = "c3751eee6c464cc78ccb3b5c4f73d2c4";
 
 
 

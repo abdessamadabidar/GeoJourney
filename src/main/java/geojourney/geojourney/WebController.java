@@ -1,12 +1,15 @@
 package geojourney.geojourney;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -50,32 +53,32 @@ public class WebController implements Initializable {
     @FXML
     private VBox radioGroup;
     @FXML
-    private ListView<Location> listView;
+    private VBox autocomplete_results;
+    @FXML
+    private Button geocodeBtn;
+
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         webEngine = webView.getEngine();
         webEngine.load(getClass().getResource("/web/index.html").toExternalForm());
-        GeocodeAPI geocodeAPI = new GeocodeAPI();
+
         search.textProperty().addListener(((observableValue, oldValue, newValue) -> {
             clearSearchBtn.setVisible(!newValue.isEmpty());
-            if (newValue.length() > 2) {
-                Location location = geocodeAPI.fetch(newValue);
-                listView.getItems().add(location);
-
-            }
-
 
         }));
         radioGroup.setVisible(false);
-//        listView.setVisible(false);
+        autocomplete_results.setVisible(false);
+        geocodeBtn.setVisible(false);
         webEngine.setJavaScriptEnabled(true);
 
     }
 
     public void showSearchInput(ActionEvent event) {
         search.setVisible(true);
+        geocodeBtn.setVisible(true);
         if (!search.getText().isEmpty()) {
             clearSearchBtn.setVisible(true);
         }
@@ -103,6 +106,9 @@ public class WebController implements Initializable {
 
     public void clearSearch(ActionEvent event) {
         search.clear();
+        autocomplete_results.getChildren().clear();
+        autocomplete_results.setPrefHeight(0.0);
+        autocomplete_results.setVisible(false);
     }
 
 
@@ -174,8 +180,40 @@ public class WebController implements Initializable {
     }
 
 
+    @FXML
+    public void handleGeocode(ActionEvent event) {
+        GeocodeAPI geocodeAPI = new GeocodeAPI();
+        String searchValue = search.getText().trim();
+        if (searchValue.length() > 2) {
+            autocomplete_results.setVisible(true);
+            ArrayList<Location> locations = geocodeAPI.getPlaceDetails(geocodeAPI.getAutocomplete(searchValue));
+            for (Location location : locations) {
+                if (!location.isNoWhere()) {
+                    Button result = getResult(location);
+                    autocomplete_results.getChildren().add(result);
+                }
+            }
 
 
+        }
+
+    }
+
+    private Button getResult(Location location) {
+        Button result = new Button();
+        result.setText(location.getAddress());
+
+        result.setStyle("-fx-background-color: transparent; -fx-fill: #353535; -fx-cursor: hand; -fx-font-family:  'Product Sans'");
+        result.setPadding(new Insets(10, 20, 10, 20));
+
+        result.setOnMouseEntered(e -> {
+            result.setStyle("-fx-background-color: #e2e8f0; ");
+        });
+        result.setOnMouseExited(e -> {
+            result.setStyle("-fx-background-color: transparent; ");
+        });
+        return result;
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package geojourney.geojourney;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import javafx.application.Application;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 
 
 public class WebApplication extends Application {
@@ -57,7 +59,6 @@ public class WebApplication extends Application {
             // --> aside pane
             Pane asidePane = (Pane) scene.lookup("#aside");
             asidePane.setVisible(false);
-
 
 
 

@@ -1,5 +1,7 @@
 package geojourney.geojourney;
 
+import java.util.Objects;
+
 public class Location {
     private String address;
     private double longitude;
@@ -9,8 +11,14 @@ public class Location {
         return address;
     }
 
+    public Location(String address, double longitude, double latitude) {
+        this.address = address;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
     public Location() {
-        address = "empty";
+        address = "";
         longitude = 0.0;
         latitude = 0.0;
     }
@@ -33,5 +41,8 @@ public class Location {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+    public boolean isNoWhere() {
+        return this.address.isEmpty() && this.longitude == 0.0 && this.latitude == 0.0;
     }
 }

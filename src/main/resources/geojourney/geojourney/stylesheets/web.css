@@ -14,7 +14,7 @@
 }
 
 #search {
-    -fx-background-radius: 8;
+    -fx-background-radius: 30 0 0 30;
     -fx-border-width: 0;
     -fx-background-color: #f8f9fa;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
@@ -26,15 +26,11 @@
 
 }
 
-#listView {
+#autocomplete_results {
     -fx-background-radius: 8;
     -fx-border-width: 0;
     -fx-background-color: #f8f9fa;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
-    -fx-font-size: 14;
-    -fx-font-family: 'Product Sans', sans-serif;
-    -fx-padding: 8;
-    -fx-text-fill: #adb5bd;
 }
 
 #options {
@@ -145,4 +141,13 @@
     -fx-font-weight: bold;
     -fx-text-fill: #6c757d;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
+}
+
+#geocodeBtn {
+    -fx-background-radius: 0 30 30 0;
+    -fx-background-color: #f8fafc;
+    -fx-border-width: 0 0 0 0.5;
+    -fx-border-color: #9ca3af;
+
+
 }

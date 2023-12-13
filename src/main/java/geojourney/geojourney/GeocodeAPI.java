@@ -12,46 +12,67 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GeocodeAPI {
 
+    private final String KEY = System.getenv("GOOGLE_MAPS_API_KEY");
 
 
-    private final String KEY = "c3751eee6c464cc78ccb3b5c4f73d2c4";
+    public ArrayList<String> getAutocomplete(String searchValue) {
+        String handledSearchInput = searchValue.replace(" ", "%20").replace("+", "%2B");
+        JSONObject location = getCoordinates(handledSearchInput);
+        String radius = "5000";
 
+        assert location != null;
+        String URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="
+                + handledSearchInput + "&location=" + location.get("lat") + "%2C" + location.get("lng") + "&radius=" + radius + "&strictbounds=true&key=";
 
-
-    public Location fetch(String query)  {
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 
-
-            HttpGet request = new HttpGet("https://api.geoapify.com/v1/geocode/search?text=" + query +"&lang=en&limit=5&format=json&apiKey=".trim() + this.KEY);
+            HttpGet request = new HttpGet(URL + KEY);
             request.addHeader("Content-Type", "application/json");
 
             try (CloseableHttpResponse response = httpClient.execute(request)) {
-//                System.out.println(response.getProtocolVersion());              // HTTP/1.1
-//                System.out.println(response.getStatusLine().getStatusCode());   // 200
-//                System.out.println(response.getStatusLine().getReasonPhrase()); // OK
-//                System.out.println(response.getStatusLine().toString());
-
+                System.out.println(response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase());   // 200
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     String stringResult = EntityUtils.toString(entity);
-                    JSONParser jsonParser = new JSONParser();
-                    JSONObject jsonObject = (JSONObject) jsonParser.parse(stringResult);
-
-                    JSONArray jsonArray = (JSONArray) jsonObject.get("results");
-
-                    if (jsonArray != null && !jsonArray.isEmpty()) {
-                        JSONObject jsonResult = (JSONObject) jsonArray.get(0);
-                        Location location = new Location();
-                        location.setAddress((String) jsonResult.get("formatted"));
-                        location.setLatitude((Double) jsonResult.get("lat"));
-                        location.setLongitude((Double) jsonResult.get("lon"));
-                        return location;
+                    JSONObject jsonResult = (JSONObject) new JSONParser().parse(stringResult);
+                    JSONArray arrayResult =  (JSONArray) jsonResult.get("predictions");
+                    ArrayList<String> places_id = new ArrayList<>();
+                    for (int i=0 ; i < arrayResult.size(); ++i) {
+                        JSONObject JSONItem = (JSONObject) arrayResult.get(i);
+                        places_id.add((String) JSONItem.get("place_id"));
                     }
 
+                    return places_id;
+                }
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+
+    private JSONObject getCoordinates(String searchInput) {
+        String URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=geometry/location&input=" + searchInput + "&inputtype=textquery&key=";
+
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpGet request = new HttpGet(URL + KEY);
+            request.addHeader("Content-Type", "application/json");
+            try (CloseableHttpResponse response = httpClient.execute(request)) {
+                HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    String stringResult = EntityUtils.toString(entity);
+                    JSONObject result =  (JSONObject) new JSONParser().parse(stringResult);
+                    return (JSONObject) ((JSONObject) ((JSONObject) ((JSONArray) result.get("candidates")).get(0)).get("geometry")).get("location");
 
 
                 }
@@ -63,6 +84,42 @@ public class GeocodeAPI {
             System.out.println(e.getMessage());
         }
 
-        return new Location();
+        return null;
+    }
+
+
+    public ArrayList<Location> getPlaceDetails(ArrayList<String> placesID) {
+
+        ArrayList<Location> locations = new ArrayList<>();
+        for (String place_id : placesID) {
+            String URL = "https://maps.googleapis.com/maps/api/place/details/json?fields=formatted_address%2Cgeometry/location&place_id=" + place_id + "&key=";
+
+            try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+                HttpGet request = new HttpGet(URL + KEY);
+                request.addHeader("Content-Type", "application/json");
+                try (CloseableHttpResponse response = httpClient.execute(request)) {
+                    HttpEntity entity = response.getEntity();
+                    if (entity != null) {
+                        String stringResult = EntityUtils.toString(entity);
+                        JSONObject jsonResult = (JSONObject) new JSONParser().parse(stringResult);
+                        JSONObject result = (JSONObject) jsonResult.get("result");
+
+                        String formatted_address = (String) result.get("formatted_address");
+                        JSONObject location = (JSONObject) ((JSONObject) result.get("geometry")).get("location");
+                        locations.add(new Location(formatted_address, (double) location.get("lat"), (double) location.get("lng")));
+
+
+                    }
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        return locations;
+
     }
 }

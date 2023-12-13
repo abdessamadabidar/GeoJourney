@@ -1,6 +1,5 @@
 package geojourney.geojourney;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import javafx.application.Application;
@@ -60,6 +59,9 @@ public class WebApplication extends Application {
             Pane asidePane = (Pane) scene.lookup("#aside");
             asidePane.setVisible(false);
 
+
+            RestaurantAPI hotelsAPI = new RestaurantAPI();
+            hotelsAPI.fetch();
 
 
             stage.setScene(scene);

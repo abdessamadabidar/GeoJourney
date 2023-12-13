@@ -67,7 +67,11 @@ public class WebController implements Initializable {
 
         search.textProperty().addListener(((observableValue, oldValue, newValue) -> {
             clearSearchBtn.setVisible(!newValue.isEmpty());
-
+            if(newValue.isEmpty()) {
+                autocomplete_results.getChildren().clear();
+                autocomplete_results.setPrefHeight(0.0);
+                autocomplete_results.setVisible(false);
+            }
         }));
         radioGroup.setVisible(false);
         autocomplete_results.setVisible(false);
@@ -92,6 +96,8 @@ public class WebController implements Initializable {
         clearSearchBtn.setVisible(false);
         closeSearch.setVisible(false);
         openSearch.setVisible(true);
+        geocodeBtn.setVisible(false);
+        webEngine.executeScript("removeMarkers()");
     }
 
     public void showAsidePane(ActionEvent event) {
@@ -190,6 +196,7 @@ public class WebController implements Initializable {
             for (Location location : locations) {
                 if (!location.isNoWhere()) {
                     Button result = getResult(location);
+                    result.setOnAction(e -> {setMarker(location.getLatitude(), location.getLongitude());});
                     autocomplete_results.getChildren().add(result);
                 }
             }
@@ -213,6 +220,16 @@ public class WebController implements Initializable {
             result.setStyle("-fx-background-color: transparent; ");
         });
         return result;
+    }
+
+    public void setMarker(double lat, double lng) {
+        webEngine.executeScript("markLocation("+ lng + "," + lat + ");");
+        autocomplete_results.getChildren().clear();
+        autocomplete_results.setPrefHeight(0.0);
+        autocomplete_results.setVisible(false);
+
+
+
     }
 
 

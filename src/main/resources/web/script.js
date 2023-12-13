@@ -82,9 +82,12 @@ function setZoom(id) {
 
 function changeTileLayer(layer) {
     MAP.eachLayer((activeLayer) => {
-        MAP.removeLayer(activeLayer)
-        MAP.addLayer(baseLayers[layer])
+        if (activeLayer instanceof L.TileLayer) {
+            MAP.removeLayer(activeLayer)
+        }
     })
+    MAP.addLayer(baseLayers[layer])
+
 }
 
 function setSatellite() {
@@ -103,11 +106,21 @@ function locateMe() {
 }
 
 
-function searchPlace(query) {
-    geoCoder.setQuery(query);
-    geoCoder.markGeocode();
+const removeMarkers = () => {
+    MAP.eachLayer(layer => {
+        if (layer instanceof L.Marker) {
+            layer.remove();
+        }
+    })
 }
 
 
+function markLocation(lat, lng) {
+    const latlng = L.latLng(lat, lng);
+    removeMarkers()
+    L.marker(latlng).addTo(MAP);
+    MAP.flyTo(latlng, 15)
+
+}
 
 

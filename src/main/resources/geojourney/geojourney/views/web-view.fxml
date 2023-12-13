@@ -208,7 +208,7 @@
             </Button>
          </children>
       </HBox>
-      <VBox fx:id="autocomplete_results" layoutX="727.0" layoutY="89.0" prefHeight="200.0" prefWidth="454.0" />
+      <VBox fx:id="autocomplete_results" layoutX="727.0" layoutY="89.0" prefWidth="454.0" />
       <Button fx:id="geocodeBtn" layoutX="1180.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleGeocode" prefHeight="49.0" prefWidth="54.0" AnchorPane.topAnchor="25.0">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">

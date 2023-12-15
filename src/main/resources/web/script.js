@@ -26,7 +26,7 @@ const marker = L.marker(POSITION, {icon: CUSTOM_ICON});
 // default tileLayer
 const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-}).addTo(MAP);
+});
 
 
 // different layers
@@ -38,7 +38,7 @@ const cyclOSM = L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{
 const googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',{
     maxZoom: 20,
     subdomains:['mt0','mt1','mt2','mt3']
-});
+}).addTo(MAP);
 
 const googleHybrid = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}',{
     maxZoom: 20,
@@ -124,4 +124,33 @@ function markLocation(lat, lng) {
 
 }
 
+function markRestaurants(data) {
+    const coordinates = data["coordinates"];
+    for (index in coordinates) {
+        const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
+        L.marker(latlng).addTo(MAP);
+    }
+    MAP.zoomIn(5);
 
+}
+
+
+function markBanks(data) {
+    const coordinates = data["coordinates"];
+    for (index in coordinates) {
+        const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
+        L.marker(latlng).addTo(MAP);
+    }
+    MAP.zoomIn(5);
+
+}
+
+function markHospitals(data) {
+    const coordinates = data["coordinates"];
+    for (index in coordinates) {
+        const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
+        L.marker(latlng).addTo(MAP);
+    }
+    MAP.zoomIn(5);
+
+}

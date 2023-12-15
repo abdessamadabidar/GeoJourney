@@ -1,9 +1,8 @@
 package geojourney.geojourney;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -228,9 +227,85 @@ public class WebController implements Initializable {
         autocomplete_results.setPrefHeight(0.0);
         autocomplete_results.setVisible(false);
 
+    }
 
+    @FXML
+    public void fetchRestaurants(ActionEvent event) {
+        try {
+            RestaurantsAPI restaurantsAPI = new RestaurantsAPI();
+            ArrayList<Place> restaurants = restaurantsAPI.getPlacesDetails(restaurantsAPI.getPlacesId("restaurant"));
+
+            JSONArray coordinates = new JSONArray();
+
+            for (Place restaurant : restaurants) {
+                JSONObject location = new JSONObject();
+                location.put("lat", restaurant.getLatitude());
+                location.put("lng", restaurant.getLongitude());
+                coordinates.add(location);
+            }
+
+            JSONObject data = new JSONObject();
+            data.put("coordinates", coordinates);
+
+            webEngine.executeScript("markRestaurants(" +  data + ")");
+
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
+    @FXML
+    public void fetchBanks(ActionEvent event) {
+        try {
+            BanksAPI banksAPI = new BanksAPI();
+            ArrayList<Place> banks = banksAPI.getPlacesDetails(banksAPI.getPlacesId("bank"));
+
+            JSONArray coordinates = new JSONArray();
+
+            for (Place bank : banks) {
+                JSONObject location = new JSONObject();
+                location.put("lat", bank.getLatitude());
+                location.put("lng", bank.getLongitude());
+                coordinates.add(location);
+            }
+
+            JSONObject data = new JSONObject();
+            data.put("coordinates", coordinates);
+
+            webEngine.executeScript("markBanks(" +  data + ")");
+
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    public void fetchHospitals(ActionEvent event) {
+        try {
+            HospitalsAPI hospitalsAPI = new HospitalsAPI();
+            ArrayList<Place> hospitals = hospitalsAPI.getPlacesDetails(hospitalsAPI.getPlacesId("hospital"));
+
+            JSONArray coordinates = new JSONArray();
+
+            for (Place bank : hospitals) {
+                JSONObject location = new JSONObject();
+                location.put("lat", bank.getLatitude());
+                location.put("lng", bank.getLongitude());
+                coordinates.add(location);
+            }
+
+            JSONObject data = new JSONObject();
+            data.put("coordinates", coordinates);
+
+            webEngine.executeScript("markBanks(" +  data + ")");
+
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }

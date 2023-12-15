@@ -179,7 +179,7 @@
       </VBox>
       <HBox alignment="CENTER" layoutX="748.0" layoutY="713.0" prefHeight="34.0" prefWidth="378.0" spacing="15.0" AnchorPane.bottomAnchor="28.0">
          <children>
-            <Button fx:id="restaurantsBtn" mnemonicParsing="false" style="-fx-background-radius: 30;" text="Resaurants">
+            <Button fx:id="restaurantsBtn" mnemonicParsing="false" onAction="#fetchRestaurants" style="-fx-background-radius: 30;" text="Resaurants">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -188,16 +188,16 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="hotelsBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="92.0" style="-fx-background-radius: 30;" text="Hotels">
+            <Button fx:id="hotelsBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#fetchHospitals" prefHeight="34.0" prefWidth="118.0" style="-fx-background-radius: 30;" text="Hospitals">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/icons8-bed-30.png" />
+                        <Image url="@../assets/icons8-hospital-48.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="banksBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="92.0" style="-fx-background-radius: 30;" text="Banks">
+            <Button fx:id="banksBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" onAction="#fetchBanks" prefHeight="34.0" prefWidth="92.0" style="-fx-background-radius: 30;" text="Banks">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>

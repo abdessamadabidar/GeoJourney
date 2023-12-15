@@ -144,13 +144,31 @@ function markBanks(data) {
     MAP.zoomIn(5);
 
 }
+// hospital icon marker
+let hospitalIcon = L.icon({
+    iconUrl: 'images/icons8-find-hospital-48.png',
+    iconSize: [38, 40],
+    iconAnchor: [20, 35],
+    popupAnchor: [-3, -76],
+});
+
 
 function markHospitals(data) {
     const coordinates = data["coordinates"];
     for (index in coordinates) {
         const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
-        L.marker(latlng).addTo(MAP);
+        L.marker(latlng, {icon: hospitalIcon}).bindTooltip(coordinates[index].name).openTooltip().addTo(MAP);
+        L.circleMarker(latlng, {radius: 15, color: "#f00"}).addTo(MAP)
+
     }
     MAP.zoomIn(5);
 
 }
+
+
+
+
+// const latlng = L.latLng(35.173635, -3.865641);
+// L.marker(latlng, {icon: hospitalIcon}).addTo(MAP);
+// L.circleMarker(latlng, {radius: 15, color: "#f00"}).addTo(MAP)
+

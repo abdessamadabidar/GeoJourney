@@ -148,6 +148,30 @@
     -fx-background-color: #f8fafc;
     -fx-border-width: 0 0 0 0.5;
     -fx-border-color: #9ca3af;
+}
 
+#restaurantContainer {
+    -fx-border-width: 0 0 0.5 0;
+    -fx-border-color: #9ca3af;
+}
 
+#restaurantContainer:hover {
+    -fx-background-color: #e9ecef;
+}
+
+#restaurantImage {
+    -fx-background-radius: 20;
+}
+
+#name {
+    -fx-font-family: 'Product Sans', sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 18;
+}
+
+#address {
+    -fx-font-family: 'Product Sans', sans-serif;
+    -fx-font-size: 14;
+    -fx-fill: #484a47;
+    -fx-font-weight: lighter;
 }

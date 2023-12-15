@@ -1,25 +1,26 @@
 package geojourney.geojourney;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import netscape.javascript.JSObject;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class WebController implements Initializable {
 
@@ -76,6 +77,12 @@ public class WebController implements Initializable {
         autocomplete_results.setVisible(false);
         geocodeBtn.setVisible(false);
         webEngine.setJavaScriptEnabled(true);
+
+        try {
+            loadRestaurantContainer();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -242,6 +249,8 @@ public class WebController implements Initializable {
                 location.put("lat", restaurant.getLatitude());
                 location.put("lng", restaurant.getLongitude());
                 coordinates.add(location);
+
+                // ##############################
             }
 
             JSONObject data = new JSONObject();
@@ -290,22 +299,31 @@ public class WebController implements Initializable {
 
             JSONArray coordinates = new JSONArray();
 
-            for (Place bank : hospitals) {
+            for (Place hospital : hospitals) {
                 JSONObject location = new JSONObject();
-                location.put("lat", bank.getLatitude());
-                location.put("lng", bank.getLongitude());
+                location.put("lat", hospital.getLatitude());
+                location.put("lng", hospital.getLongitude());
+                location.put("name", hospital.getName());
                 coordinates.add(location);
             }
 
             JSONObject data = new JSONObject();
             data.put("coordinates", coordinates);
 
-            webEngine.executeScript("markBanks(" +  data + ")");
+            webEngine.executeScript("markHospitals(" +  data + ")");
 
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void loadRestaurantContainer() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/components/restaurant-container.fxml"));
+        HBox restaurant = fxmlLoader.load();
+        RestaurantController restaurantController = fxmlLoader.getController();
+        aside.getChildren().add(restaurant);
+
     }
 
 }

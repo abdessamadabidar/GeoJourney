@@ -1,37 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="217.0" prefWidth="508.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="geojourney.geojourney.views.components.RestaurantContainer">
+<HBox fx:id="restaurantContainer" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="143.0" prefWidth="378.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="CENTER_LEFT" layoutY="-2.0" prefHeight="223.0" prefWidth="508.0">
+      <VBox prefHeight="160.0" prefWidth="200.0" spacing="2.0">
          <children>
-            <VBox prefHeight="223.0" prefWidth="334.0">
+            <Text fx:id="name" strokeType="OUTSIDE" strokeWidth="0.0" text="Café Restaurant Zahra" wrappingWidth="225.33671951293945">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <HBox prefHeight="9.0" prefWidth="180.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Roboto, 'sans-serif';" text="Café restaurant Zahra" wrappingWidth="334.93671226501465">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="4,3" wrappingWidth="30.936707317829132">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="14.0" />
                      </font>
                   </Text>
+                  <Label prefHeight="18.0" prefWidth="56.0">
+                     <graphic>
+                        <ImageView fitHeight="14.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" />
+                     </graphic>
+                  </Label>
                </children>
-            </VBox>
-            <ImageView fitHeight="131.0" fitWidth="141.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../../assets/20160716_081414.jpg" />
-               </image>
-               <viewport>
-                  <Rectangle2D />
-               </viewport>
-            </ImageView>
+            </HBox>
+            <Text fx:id="address" strokeType="OUTSIDE" strokeWidth="0.0" text="address lorem usnalk sky run" wrappingWidth="203.73669815063477">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: green;" text="Ouvert" wrappingWidth="53.336734771728516">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
          </children>
-      </HBox>
+         <padding>
+            <Insets left="20.0" top="10.0" />
+         </padding>
+      </VBox>
+      <ImageView fx:id="restaurantImage" fitHeight="91.0" fitWidth="102.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../assets/20160716_081414.jpg" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
    </children>
-</AnchorPane>
+</HBox>

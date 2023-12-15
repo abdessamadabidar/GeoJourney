@@ -81,20 +81,14 @@ function setZoom(id) {
 }
 
 function changeTileLayer(layer) {
-    MAP.eachLayer((activeLayer) => {
-        if (activeLayer instanceof L.TileLayer) {
-            MAP.removeLayer(activeLayer)
-        }
-    })
-    MAP.addLayer(baseLayers[layer])
+   removeTileLayers();
+   MAP.addLayer(baseLayers[layer])
 
 }
 
 function setSatellite() {
-    MAP.eachLayer((currentLayer) => {
-        MAP.removeLayer(currentLayer);
-        MAP.addLayer(googleSat);
-    })
+    removeTileLayers();
+    MAP.addLayer(googleSat);
 }
 
 //Locate
@@ -114,6 +108,13 @@ const removeMarkers = () => {
     })
 }
 
+const removeTileLayers = () => {
+    MAP.eachLayer((activeLayer) => {
+        if (activeLayer instanceof L.TileLayer) {
+            MAP.removeLayer(activeLayer)
+        }
+    })
+}
 
 function markLocation(lat, lng) {
     const latlng = L.latLng(lat, lng);

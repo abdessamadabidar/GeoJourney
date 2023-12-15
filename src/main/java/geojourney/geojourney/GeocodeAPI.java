@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class GeocodeAPI {
 
-    private final String KEY = "AIzaSyBGto3yQEzfnIeJaBaLI94Eht5aiD1DVzI";
+    private final String KEY = System.getenv("GOOGLE_MAPS_API_KEY");
 
 
     public ArrayList<String> getAutocomplete(String searchValue) {

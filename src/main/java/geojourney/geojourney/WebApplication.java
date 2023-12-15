@@ -17,7 +17,6 @@ public class WebApplication extends Application {
 
     public void start(Stage stage) {
 
-        System.out.println(System.getenv("GEOAPIFY_API_KEY"));
 
         try {
             Parent root2 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/web-view.fxml")));
@@ -35,6 +34,7 @@ public class WebApplication extends Application {
 
             // set width & and height to stage
             stage.setWidth(1500);
+
             stage.setHeight(800);
 
 
@@ -60,8 +60,6 @@ public class WebApplication extends Application {
             asidePane.setVisible(false);
 
 
-            RestaurantAPI hotelsAPI = new RestaurantAPI();
-            hotelsAPI.fetch();
 
 
             stage.setScene(scene);

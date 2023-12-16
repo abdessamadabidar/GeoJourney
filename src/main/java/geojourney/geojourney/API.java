@@ -1,5 +1,6 @@
 package geojourney.geojourney;
 
+import javafx.scene.image.Image;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -11,14 +12,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class API {
     protected final String KEY = "AIzaSyBGto3yQEzfnIeJaBaLI94Eht5aiD1DVzI";
 
     public ArrayList<String> getPlacesId(String type) throws IOException {
-        String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=35.170446999175276%2C-3.861099048903415&radius=5000&type=" + type +"&key=";
+        String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=40.416775%2C-3.703790&radius=5000&type=" + type +"&key=";
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 
             HttpGet request = new HttpGet(URL + KEY);
@@ -73,7 +75,10 @@ public class API {
                         double latitude = (double) coordinates.get("lat");
                         double longitude = (double) coordinates.get("lng");
                         Boolean isOpenNow = (JSONPlace.get("opening_hours") == null) ? null : (boolean) ((JSONObject)(JSONPlace.get("opening_hours"))).get("open_now");
-                        places.add(new Place(name, address, latitude, longitude, rating, isOpenNow, phoneNumber));
+                        long totalRating = (JSONPlace.get("rating") != null ) ? (Long) JSONPlace.get("user_ratings_total") : 0;
+                        int tr = Integer.parseInt(String.valueOf(totalRating).replace(".0", ""));
+
+                        places.add(new Place(name, address, latitude, longitude, rating, isOpenNow, phoneNumber, tr));
 
                     }
                 } catch (ParseException e) {
@@ -89,4 +94,8 @@ public class API {
 
     }
 
+
 }
+
+
+

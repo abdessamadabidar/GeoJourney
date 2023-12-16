@@ -8,9 +8,9 @@ public class Place {
     private final double rating;
     private final Boolean openNow;
     private final String phone;
+    private final int totalRating;
 
-
-    public Place(String name, String address, double latitude, double longitude, double rating, Boolean openNow, String phone) {
+    public Place(String name, String address, double latitude, double longitude, double rating, Boolean openNow, String phone, int totalRating) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
@@ -18,6 +18,7 @@ public class Place {
         this.rating = rating;
         this.openNow = openNow;
         this.phone = phone;
+        this.totalRating = totalRating;
     }
 
     public String getName() {
@@ -40,6 +41,10 @@ public class Place {
         return rating;
     }
 
+    public int getTotalRating() {
+        return totalRating;
+    }
+
     public Boolean getOpenNow() {
         return openNow;
     }
@@ -56,6 +61,7 @@ public class Place {
         System.out.println("latitude : " + latitude);
         System.out.println("longitude : " + longitude);
         System.out.println("rating : " + rating);
+        System.out.println("total rating : " + totalRating);
         System.out.println("phone number : " + phone);
         System.out.println("#######################################");
     }

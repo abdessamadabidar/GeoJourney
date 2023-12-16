@@ -12,6 +12,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
@@ -22,11 +23,15 @@
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </WebView>
-      <ScrollPane fx:id="aside" prefHeight="707.0" prefWidth="378.0" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="24.0">
-         <content>
-            <VBox fx:id="placesList" prefHeight="706.0" prefWidth="377.0" />
-         </content>
-      </ScrollPane>
+      <Pane fx:id="aside" prefHeight="731.0" prefWidth="400.0" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="36.0">
+         <children>
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" focusTraversable="false" layoutX="6.0" layoutY="154.0" prefHeight="528.0" prefWidth="387.0">
+               <content>
+                  <VBox fx:id="placesList" prefHeight="470.0" prefWidth="398.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </Pane>
       <Button fx:id="closeScrollPane" layoutX="186.0" layoutY="709.0" mnemonicParsing="false" onAction="#hideAsidePane" prefHeight="44.0" prefWidth="45.0" style="-fx-background-color: #FFF; -fx-background-radius: 50;" styleClass="close" AnchorPane.bottomAnchor="30.0">
          <graphic>
             <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
@@ -122,15 +127,6 @@
             </Button>
          </children>
       </HBox>
-      <Button fx:id="openScrollPane" layoutX="655.0" layoutY="28.0" mnemonicParsing="false" onAction="#showAsidePane" prefHeight="44.0" prefWidth="45.0" style="-fx-background-radius: 50; -fx-background-color: #FFF;" styleClass="close" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="28.0">
-         <graphic>
-            <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/icons8-open-48.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
       <VBox fx:id="radioGroup" alignment="CENTER_LEFT" layoutX="1326.0" layoutY="530.0" prefHeight="61.0" prefWidth="187.0" AnchorPane.bottomAnchor="107.0" AnchorPane.rightAnchor="325.8">
          <children>
             <RadioButton fx:id="osm" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="19.0" prefWidth="187.0" text="OpenStreetMap">

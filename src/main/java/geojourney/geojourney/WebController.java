@@ -7,8 +7,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -39,7 +42,7 @@ public class WebController implements Initializable {
     @FXML
     private Button closeScrollPane;
     @FXML
-    private ScrollPane aside;
+    private Pane aside;
     @FXML
     private RadioButton osm;
     @FXML
@@ -78,13 +81,14 @@ public class WebController implements Initializable {
         radioGroup.setVisible(false);
         autocomplete_results.setVisible(false);
         webEngine.setJavaScriptEnabled(true);
-        closeScrollPane.setVisible(false);
+//        aside.setVisible(false);
 
         slider.setMin(0);
-        slider.setMax(5000);
-        slider.setValue(500);
-        slider.setMajorTickUnit(500);
-        slider.setMinorTickCount(250);
+        slider.setMax(1000);
+        slider.setValue(50);
+        slider.setMajorTickUnit(100);
+        slider.setMinorTickCount(50);
+
 
 
         slider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -101,13 +105,11 @@ public class WebController implements Initializable {
     public void showAsidePane(ActionEvent event) {
         aside.setVisible(true);
         closeScrollPane.setVisible(true);
-        openScrollPane.setVisible(false);
     }
 
     public void hideAsidePane(ActionEvent event) {
         closeScrollPane.setVisible(false);
         aside.setVisible(false);
-        openScrollPane.setVisible(true);
     }
 
     public void clearSearch(ActionEvent event) {
@@ -236,7 +238,7 @@ public class WebController implements Initializable {
         try {
             RestaurantsAPI restaurantsAPI = new RestaurantsAPI();
             ArrayList<Place> restaurants = restaurantsAPI.getPlacesDetails(restaurantsAPI.getPlacesId("restaurant"));
-
+            placesList.getChildren().clear();
             JSONArray coordinates = new JSONArray();
 
             for (Place restaurant : restaurants) {
@@ -246,7 +248,7 @@ public class WebController implements Initializable {
                 location.put("name", restaurant.getName());
                 coordinates.add(location);
 
-                loadRestaurantContainer(restaurant);
+                loadPlaceContainer(restaurant);
             }
 
             JSONObject data = new JSONObject();
@@ -266,7 +268,7 @@ public class WebController implements Initializable {
         try {
             BanksAPI banksAPI = new BanksAPI();
             ArrayList<Place> banks = banksAPI.getPlacesDetails(banksAPI.getPlacesId("bank"));
-
+            placesList.getChildren().clear();
             JSONArray coordinates = new JSONArray();
 
             for (Place bank : banks) {
@@ -275,6 +277,7 @@ public class WebController implements Initializable {
                 location.put("lng", bank.getLongitude());
                 location.put("name", bank.getName());
                 coordinates.add(location);
+                loadPlaceContainer(bank);
             }
 
             JSONObject data = new JSONObject();
@@ -293,7 +296,7 @@ public class WebController implements Initializable {
         try {
             HospitalsAPI hospitalsAPI = new HospitalsAPI();
             ArrayList<Place> hospitals = hospitalsAPI.getPlacesDetails(hospitalsAPI.getPlacesId("hospital"));
-
+            placesList.getChildren().clear();
             JSONArray coordinates = new JSONArray();
 
             for (Place hospital : hospitals) {
@@ -302,6 +305,7 @@ public class WebController implements Initializable {
                 location.put("lng", hospital.getLongitude());
                 location.put("name", hospital.getName());
                 coordinates.add(location);
+                loadPlaceContainer(hospital);
             }
 
             JSONObject data = new JSONObject();
@@ -315,12 +319,12 @@ public class WebController implements Initializable {
         }
     }
 
-    public void loadRestaurantContainer(Place place) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/components/restaurant-container.fxml"));
-        HBox restaurant = fxmlLoader.load();
+    public void loadPlaceContainer(Place place) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/components/place-container.fxml"));
+        VBox restaurant = fxmlLoader.load();
         if (restaurant != null) {
-            RestaurantController restaurantController = fxmlLoader.getController();
-            restaurantController.setData(place);
+            PlaceController placeController = fxmlLoader.getController();
+            placeController.setData(place);
             placesList.getChildren().add(restaurant);
         }
 

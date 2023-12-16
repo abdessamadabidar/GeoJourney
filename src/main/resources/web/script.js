@@ -217,5 +217,9 @@ function markBanks(data) {
 
 }
 
-
-
+function getCurrentPosition() {
+    return 
+}
+navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position.coords.latitude, position.coords.longitude)
+})

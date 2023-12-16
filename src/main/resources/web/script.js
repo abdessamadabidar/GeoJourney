@@ -115,38 +115,63 @@ const removeTileLayers = () => {
         }
     })
 }
+const removeCircles = () => {
+    MAP.eachLayer(layer => {
+        if (layer instanceof L.CircleMarker) {
+            layer.remove();
+        }
+    })
+}
+
+
+
+const simpleIcon = L.icon({
+    iconUrl: 'images/simple.png',
+    iconSize: [38, 40],
+    iconAnchor: [20, 35],
+    popupAnchor: [-3, -76],
+});
+
+
+var circleMarker = new L.circleMarker();
+
 
 function markLocation(lat, lng) {
     const latlng = L.latLng(lat, lng);
     removeMarkers()
-    L.marker(latlng).addTo(MAP);
+    removeCircles()
+    L.marker(latlng, {icon: simpleIcon}).addTo(MAP);
+    circleMarker =  L.circleMarker(latlng, {radius: 20}).addTo(MAP);
     MAP.flyTo(latlng, 15)
 
 }
 
-function markRestaurants(data) {
-    const coordinates = data["coordinates"];
-    for (index in coordinates) {
-        const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
-        L.marker(latlng).addTo(MAP);
-    }
-    MAP.zoomIn(5);
-
+function changeCircleRadius(radius) {
+   if (circleMarker) {
+       circleMarker.setRadius(radius);
+   }
 }
 
 
-function markBanks(data) {
-    const coordinates = data["coordinates"];
-    for (index in coordinates) {
-        const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
-        L.marker(latlng).addTo(MAP);
-    }
-    MAP.zoomIn(5);
 
-}
+
 // hospital icon marker
-let hospitalIcon = L.icon({
-    iconUrl: 'images/icons8-find-hospital-48.png',
+const hospitalIcon = L.icon({
+    iconUrl: 'images/hospital.png',
+    iconSize: [38, 40],
+    iconAnchor: [20, 35],
+    popupAnchor: [-3, -76],
+});
+
+const restaurantIcon = L.icon({
+    iconUrl: 'images/restaurant.png',
+    iconSize: [38, 40],
+    iconAnchor: [20, 35],
+    popupAnchor: [-3, -76],
+});
+
+const bankIcon = L.icon({
+    iconUrl: 'images/bank.png',
     iconSize: [38, 40],
     iconAnchor: [20, 35],
     popupAnchor: [-3, -76],
@@ -158,7 +183,20 @@ function markHospitals(data) {
     for (index in coordinates) {
         const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
         L.marker(latlng, {icon: hospitalIcon}).bindTooltip(coordinates[index].name).openTooltip().addTo(MAP);
-        L.circleMarker(latlng, {radius: 15, color: "#f00"}).addTo(MAP)
+        L.circleMarker(latlng, {radius: 15, color: "#ff2e54"}).addTo(MAP)
+
+    }
+    MAP.zoomIn(5);
+
+}
+
+
+function markRestaurants(data) {
+    const coordinates = data["coordinates"];
+    for (index in coordinates) {
+        const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
+        L.marker(latlng, {icon: restaurantIcon}).bindTooltip(coordinates[index].name).openTooltip().addTo(MAP);
+        L.circleMarker(latlng, {radius: 15, color: "#ff842f"}).addTo(MAP)
 
     }
     MAP.zoomIn(5);
@@ -167,8 +205,17 @@ function markHospitals(data) {
 
 
 
+function markBanks(data) {
+    const coordinates = data["coordinates"];
+    for (index in coordinates) {
+        const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
+        L.marker(latlng, {icon: bankIcon}).bindTooltip(coordinates[index].name).openTooltip().addTo(MAP);
+        L.circleMarker(latlng, {radius: 15, color: "#1dd878"}).addTo(MAP)
 
-// const latlng = L.latLng(35.173635, -3.865641);
-// L.marker(latlng, {icon: hospitalIcon}).addTo(MAP);
-// L.circleMarker(latlng, {radius: 15, color: "#f00"}).addTo(MAP)
+    }
+    MAP.zoomIn(5);
+
+}
+
+
 

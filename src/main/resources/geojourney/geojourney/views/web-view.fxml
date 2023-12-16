@@ -4,13 +4,14 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
@@ -21,20 +22,22 @@
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </WebView>
-      <Pane fx:id="aside" layoutX="39.0" layoutY="18.0" prefHeight="653.0" prefWidth="378.0" style="-fx-background-radius: 10; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="24.0">
-         <children>
-            <Button fx:id="closePane" layoutX="167.0" layoutY="670.0" mnemonicParsing="false" onAction="#hideAsidePane" prefHeight="44.0" prefWidth="45.0" style="-fx-background-radius: 50; -fx-background-color: #FFF;">
-               <graphic>
-                  <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons8-close-50.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-         </children></Pane>
-      <TextField fx:id="search" layoutX="727.0" layoutY="25.0" prefHeight="50.0" prefWidth="454.0" promptText="search" style="-fx-border-width: 0; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0); -fx-font-size: 14; -fx-font-family: 'Poppins', sans-serif; -fx-padding: 15; -fx-text-fill: #495057; -fx-font-weight: 600;" AnchorPane.topAnchor="25.0" />
-      <Button fx:id="clearSearchBtn" layoutX="1140.0" layoutY="34.0" minHeight="-Infinity" minWidth="35.0" mnemonicParsing="false" onAction="#clearSearch" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: transparent;" styleClass="close" AnchorPane.topAnchor="34.0">
+      <ScrollPane fx:id="aside" prefHeight="707.0" prefWidth="378.0" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="24.0">
+         <content>
+            <VBox fx:id="placesList" prefHeight="706.0" prefWidth="377.0" />
+         </content>
+      </ScrollPane>
+      <Button fx:id="closeScrollPane" layoutX="186.0" layoutY="709.0" mnemonicParsing="false" onAction="#hideAsidePane" prefHeight="44.0" prefWidth="45.0" style="-fx-background-color: #FFF; -fx-background-radius: 50;" styleClass="close" AnchorPane.bottomAnchor="30.0">
+         <graphic>
+            <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/icons8-close-50.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <TextField fx:id="search" layoutX="1326.0" layoutY="28.0" prefHeight="44.0" prefWidth="346.0" promptText="search" style="-fx-border-width: 0; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0); -fx-font-size: 14; -fx-font-family: 'Poppins', sans-serif; -fx-padding: 10 20; -fx-text-fill: #495057; -fx-font-weight: 600;" AnchorPane.rightAnchor="166.5999999999999" AnchorPane.topAnchor="28.0" />
+      <Button fx:id="clearSearchBtn" layoutX="1616.0" layoutY="36.0" minHeight="-Infinity" minWidth="36.0" mnemonicParsing="false" onAction="#clearSearch" prefHeight="27.0" prefWidth="36.0" style="-fx-background-color: transparent;" styleClass="close" AnchorPane.topAnchor="36.0">
          <graphic>
             <ImageView fitHeight="15.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -43,9 +46,9 @@
             </ImageView>
          </graphic>
       </Button>
-      <VBox fx:id="options" layoutX="1760.0" layoutY="230.0" prefWidth="40.0" style="-fx-background-radius: 30; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);" AnchorPane.rightAnchor="24.0">
+      <HBox alignment="CENTER" layoutX="454.0" layoutY="97.0" style="-fx-background-color: #FFF; -fx-background-radius: 30;" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="290.0">
          <children>
-            <Button fx:id="zoomin" mnemonicParsing="false" onAction="#handleZoom" prefHeight="40.0" prefWidth="54.0">
+            <Button fx:id="zoomin" mnemonicParsing="false" onAction="#handleZoom" prefHeight="44.0" prefWidth="54.0">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -80,7 +83,8 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="layers" minHeight="54.0" mnemonicParsing="false" onAction="#showLayers" prefHeight="44.0" prefWidth="40.0">
+            <Slider fx:id="slider" prefHeight="24.0" prefWidth="210.0" />
+            <Button fx:id="layers" mnemonicParsing="false" onAction="#showLayers" prefHeight="44.0" prefWidth="54.0">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -92,7 +96,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="print" layoutX="10.0" layoutY="138.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="54.0">
+            <Button fx:id="print" mnemonicParsing="false" prefHeight="44.0" prefWidth="54.0">
                <graphic>
                   <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -104,7 +108,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="zoomout" mnemonicParsing="false" onAction="#handleZoom" prefHeight="40.0" prefWidth="54.0">
+            <Button fx:id="zoomout" mnemonicParsing="false" onAction="#handleZoom" prefHeight="44.0" prefWidth="54.0">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -117,26 +121,8 @@
                </cursor>
             </Button>
          </children>
-      </VBox>
-      <Button fx:id="openSearch" layoutX="1684.0" layoutY="43.0" mnemonicParsing="false" onAction="#showSearchInput" prefHeight="44.0" prefWidth="45.0" style="-fx-background-radius: 50; -fx-background-color: #FFF;" AnchorPane.rightAnchor="25.40000000000009" AnchorPane.topAnchor="28.0">
-         <graphic>
-            <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/icons8-search-50.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button fx:id="closeSearch" layoutX="1768.0" layoutY="28.0" mnemonicParsing="false" onAction="#hideSearchInput" prefHeight="44.0" prefWidth="45.0" style="-fx-background-color: #FFF; -fx-background-radius: 50;" styleClass="close" AnchorPane.rightAnchor="25.40000000000009" AnchorPane.topAnchor="28.0">
-         <graphic>
-            <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/icons8-close-50.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button fx:id="openPane" layoutX="655.0" layoutY="28.0" mnemonicParsing="false" onAction="#showAsidePane" prefHeight="44.0" prefWidth="45.0" style="-fx-background-radius: 50; -fx-background-color: #FFF;" styleClass="close" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="28.0">
+      </HBox>
+      <Button fx:id="openScrollPane" layoutX="655.0" layoutY="28.0" mnemonicParsing="false" onAction="#showAsidePane" prefHeight="44.0" prefWidth="45.0" style="-fx-background-radius: 50; -fx-background-color: #FFF;" styleClass="close" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="28.0">
          <graphic>
             <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -145,7 +131,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <VBox fx:id="radioGroup" alignment="CENTER_LEFT" layoutX="1549.0" layoutY="274.0" prefHeight="61.0" prefWidth="187.0" AnchorPane.rightAnchor="102.79999999999995">
+      <VBox fx:id="radioGroup" alignment="CENTER_LEFT" layoutX="1326.0" layoutY="530.0" prefHeight="61.0" prefWidth="187.0" AnchorPane.bottomAnchor="107.0" AnchorPane.rightAnchor="325.8">
          <children>
             <RadioButton fx:id="osm" mnemonicParsing="false" onAction="#handleTileLayerChange" prefHeight="19.0" prefWidth="187.0" text="OpenStreetMap">
                <toggleGroup>
@@ -177,7 +163,7 @@
             </RadioButton>
          </children>
       </VBox>
-      <HBox alignment="CENTER" layoutX="748.0" layoutY="713.0" prefHeight="34.0" prefWidth="378.0" spacing="15.0" AnchorPane.bottomAnchor="28.0">
+      <HBox alignment="CENTER" layoutX="844.0" layoutY="33.0" prefHeight="34.0" prefWidth="378.0" spacing="15.0" AnchorPane.rightAnchor="616.5999999999999">
          <children>
             <Button fx:id="restaurantsBtn" mnemonicParsing="false" onAction="#fetchRestaurants" style="-fx-background-radius: 30;" text="Resaurants">
                <graphic>
@@ -188,7 +174,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="hotelsBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#fetchHospitals" prefHeight="34.0" prefWidth="118.0" style="-fx-background-radius: 30;" text="Hospitals">
+            <Button fx:id="hospitalsBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#fetchHospitals" prefHeight="34.0" prefWidth="118.0" style="-fx-background-radius: 30;" text="Hospitals">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -208,8 +194,8 @@
             </Button>
          </children>
       </HBox>
-      <VBox fx:id="autocomplete_results" layoutX="727.0" layoutY="89.0" prefWidth="454.0" />
-      <Button fx:id="geocodeBtn" layoutX="1180.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleGeocode" prefHeight="49.0" prefWidth="54.0" AnchorPane.topAnchor="25.0">
+      <VBox fx:id="autocomplete_results" layoutX="1219.0" layoutY="87.0" prefHeight="0.0" prefWidth="346.0" AnchorPane.rightAnchor="166.0" />
+      <Button fx:id="geocodeBtn" layoutX="1669.6" layoutY="26.0" minWidth="44.0" mnemonicParsing="false" onAction="#handleGeocode" prefHeight="44.0" prefWidth="54.0" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="28.0">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>

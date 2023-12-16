@@ -34,12 +34,13 @@
 }
 
 #options {
+    -fx-background-color: #FFF;
     -fx-background-radius: 30;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
 }
 
 
-#closeSearch, #closePane, #openSearch, #openPane {
+#closeSearch, #closeScrollPane, #openSearch, #openScrollPane {
     -fx-background-radius: 50;
     -fx-background-color: #FFF;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
@@ -47,21 +48,21 @@
 }
 
 #zoomin {
-    -fx-background-color: #FFF;
-    -fx-background-radius: 30 30 0 0;
+    -fx-background-color: transparent;
+    -fx-background-radius: 30 0 0 30;
     -fx-cursor: hand;
 }
 
 
 #zoomout{
-    -fx-background-color: #FFF;
-    -fx-background-radius: 0 0 30 30;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0 30 30 0;
     -fx-cursor: hand;
 }
 
 
 #satellite, #layers, #locate, #print  {
-    -fx-background-color: #FFF;
+    -fx-background-color: transparent;
     -fx-cursor: hand;
 }
 
@@ -116,7 +117,7 @@
     -fx-background-radius: 0 0 8 8;
 }
 
-#restaurantsBtn, #hotelsBtn, #banksBtn {
+#restaurantsBtn, #hospitalsBtn, #banksBtn {
     -fx-background-color: #FFF;
     -fx-background-radius: 30;
     -fx-font-family: 'Product Sans', sans-serif;
@@ -128,7 +129,7 @@
 
 }
 
-#restaurantsBtn:hover, #hotelsBtn:hover, #banksBtn:hover {
+#restaurantsBtn:hover, #hospitalsBtn:hover, #banksBtn:hover {
     -fx-background-color: #e9ecef;
 }
 
@@ -174,4 +175,28 @@
     -fx-font-size: 14;
     -fx-fill: #484a47;
     -fx-font-weight: lighter;
+}
+
+
+/* styles.css */
+.slider {
+    -fx-padding: 10;
+}
+
+.slider .track {
+    -fx-background-color: #ddd; /* Track color */
+    -fx-padding: 2;
+}
+
+.slider .thumb {
+    -fx-background-color: #3498db; /* Thumb color */
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 10;
+    -fx-padding: 8;
+    -fx-cursor: hand;
+}
+
+.slider .track .filled {
+    -fx-background-color: #3498db; /* Filled portion color */
+
 }

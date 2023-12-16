@@ -1,16 +1,14 @@
 package geojourney.geojourney;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -25,21 +23,23 @@ import java.util.ResourceBundle;
 public class WebController implements Initializable {
 
     @FXML
+    public Slider slider;
+
+    @FXML
     private WebView webView;
     @FXML
     private WebEngine webEngine;
     @FXML
     private TextField search;
-    @FXML
-    private Button openSearch;
-    @FXML
-    private Button closeSearch;
+
     @FXML
     private Button clearSearchBtn;
     @FXML
-    private Button openPane;
+    private Button openScrollPane;
     @FXML
-    private Pane aside;
+    private Button closeScrollPane;
+    @FXML
+    private ScrollPane aside;
     @FXML
     private RadioButton osm;
     @FXML
@@ -56,6 +56,8 @@ public class WebController implements Initializable {
     private VBox autocomplete_results;
     @FXML
     private Button geocodeBtn;
+    @FXML
+    private VBox placesList;
 
 
 
@@ -75,45 +77,37 @@ public class WebController implements Initializable {
         }));
         radioGroup.setVisible(false);
         autocomplete_results.setVisible(false);
-        geocodeBtn.setVisible(false);
         webEngine.setJavaScriptEnabled(true);
+        closeScrollPane.setVisible(false);
 
-        try {
-            loadRestaurantContainer();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        slider.setMin(0);
+        slider.setMax(5000);
+        slider.setValue(500);
+        slider.setMajorTickUnit(500);
+        slider.setMinorTickCount(250);
 
-    }
 
-    public void showSearchInput(ActionEvent event) {
-        search.setVisible(true);
-        geocodeBtn.setVisible(true);
-        if (!search.getText().isEmpty()) {
-            clearSearchBtn.setVisible(true);
-        }
-        openSearch.setVisible(false);
-        closeSearch.setVisible(true);
+        slider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                webEngine.executeScript("changeCircleRadius(" + newValue + ")");
+            }
+        });
 
     }
 
-    public void hideSearchInput(ActionEvent event) {
-        search.setVisible(false);
-        clearSearchBtn.setVisible(false);
-        closeSearch.setVisible(false);
-        openSearch.setVisible(true);
-        geocodeBtn.setVisible(false);
-        webEngine.executeScript("removeMarkers()");
-    }
+
 
     public void showAsidePane(ActionEvent event) {
         aside.setVisible(true);
-        openPane.setVisible(false);
+        closeScrollPane.setVisible(true);
+        openScrollPane.setVisible(false);
     }
 
     public void hideAsidePane(ActionEvent event) {
+        closeScrollPane.setVisible(false);
         aside.setVisible(false);
-        openPane.setVisible(true);
+        openScrollPane.setVisible(true);
     }
 
     public void clearSearch(ActionEvent event) {
@@ -238,6 +232,7 @@ public class WebController implements Initializable {
 
     @FXML
     public void fetchRestaurants(ActionEvent event) {
+        aside.setVisible(true);
         try {
             RestaurantsAPI restaurantsAPI = new RestaurantsAPI();
             ArrayList<Place> restaurants = restaurantsAPI.getPlacesDetails(restaurantsAPI.getPlacesId("restaurant"));
@@ -248,9 +243,10 @@ public class WebController implements Initializable {
                 JSONObject location = new JSONObject();
                 location.put("lat", restaurant.getLatitude());
                 location.put("lng", restaurant.getLongitude());
+                location.put("name", restaurant.getName());
                 coordinates.add(location);
 
-                // ##############################
+                loadRestaurantContainer(restaurant);
             }
 
             JSONObject data = new JSONObject();
@@ -277,6 +273,7 @@ public class WebController implements Initializable {
                 JSONObject location = new JSONObject();
                 location.put("lat", bank.getLatitude());
                 location.put("lng", bank.getLongitude());
+                location.put("name", bank.getName());
                 coordinates.add(location);
             }
 
@@ -318,11 +315,14 @@ public class WebController implements Initializable {
         }
     }
 
-    public void loadRestaurantContainer() throws IOException {
+    public void loadRestaurantContainer(Place place) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/components/restaurant-container.fxml"));
         HBox restaurant = fxmlLoader.load();
-        RestaurantController restaurantController = fxmlLoader.getController();
-        aside.getChildren().add(restaurant);
+        if (restaurant != null) {
+            RestaurantController restaurantController = fxmlLoader.getController();
+            restaurantController.setData(place);
+            placesList.getChildren().add(restaurant);
+        }
 
     }
 

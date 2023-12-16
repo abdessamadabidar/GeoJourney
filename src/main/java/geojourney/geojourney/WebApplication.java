@@ -1,16 +1,14 @@
 package geojourney.geojourney;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 
 
@@ -45,19 +43,15 @@ public class WebApplication extends Application {
 
             // set default visibility to
             // --> close Search Button
-            Button closeSearch = (Button) scene.lookup("#closeSearch");
-            closeSearch.setVisible(false);
 
-            // --> search input
-            TextField searchInput = (TextField) scene.lookup("#search");
-            searchInput.setVisible(false);
+
 
             // --> clear search button
             Button clearSearchButton = (Button) scene.lookup("#clearSearchBtn");
             clearSearchButton.setVisible(false);
 
             // --> aside pane
-            Pane asidePane = (Pane) scene.lookup("#aside");
+            ScrollPane asidePane = (ScrollPane) scene.lookup("#aside");
             asidePane.setVisible(false);
 
 

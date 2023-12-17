@@ -1,5 +1,6 @@
 package geojourney.geojourney;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -7,20 +8,26 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class WebController implements Initializable {
@@ -37,10 +44,9 @@ public class WebController implements Initializable {
 
     @FXML
     private Button clearSearchBtn;
+
     @FXML
-    private Button openScrollPane;
-    @FXML
-    private Button closeScrollPane;
+    private Button closePane;
     @FXML
     private Pane aside;
     @FXML
@@ -61,7 +67,14 @@ public class WebController implements Initializable {
     private Button geocodeBtn;
     @FXML
     private VBox placesList;
-
+    @FXML
+    private Text place;
+    @FXML
+    private Button shutdown;
+    @FXML
+    private Button restart;
+    @FXML
+    private Button back;
 
 
 
@@ -81,7 +94,8 @@ public class WebController implements Initializable {
         radioGroup.setVisible(false);
         autocomplete_results.setVisible(false);
         webEngine.setJavaScriptEnabled(true);
-//        aside.setVisible(false);
+        aside.setVisible(false);
+        closePane.setVisible(false);
 
         slider.setMin(0);
         slider.setMax(1000);
@@ -98,17 +112,32 @@ public class WebController implements Initializable {
             }
         });
 
+
+        closePane.setOnAction(e -> {
+            aside.setVisible(false);
+            webEngine.executeScript("removeMarkers(); removeCircles();");
+            closePane.setVisible(false);
+        });
+
+
+        shutdown.setOnAction(e -> {
+            Platform.exit();
+        });
+
+        restart.setOnAction(e -> {
+            webEngine.executeScript("removeMarkers(); removeCircles();");
+            aside.setVisible(false);
+            closePane.setVisible(false);
+        });
+
+
+
     }
 
 
-
-    public void showAsidePane(ActionEvent event) {
-        aside.setVisible(true);
-        closeScrollPane.setVisible(true);
-    }
 
     public void hideAsidePane(ActionEvent event) {
-        closeScrollPane.setVisible(false);
+        closePane.setVisible(false);
         aside.setVisible(false);
     }
 
@@ -235,6 +264,10 @@ public class WebController implements Initializable {
     @FXML
     public void fetchRestaurants(ActionEvent event) {
         aside.setVisible(true);
+        place.setText("Restaurant");
+        place.setFill(Paint.valueOf("#ff842f"));
+        aside.setVisible(true);
+        closePane.setVisible(true);
         try {
             RestaurantsAPI restaurantsAPI = new RestaurantsAPI();
             ArrayList<Place> restaurants = restaurantsAPI.getPlacesDetails(restaurantsAPI.getPlacesId("restaurant"));
@@ -265,6 +298,10 @@ public class WebController implements Initializable {
 
     @FXML
     public void fetchBanks(ActionEvent event) {
+        aside.setVisible(true);
+        place.setText("Bank");
+        place.setFill(Paint.valueOf("#1dd878"));
+        closePane.setVisible(true);
         try {
             BanksAPI banksAPI = new BanksAPI();
             ArrayList<Place> banks = banksAPI.getPlacesDetails(banksAPI.getPlacesId("bank"));
@@ -293,6 +330,10 @@ public class WebController implements Initializable {
 
 
     public void fetchHospitals(ActionEvent event) {
+        aside.setVisible(true);
+        place.setText("Hospital");
+        place.setFill(Paint.valueOf("#ff2e54"));
+        closePane.setVisible(true);
         try {
             HospitalsAPI hospitalsAPI = new HospitalsAPI();
             ArrayList<Place> hospitals = hospitalsAPI.getPlacesDetails(hospitalsAPI.getPlacesId("hospital"));
@@ -330,4 +371,9 @@ public class WebController implements Initializable {
 
     }
 
+    public void goBack(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        OpeningApplication openingApplication = new OpeningApplication();
+        openingApplication.start(stage);
+    }
 }

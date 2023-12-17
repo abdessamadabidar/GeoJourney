@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="1192.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="1192.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="geojourney.geojourney.OpeningController">
    <children>
       <VBox layoutX="68.0" layoutY="70.0" prefWidth="580.0">
          <children>
@@ -57,7 +57,7 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </TextFlow>
-            <Button fx:id="startBtn" mnemonicParsing="false" prefHeight="43.0" prefWidth="144.0" style="-fx-background-color: linear-gradient(to left bottom, #3283ca, #298ace, #2090d2, #1697d5, #0b9dd8, #00a2d9, #00a8da, #00addb, #00b3da, #00b9d7, #00bed4, #00c3d0); -fx-background-radius: 30;" text="Get started" textFill="WHITE">
+            <Button fx:id="startBtn" mnemonicParsing="false" onAction="#openWebStage" prefHeight="43.0" prefWidth="144.0" style="-fx-background-color: linear-gradient(to left bottom, #3283ca, #298ace, #2090d2, #1697d5, #0b9dd8, #00a2d9, #00a8da, #00addb, #00b3da, #00b9d7, #00bed4, #00c3d0); -fx-background-radius: 30;" text="Get started" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="28.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                      <image>

@@ -13,6 +13,7 @@
     -fx-fill: #3283CA;
 }
 
+
 #search {
     -fx-background-radius: 30 0 0 30;
     -fx-border-width: 0;
@@ -40,7 +41,7 @@
 }
 
 
-#closeSearch, #closeScrollPane, #openSearch, #openScrollPane {
+#closeSearch, #closePane, #openSearch, #openScrollPane {
     -fx-background-radius: 50;
     -fx-background-color: #FFF;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
@@ -208,4 +209,24 @@
 .viewport {
     -fx-background-color: #f8f9fa;
     -fx-border-width: 0;
+}
+
+#shutdown, #restart, #back {
+    -fx-background-color: #fff;
+}
+
+#shutdown {
+    -fx-background-radius: 30 0 0 30;
+}
+#back {
+    -fx-background-radius: 0 30 30 0;
+}
+
+#restart {
+    -fx-background-radius: 0;
+}
+
+
+#shutdown:hover, #restart:hover, #back:hover {
+    -fx-background-color: #f8f9fa;
 }

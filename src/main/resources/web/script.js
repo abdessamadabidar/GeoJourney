@@ -95,9 +95,6 @@ function setSatellite() {
 const locate = L.control.locate({flyTo: true}).addTo(MAP);
 locate.getContainer().style.display = 'none';
 
-function locateMe() {
-    locate.start();
-}
 
 
 const removeMarkers = () => {
@@ -217,9 +214,52 @@ function markBanks(data) {
 
 }
 
-function getCurrentPosition() {
-    return 
+function setMarkerOnMyCurrentPosition(position) {
+    const latlng = new L.LatLng(position.coords.latitude, position.coords.longitude)
+    L.marker(latlng, {icon: simpleIcon}).addTo(MAP);
+    circleMarker =  L.circleMarker(latlng, {radius: 20}).addTo(MAP);
+    MAP.flyTo(latlng, 15)
 }
-navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position.coords.latitude, position.coords.longitude)
-})
+
+
+function locateMe() {
+    navigator.geolocation.getCurrentPosition(setMarkerOnMyCurrentPosition)
+}
+
+
+// function getCurrentCoordinates() {
+//     return navigator.geolocation.getCurrentPosition((position) => {
+//         return {"lat": position.coords.latitude, "lng": position.coords.longitude}
+//     })
+// }
+
+function getCurrentCoordinates() {
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                resolve({"lat": position.coords.latitude, "lng": position.coords.longitude});
+            },
+            (error) => {
+                reject(error);
+            }
+        );
+    });
+}
+
+var coords = {}
+
+
+async function getPositionObject() {
+
+    try {
+        const promise = await getCurrentCoordinates().then((coordinates) => {
+            coords =  {"lat": coordinates.lat, "lng": coordinates.lng}
+        })
+
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+

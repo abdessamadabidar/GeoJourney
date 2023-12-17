@@ -8,33 +8,68 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="809.0" prefWidth="1839.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="geojourney.geojourney.WebController">
     <children>
-        <WebView fx:id="webView" layoutX="-2.0" layoutY="2.0" prefHeight="809.0" prefWidth="1839.0">
+        <WebView fx:id="webView" layoutX="-2.0" layoutY="2.0" prefHeight="809.0" prefWidth="1839.0" style="-fx-page-fill: #353535;">
          <cursor>
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </WebView>
-      <Pane fx:id="aside" prefHeight="731.0" prefWidth="400.0" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="36.0">
+      <Pane fx:id="aside" layoutY="74.0" prefHeight="634.0" prefWidth="400.0" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="74.0">
          <children>
-            <ScrollPane fx:id="scrollPane" fitToWidth="true" focusTraversable="false" layoutX="6.0" layoutY="154.0" prefHeight="528.0" prefWidth="387.0">
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" focusTraversable="false" layoutX="6.0" layoutY="112.0" prefHeight="465.0" prefWidth="387.0">
                <content>
-                  <VBox fx:id="placesList" prefHeight="470.0" prefWidth="398.0" />
+                  <VBox fx:id="placesList" prefHeight="409.0" prefWidth="386.0" />
                </content>
             </ScrollPane>
+            <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="44.0" prefWidth="378.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="38.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-location-94.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 800; -fx-font-family: 'Poppins', sans-serif; -fx-font-size: 38; -fx-fill: #3283CA;" text="GeoJourney" wrappingWidth="279.5830993652344" />
+               </children>
+               <effect>
+                  <DropShadow height="4.68" radius="36.347500000000004" width="142.71">
+                     <color>
+                        <Color red="0.7597661018371582" green="0.8767836093902588" blue="0.9157894849777222" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="6.0" layoutY="81.0" prefHeight="16.0" prefWidth="200.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type :" wrappingWidth="41.600006103515625">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="place" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 800;" wrappingWidth="149.98303413391113">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
          </children>
       </Pane>
-      <Button fx:id="closeScrollPane" layoutX="186.0" layoutY="709.0" mnemonicParsing="false" onAction="#hideAsidePane" prefHeight="44.0" prefWidth="45.0" style="-fx-background-color: #FFF; -fx-background-radius: 50;" styleClass="close" AnchorPane.bottomAnchor="30.0">
+      <Button fx:id="closePane" layoutX="186.0" layoutY="709.0" minWidth="45.0" mnemonicParsing="false" onAction="#hideAsidePane" prefHeight="51.0" prefWidth="54.0" style="-fx-background-radius: 50;" styleClass="close" AnchorPane.bottomAnchor="30.0">
          <graphic>
-            <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="20.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/icons8-close-50.png" />
                </image>
@@ -42,7 +77,7 @@
          </graphic>
       </Button>
       <TextField fx:id="search" layoutX="1326.0" layoutY="28.0" prefHeight="44.0" prefWidth="346.0" promptText="search" style="-fx-border-width: 0; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0); -fx-font-size: 14; -fx-font-family: 'Poppins', sans-serif; -fx-padding: 10 20; -fx-text-fill: #495057; -fx-font-weight: 600;" AnchorPane.rightAnchor="166.5999999999999" AnchorPane.topAnchor="28.0" />
-      <Button fx:id="clearSearchBtn" layoutX="1616.0" layoutY="36.0" minHeight="-Infinity" minWidth="36.0" mnemonicParsing="false" onAction="#clearSearch" prefHeight="27.0" prefWidth="36.0" style="-fx-background-color: transparent;" styleClass="close" AnchorPane.topAnchor="36.0">
+      <Button fx:id="clearSearchBtn" layoutX="1616.0" layoutY="36.0" minHeight="-Infinity" minWidth="36.0" mnemonicParsing="false" onAction="#clearSearch" prefHeight="27.0" prefWidth="36.0" style="-fx-background-color: transparent;" styleClass="close" AnchorPane.rightAnchor="169.4" AnchorPane.topAnchor="36.0">
          <graphic>
             <ImageView fitHeight="15.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -159,7 +194,7 @@
             </RadioButton>
          </children>
       </VBox>
-      <HBox alignment="CENTER" layoutX="844.0" layoutY="33.0" prefHeight="34.0" prefWidth="378.0" spacing="15.0" AnchorPane.rightAnchor="616.5999999999999">
+      <HBox alignment="CENTER" layoutX="844.0" layoutY="33.0" prefHeight="34.0" prefWidth="378.0" spacing="15.0" AnchorPane.rightAnchor="616.5999999999999" AnchorPane.topAnchor="33.0">
          <children>
             <Button fx:id="restaurantsBtn" mnemonicParsing="false" onAction="#fetchRestaurants" style="-fx-background-radius: 30;" text="Resaurants">
                <graphic>
@@ -199,5 +234,36 @@
                </image>
             </ImageView>
          </graphic></Button>
+      <HBox alignment="CENTER" layoutX="24.0" layoutY="38.0" prefHeight="19.0" AnchorPane.topAnchor="33.0">
+         <children>
+            <Button fx:id="shutdown" minWidth="38.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="38.0">
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-shutdown-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="restart" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-restart-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="back" mnemonicParsing="false" onAction="#goBack">
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-back-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
     </children>
 </AnchorPane>

@@ -5,22 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -54,18 +40,10 @@ public class WebApplication extends Application {
             // Image image = new Image("./resources/images/icons8-location-94.png");
             // stage.getIcons().add(image);
 
-            // set default visibility to
-            // --> close Search Button
-
-
 
             // --> clear search button
             Button clearSearchButton = (Button) scene.lookup("#clearSearchBtn");
             clearSearchButton.setVisible(false);
-
-            // --> aside pane
-//            Pane asidePane = (Pane) scene.lookup("#aside");
-//            asidePane.setVisible(false);
 
 
 

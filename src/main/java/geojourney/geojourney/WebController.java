@@ -33,6 +33,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.FileSystem;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -395,10 +396,14 @@ public class WebController implements Initializable {
 
         File outputFile = new File(distPath);
         ImageIO.write(bufferedImage, "png", outputFile);
+
+        imageFile.delete();
     }
 
     public void takeScreenshot(ActionEvent event) throws IOException {
         String IMAGE_PATH = "src/main/resources/tmp/screenshot.png";
+
+
         // save the image to tmp directory
         Scene scene = ((Node) event.getSource()).getScene();
         WritableImage img = new WritableImage(1490, 765);

@@ -3,17 +3,20 @@ package geojourney.geojourney;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
@@ -24,10 +27,13 @@ import javafx.stage.Stage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class WebController implements Initializable {
@@ -129,6 +135,9 @@ public class WebController implements Initializable {
             aside.setVisible(false);
             closePane.setVisible(false);
         });
+
+
+
 
 
 
@@ -375,5 +384,40 @@ public class WebController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         OpeningApplication openingApplication = new OpeningApplication();
         openingApplication.start(stage);
+    }
+
+    public void saveImage(String imagePath, File distDir) throws IOException {
+        File imageFile = new File(imagePath);
+        BufferedImage bufferedImage = ImageIO.read(imageFile);
+
+        String fileName = imageFile.getName();
+        String distPath = distDir.getAbsolutePath() + File.separator + fileName;
+
+        File outputFile = new File(distPath);
+        ImageIO.write(bufferedImage, "png", outputFile);
+    }
+
+    public void takeScreenshot(ActionEvent event) throws IOException {
+        String IMAGE_PATH = "src/main/resources/tmp/screenshot.png";
+        // save the image to tmp directory
+        Scene scene = ((Node) event.getSource()).getScene();
+        WritableImage img = new WritableImage(1490, 765);
+        scene.snapshot(img);
+        File imageFile = new File(IMAGE_PATH);
+        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(img, null);
+        ImageIO.write(bufferedImage, "png", imageFile);
+
+
+
+        JFileChooser jFileChooser = new JFileChooser();
+        jFileChooser.setDialogTitle("save your snapshot directory");
+        jFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int response = jFileChooser.showDialog(null, "save");
+        if (response == JFileChooser.APPROVE_OPTION) {
+            File destinationDirectory = jFileChooser.getSelectedFile();
+            saveImage(IMAGE_PATH, destinationDirectory);
+
+        }
+
     }
 }

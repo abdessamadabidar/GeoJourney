@@ -9,8 +9,6 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-
-
 public class WebApplication extends Application {
 
     public void start(Stage stage) {
@@ -49,6 +47,8 @@ public class WebApplication extends Application {
 
             stage.setScene(scene);
             stage.show();
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

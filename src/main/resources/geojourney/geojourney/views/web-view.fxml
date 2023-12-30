@@ -249,7 +249,7 @@
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/icons8-restart-48.png" />
+                        <Image url="@../assets/icons8-restart-64.png" />
                      </image>
                   </ImageView>
                </graphic>

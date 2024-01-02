@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class GeocodeAPI {
 
-    private final String KEY = "AIzaSyBGto3yQEzfnIeJaBaLI94Eht5aiD1DVzI";
+    private static final String KEY = System.getenv("GOOGLE_MAPS_API_KEY");
 
 
     public ArrayList<String> getAutocomplete(String searchValue) {
@@ -26,12 +26,12 @@ public class GeocodeAPI {
 
         assert location != null;
         String URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="
-                + handledSearchInput + "&location=" + location.get("lat") + "%2C" + location.get("lng") + "&radius=" + radius + "&strictbounds=true&key=";
+                + handledSearchInput + "&location=" + location.get("lat") + "%2C" + location.get("lng") + "&radius=" + radius + "&strictbounds=true&key=" + KEY;
 
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 
-            HttpGet request = new HttpGet(URL + KEY);
+            HttpGet request = new HttpGet(URL);
             request.addHeader("Content-Type", "application/json");
 
             try (CloseableHttpResponse response = httpClient.execute(request)) {

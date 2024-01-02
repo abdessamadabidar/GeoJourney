@@ -289,11 +289,11 @@ public class WebController implements Initializable {
     public void fetchRestaurants(ActionEvent event){
 
         try {
-            RestaurantsAPI restaurantsAPI = new RestaurantsAPI();
+            API api = new API();
             AtomicReference<ArrayList<Place>> restaurants = new AtomicReference<>(new ArrayList<>());
             CompletableFuture<Void> fetchTask = CompletableFuture.runAsync(() -> {
                 try {
-                    restaurants.set(restaurantsAPI.getPlacesDetails(restaurantsAPI.getPlacesId("restaurant")));
+                    restaurants.set(api.getPlacesDetails(api.getPlacesId("restaurant")));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -336,11 +336,11 @@ public class WebController implements Initializable {
     public void fetchBanks(ActionEvent event) {
 
         try {
-            BanksAPI banksAPI = new BanksAPI();
+            API api = new API();
             AtomicReference<ArrayList<Place>> banks = new AtomicReference<>(new ArrayList<>());
             CompletableFuture<Void> fetchTask = CompletableFuture.runAsync(() -> {
                 try {
-                    banks.set(banksAPI.getPlacesDetails(banksAPI.getPlacesId("bank")));
+                    banks.set(api.getPlacesDetails(api.getPlacesId("bank")));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -381,11 +381,11 @@ public class WebController implements Initializable {
     public void fetchHospitals(ActionEvent event) {
 
         try {
-            HospitalsAPI hospitalsAPI = new HospitalsAPI();
+            API api = new API();
             AtomicReference<ArrayList<Place>> hospitals = new AtomicReference<>(new ArrayList<>());
             CompletableFuture<Void> fetchTask = CompletableFuture.runAsync(() -> {
                 try {
-                    hospitals.set(hospitalsAPI.getPlacesDetails(hospitalsAPI.getPlacesId("hospital")));
+                    hospitals.set(api.getPlacesDetails(api.getPlacesId("hospital")));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

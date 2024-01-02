@@ -34,7 +34,7 @@
                </VBox.margin></Text>
             <TextFlow prefWidth="580.0">
                <children>
-                  <Text fx:id="description" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 200; fx-font-size: 16; -fx-fill: #403d39;" text="Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique,">
+                  <Text fx:id="description" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 200; fx-font-size: 16; -fx-fill: #403d39;" text="GeoJourney is a web-based application that provides a precise and smooth detection of any place around the world by using search technique, as well as locating hospitals, restaurants and banks those are near you based on where you are, technically based on the coordinates (latitude, longitude) of user’s current position.">
                      <stroke>
                         <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                            <stops>

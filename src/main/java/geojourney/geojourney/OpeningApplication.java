@@ -19,23 +19,21 @@ public class OpeningApplication extends Application {
 
 
             // CSS
-            String css = this.getClass().getResource("stylesheets/opening.css").toExternalForm();
+            String css = Objects.requireNonNull(this.getClass().getResource("stylesheets/opening.css")).toExternalForm();
             scene.getStylesheets().add(css);
 
 
             stage.setTitle("GeoJourney Application");
+            Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/geojourney/geojourney/assets/icons8-location-94.png")));
+            stage.getIcons().add(image);
             stage.setResizable(false);
+
 
 
 
             // set width & and height to stage
             stage.setWidth(1250);
             stage.setHeight(550);
-
-
-            // Add Icon
-//             Image image = new Image("./assets/icons8-location-94.png");
-//             stage.getIcons().add(image);
 
 
 

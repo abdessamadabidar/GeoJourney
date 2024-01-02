@@ -1,6 +1,6 @@
 
 // current position
-const POSITION = [35.173635, -3.865641]
+const CURRENT_POSITION = [35.173867226238855, -3.862133730680905]
 
 // custom pin icon
 const CUSTOM_ICON = L.icon({
@@ -14,11 +14,11 @@ const ZOOM_LEVEL = 7
 // custom map
 const MAP = L.map('map', {
     zoomControl: false
-}).setView(POSITION, ZOOM_LEVEL).setMinZoom(3);
+}).setView(CURRENT_POSITION, ZOOM_LEVEL).setMinZoom(3);
 
 
 // marker
-const marker = L.marker(POSITION, {icon: CUSTOM_ICON});
+const marker = L.marker(CURRENT_POSITION, {icon: CUSTOM_ICON});
 
 
 
@@ -183,8 +183,7 @@ function markHospitals(data) {
         L.circleMarker(latlng, {radius: 15, color: "#ff2e54"}).addTo(MAP)
 
     }
-    MAP.zoomIn(5);
-
+    MAP.flyTo(CURRENT_POSITION, 10)
 }
 
 
@@ -196,8 +195,7 @@ function markRestaurants(data) {
         L.circleMarker(latlng, {radius: 15, color: "#ff842f"}).addTo(MAP)
 
     }
-    MAP.zoomIn(5);
-
+    MAP.flyTo(CURRENT_POSITION, 10)
 }
 
 
@@ -210,7 +208,7 @@ function markBanks(data) {
         L.circleMarker(latlng, {radius: 15, color: "#1dd878"}).addTo(MAP)
 
     }
-    MAP.zoomIn(5);
+    MAP.flyTo(CURRENT_POSITION, 10)
 
 }
 
@@ -227,39 +225,7 @@ function locateMe() {
 }
 
 
-// function getCurrentCoordinates() {
-//     return navigator.geolocation.getCurrentPosition((position) => {
-//         return {"lat": position.coords.latitude, "lng": position.coords.longitude}
-//     })
-// }
 
-function getCurrentCoordinates() {
-    return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                resolve({"lat": position.coords.latitude, "lng": position.coords.longitude});
-            },
-            (error) => {
-                reject(error);
-            }
-        );
-    });
-}
-
-var coords = {}
-
-
-async function getPositionObject() {
-
-    try {
-        const promise = await getCurrentCoordinates().then((coordinates) => {
-            coords =  {"lat": coordinates.lat, "lng": coordinates.lng}
-        })
-
-    }
-    catch (error) {
-        console.log(error)
-    }
-}
+locateMe()
 
 

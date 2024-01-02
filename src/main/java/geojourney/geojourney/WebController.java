@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Rectangle2D;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -33,9 +33,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.FileSystem;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class WebController implements Initializable {
 
@@ -85,10 +87,11 @@ public class WebController implements Initializable {
 
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         webEngine = webView.getEngine();
-        webEngine.load(getClass().getResource("/web/index.html").toExternalForm());
+        webEngine.load(Objects.requireNonNull(getClass().getResource("/web/index.html")).toExternalForm());
 
         search.textProperty().addListener(((observableValue, oldValue, newValue) -> {
             clearSearchBtn.setVisible(!newValue.isEmpty());
@@ -103,6 +106,7 @@ public class WebController implements Initializable {
         webEngine.setJavaScriptEnabled(true);
         aside.setVisible(false);
         closePane.setVisible(false);
+        clearSearchBtn.setVisible(false);
 
         slider.setMin(0);
         slider.setMax(1000);
@@ -231,16 +235,24 @@ public class WebController implements Initializable {
     public void handleGeocode(ActionEvent event) {
         GeocodeAPI geocodeAPI = new GeocodeAPI();
         String searchValue = search.getText().trim();
+        AtomicReference<ArrayList<Location>> locations = new AtomicReference<>(new ArrayList<>());
         if (searchValue.length() > 2) {
             autocomplete_results.setVisible(true);
-            ArrayList<Location> locations = geocodeAPI.getPlaceDetails(geocodeAPI.getAutocomplete(searchValue));
-            for (Location location : locations) {
-                if (!location.isNoWhere()) {
-                    Button result = getResult(location);
-                    result.setOnAction(e -> {setMarker(location.getLatitude(), location.getLongitude());});
-                    autocomplete_results.getChildren().add(result);
-                }
-            }
+            CompletableFuture<Void> searchTask = CompletableFuture.runAsync(() -> {
+                locations.set(geocodeAPI.getPlaceDetails(geocodeAPI.getAutocomplete(searchValue)));
+            });
+            searchTask.thenRun(() -> {
+                Platform.runLater(() -> {
+                    for (Location location : locations.get()) {
+                        if (!location.isNoWhere()) {
+                            Button result = getResult(location);
+                            result.setOnAction(e -> {setMarker(location.getLatitude(), location.getLongitude());});
+                            autocomplete_results.getChildren().add(result);
+                        }
+                    }
+                });
+
+            });
 
 
         }
@@ -253,6 +265,8 @@ public class WebController implements Initializable {
 
         result.setStyle("-fx-background-color: transparent; -fx-fill: #353535; -fx-cursor: hand; -fx-font-family:  'Product Sans'");
         result.setPadding(new Insets(10, 20, 10, 20));
+        result.setPrefWidth(346);
+        result.setAlignment(Pos.CENTER_LEFT);
 
         result.setOnMouseEntered(e -> {
             result.setStyle("-fx-background-color: #e2e8f0; ");
@@ -272,32 +286,44 @@ public class WebController implements Initializable {
     }
 
     @FXML
-    public void fetchRestaurants(ActionEvent event) {
-        aside.setVisible(true);
-        place.setText("Restaurant");
-        place.setFill(Paint.valueOf("#ff842f"));
-        aside.setVisible(true);
-        closePane.setVisible(true);
+    public void fetchRestaurants(ActionEvent event){
+
         try {
             RestaurantsAPI restaurantsAPI = new RestaurantsAPI();
-            ArrayList<Place> restaurants = restaurantsAPI.getPlacesDetails(restaurantsAPI.getPlacesId("restaurant"));
-            placesList.getChildren().clear();
-            JSONArray coordinates = new JSONArray();
+            AtomicReference<ArrayList<Place>> restaurants = new AtomicReference<>(new ArrayList<>());
+            CompletableFuture<Void> fetchTask = CompletableFuture.runAsync(() -> {
+                try {
+                    restaurants.set(restaurantsAPI.getPlacesDetails(restaurantsAPI.getPlacesId("restaurant")));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            fetchTask.thenRun(() -> {
+                Platform.runLater(() -> {
+                    aside.setVisible(true);
+                    place.setText("Restaurant");
+                    place.setFill(Paint.valueOf("#ff842f"));
+                    aside.setVisible(true);
+                    closePane.setVisible(true);
+                    placesList.getChildren().clear();
+                    JSONArray coordinates = new JSONArray();
 
-            for (Place restaurant : restaurants) {
-                JSONObject location = new JSONObject();
-                location.put("lat", restaurant.getLatitude());
-                location.put("lng", restaurant.getLongitude());
-                location.put("name", restaurant.getName());
-                coordinates.add(location);
+                    for (Place restaurant : restaurants.get()) {
+                        JSONObject location = new JSONObject();
+                        location.put("lat", restaurant.getLatitude());
+                        location.put("lng", restaurant.getLongitude());
+                        location.put("name", restaurant.getName());
+                        coordinates.add(location);
+                        loadPlaceContainer(restaurant);
+                    }
 
-                loadPlaceContainer(restaurant);
-            }
+                    JSONObject data = new JSONObject();
+                    data.put("coordinates", coordinates);
 
-            JSONObject data = new JSONObject();
-            data.put("coordinates", coordinates);
+                    webEngine.executeScript("markRestaurants(" +  data + ")");
+                });
+            });
 
-            webEngine.executeScript("markRestaurants(" +  data + ")");
 
         }
         catch (Exception e) {
@@ -308,29 +334,42 @@ public class WebController implements Initializable {
 
     @FXML
     public void fetchBanks(ActionEvent event) {
-        aside.setVisible(true);
-        place.setText("Bank");
-        place.setFill(Paint.valueOf("#1dd878"));
-        closePane.setVisible(true);
+
         try {
             BanksAPI banksAPI = new BanksAPI();
-            ArrayList<Place> banks = banksAPI.getPlacesDetails(banksAPI.getPlacesId("bank"));
-            placesList.getChildren().clear();
-            JSONArray coordinates = new JSONArray();
+            AtomicReference<ArrayList<Place>> banks = new AtomicReference<>(new ArrayList<>());
+            CompletableFuture<Void> fetchTask = CompletableFuture.runAsync(() -> {
+                try {
+                    banks.set(banksAPI.getPlacesDetails(banksAPI.getPlacesId("bank")));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            fetchTask.thenRun(() -> {
+                Platform.runLater(() -> {
+                    aside.setVisible(true);
+                    place.setText("Bank");
+                    place.setFill(Paint.valueOf("#1dd878"));
+                    closePane.setVisible(true);
+                    placesList.getChildren().clear();
+                    JSONArray coordinates = new JSONArray();
 
-            for (Place bank : banks) {
-                JSONObject location = new JSONObject();
-                location.put("lat", bank.getLatitude());
-                location.put("lng", bank.getLongitude());
-                location.put("name", bank.getName());
-                coordinates.add(location);
-                loadPlaceContainer(bank);
-            }
+                    for (Place bank : banks.get()) {
+                        JSONObject location = new JSONObject();
+                        location.put("lat", bank.getLatitude());
+                        location.put("lng", bank.getLongitude());
+                        location.put("name", bank.getName());
+                        coordinates.add(location);
+                        loadPlaceContainer(bank);
+                    }
 
-            JSONObject data = new JSONObject();
-            data.put("coordinates", coordinates);
+                    JSONObject data = new JSONObject();
+                    data.put("coordinates", coordinates);
 
-            webEngine.executeScript("markBanks(" +  data + ")");
+                    webEngine.executeScript("markBanks(" +  data + ")");
+                });
+            });
+
 
         }
         catch (Exception e) {
@@ -340,29 +379,44 @@ public class WebController implements Initializable {
 
 
     public void fetchHospitals(ActionEvent event) {
-        aside.setVisible(true);
-        place.setText("Hospital");
-        place.setFill(Paint.valueOf("#ff2e54"));
-        closePane.setVisible(true);
+
         try {
             HospitalsAPI hospitalsAPI = new HospitalsAPI();
-            ArrayList<Place> hospitals = hospitalsAPI.getPlacesDetails(hospitalsAPI.getPlacesId("hospital"));
-            placesList.getChildren().clear();
-            JSONArray coordinates = new JSONArray();
+            AtomicReference<ArrayList<Place>> hospitals = new AtomicReference<>(new ArrayList<>());
+            CompletableFuture<Void> fetchTask = CompletableFuture.runAsync(() -> {
+                try {
+                    hospitals.set(hospitalsAPI.getPlacesDetails(hospitalsAPI.getPlacesId("hospital")));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
 
-            for (Place hospital : hospitals) {
-                JSONObject location = new JSONObject();
-                location.put("lat", hospital.getLatitude());
-                location.put("lng", hospital.getLongitude());
-                location.put("name", hospital.getName());
-                coordinates.add(location);
-                loadPlaceContainer(hospital);
-            }
+            fetchTask.thenRun(() -> {
+                Platform.runLater(() -> {
+                    aside.setVisible(true);
+                    closePane.setVisible(true);
+                    place.setText("Hospital");
+                    place.setFill(Paint.valueOf("#ff2e54"));
+                    placesList.getChildren().clear();
+                    JSONArray coordinates = new JSONArray();
 
-            JSONObject data = new JSONObject();
-            data.put("coordinates", coordinates);
+                    for (Place hospital : hospitals.get()) {
+                        JSONObject location = new JSONObject();
+                        location.put("lat", hospital.getLatitude());
+                        location.put("lng", hospital.getLongitude());
+                        location.put("name", hospital.getName());
+                        coordinates.add(location);
+                        loadPlaceContainer(hospital);
+                    }
 
-            webEngine.executeScript("markHospitals(" +  data + ")");
+                    JSONObject data = new JSONObject();
+                    data.put("coordinates", coordinates);
+
+                    webEngine.executeScript("markHospitals(" +  data + ")");
+                });
+            });
+
+
 
         }
         catch (Exception e) {
@@ -370,21 +424,32 @@ public class WebController implements Initializable {
         }
     }
 
-    public void loadPlaceContainer(Place place) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/components/place-container.fxml"));
-        VBox restaurant = fxmlLoader.load();
-        if (restaurant != null) {
-            PlaceController placeController = fxmlLoader.getController();
-            placeController.setData(place);
-            placesList.getChildren().add(restaurant);
+    public void loadPlaceContainer(Place place)  {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/components/place-container.fxml"));
+            VBox restaurant = fxmlLoader.load();
+            if (restaurant != null) {
+                PlaceController placeController = fxmlLoader.getController();
+                placeController.setData(place);
+                placesList.getChildren().add(restaurant);
+            }
         }
+       catch (IOException e) {
+           System.out.println(e.getMessage());
+       }
 
     }
 
-    public void goBack(ActionEvent event) {
+    public void goBack(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(OpeningApplication.class.getResource("views/opening-view.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        OpeningApplication openingApplication = new OpeningApplication();
-        openingApplication.start(stage);
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setWidth(1250);
+        stage.setHeight(550);
+        stage.setScene(scene);
+        String css = Objects.requireNonNull(this.getClass().getResource("stylesheets/opening.css")).toExternalForm();
+        scene.getStylesheets().add(css);
+        stage.show();
     }
 
     public void saveImage(String imagePath, File distDir) throws IOException {
@@ -402,7 +467,6 @@ public class WebController implements Initializable {
 
     public void takeScreenshot(ActionEvent event) throws IOException {
         String IMAGE_PATH = "src/main/resources/tmp/screenshot.png";
-
 
         // save the image to tmp directory
         Scene scene = ((Node) event.getSource()).getScene();

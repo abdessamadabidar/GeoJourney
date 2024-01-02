@@ -17,13 +17,16 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class API {
-    protected final String KEY = "AIzaSyBGto3yQEzfnIeJaBaLI94Eht5aiD1DVzI";
+    protected static final String KEY = System.getenv("GOOGLE_MAPS_API_KEY");
+    private static final double LATITUDE = 35.173867226238855;
+    private static final double LONGITUDE = -3.862133730680905;
+    private static final int RADIUS = 15000;
 
     public ArrayList<String> getPlacesId(String type) throws IOException {
-        String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=40.416775%2C-3.703790&radius=5000&type=" + type +"&key=";
+        String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + LATITUDE + "%2C" + LONGITUDE + "&radius=" + RADIUS + "&type=" + type +"&key=" + KEY;
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 
-            HttpGet request = new HttpGet(URL + KEY);
+            HttpGet request = new HttpGet(URL);
             request.addHeader("Content-Type", "application/json");
 
             try (CloseableHttpResponse response = httpClient.execute(request)) {

@@ -5,3 +5,33 @@
 }
 
 #map { height: 100vh; }
+
+
+.tooltip-container {
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    max-width: 320px;
+    border-radius: 20px;
+
+}
+
+.tooltip-container__flex {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.tooltip-container__flex__item {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.tooltip-item-text {
+    font-family: 'Product Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #252422;
+    text-wrap: normal;
+}

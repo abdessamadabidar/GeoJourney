@@ -1,6 +1,6 @@
 #aside {
     -fx-background-radius: 10;
-    -fx-background-color: #f8f9fa;
+    -fx-background-color: transparent;
     -fx-scale-z: 9999999;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
 }
@@ -177,6 +177,7 @@
 
 #placesList {
     -fx-background-radius: 10;
+    -fx-background-color: transparent;
 }
 
 /* styles.css */

@@ -23,7 +23,7 @@ public class API {
     private static final int RADIUS = 15000;
 
     public ArrayList<String> getPlacesId(String type) throws IOException {
-        String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + LATITUDE + "%2C" + LONGITUDE + "&radius=" + RADIUS + "&type=" + type +"&key=" + KEY;
+        String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + LATITUDE + "%2C" + LONGITUDE + "&radius=" + RADIUS + "&type=" + type + "&key=" + KEY;
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 
             HttpGet request = new HttpGet(URL);

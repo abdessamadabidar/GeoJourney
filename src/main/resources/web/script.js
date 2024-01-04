@@ -91,9 +91,7 @@ function setSatellite() {
     MAP.addLayer(googleSat);
 }
 
-//Locate
-const locate = L.control.locate({flyTo: true}).addTo(MAP);
-locate.getContainer().style.display = 'none';
+
 
 
 
@@ -174,12 +172,43 @@ const bankIcon = L.icon({
     popupAnchor: [-3, -76],
 });
 
+function displayPlaceCard(name, rating, ratingTotal, address, phone, isOpenNow) {
+    return `<div class="tooltip-container__flex">` +
+                `<div class="tooltip-container__flex__item">` +
+                    `<img src="images/icons8-accueil-24.png" />` +
+                    `<span class="tooltip-item-text">${name}</span>` +
+                `</div>` +
+                `<div class="tooltip-container__flex__item">` +
+                    `<img src="images/icons8-étoile-24.png" />` +
+                    `<span class="tooltip-item-text">${rating} / ${ratingTotal}</span>` +
+                `</div>` +
+                `<div class="tooltip-container__flex__item">` +
+                    `<img src="images/icons8-adresse-24.png" />` +
+                    `<span class="tooltip-item-text">${address}</span>` +
+                `</div>` +
+                `<div class="tooltip-container__flex__item">` +
+                    `<img src="images/icons8-téléphone-24.png" />` +
+                    phone +
+                `</div>` +
+                `<div class="tooltip-container__flex__item">` +
+                    `<img src="images/icons8-horloge-24.png" />` +
+                    isOpenNow +
+                `</div>` +
+        `</div>`
+}
 
 function markHospitals(data) {
     const coordinates = data["coordinates"];
     for (index in coordinates) {
         const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
-        L.marker(latlng, {icon: hospitalIcon}).bindTooltip(coordinates[index].name).openTooltip().addTo(MAP);
+        let isOpenNow = ''
+        if (coordinates[index].isOpenNow) isOpenNow = '<span class="tooltip-item-text" style="color: forestgreen">Open</span>'
+        else isOpenNow = '<span class="tooltip-item-text" style="color: tomato">Close</span>'
+        let phoneNumber = '';
+        if (coordinates[index].phone === null) phoneNumber = '<span class="tooltip-item-text">00 00 00 00 00</span>'
+        else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
+
+        L.marker(latlng, {icon: hospitalIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
         L.circleMarker(latlng, {radius: 15, color: "#ff2e54"}).addTo(MAP)
 
     }
@@ -191,7 +220,14 @@ function markRestaurants(data) {
     const coordinates = data["coordinates"];
     for (index in coordinates) {
         const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
-        L.marker(latlng, {icon: restaurantIcon}).bindTooltip(coordinates[index].name).openTooltip().addTo(MAP);
+        let isOpenNow = ''
+        if (coordinates[index].isOpenNow) isOpenNow = '<span class="tooltip-item-text" style="color: forestgreen">Open</span>'
+        else isOpenNow = '<span class="tooltip-item-text" style="color: tomato">Close</span>'
+        let phoneNumber = '';
+        if (coordinates[index].phone === null) phoneNumber = '<span class="tooltip-item-text">00 00 00 00 00</span>'
+        else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
+
+        L.marker(latlng, {icon: restaurantIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
         L.circleMarker(latlng, {radius: 15, color: "#ff842f"}).addTo(MAP)
 
     }
@@ -200,16 +236,22 @@ function markRestaurants(data) {
 
 
 
+
 function markBanks(data) {
     const coordinates = data["coordinates"];
     for (index in coordinates) {
         const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
-        L.marker(latlng, {icon: bankIcon}).bindTooltip(coordinates[index].name).openTooltip().addTo(MAP);
+        let isOpenNow = ''
+        if (coordinates[index].isOpenNow) isOpenNow = '<span class="tooltip-item-text" style="color: forestgreen">Open</span>'
+        else isOpenNow = '<span class="tooltip-item-text" style="color: tomato">Close</span>'
+        let phoneNumber = '';
+        if (coordinates[index].phone === null) phoneNumber = '<span class="tooltip-item-text">00 00 00 00 00</span>'
+        else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
+        L.marker(latlng, {icon: bankIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
         L.circleMarker(latlng, {radius: 15, color: "#1dd878"}).addTo(MAP)
 
     }
     MAP.flyTo(CURRENT_POSITION, 10)
-
 }
 
 function setMarkerOnMyCurrentPosition(position) {
@@ -221,11 +263,23 @@ function setMarkerOnMyCurrentPosition(position) {
 
 
 function locateMe() {
-    navigator.geolocation.getCurrentPosition(setMarkerOnMyCurrentPosition)
+    // Note : No permissions allowed in JavaFx
+    // navigator.geolocation.getCurrentPosition(setMarkerOnMyCurrentPosition)
+    // Static locating
+    const latlng = new L.LatLng(35.173867226238855, -3.862133730680905)
+    L.marker(latlng, {icon: simpleIcon}).addTo(MAP);
+    circleMarker =  L.circleMarker(latlng, {radius: 20}).addTo(MAP);
+    MAP.flyTo(latlng, 15)
 }
 
 
 
-locateMe()
 
+const route = L.Routing.control({
+    waypoints: [
+        L.latLng(35.136891459450766, -3.8735033658682374),
+        L.latLng(35.13752515730887, -3.848766388816785)
+    ],
+
+}).addTo(MAP);
 

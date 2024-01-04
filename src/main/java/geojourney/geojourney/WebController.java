@@ -53,11 +53,6 @@ public class WebController implements Initializable {
 
     @FXML
     private Button clearSearchBtn;
-
-    @FXML
-    private Button closePane;
-    @FXML
-    private Pane aside;
     @FXML
     private RadioButton osm;
     @FXML
@@ -74,8 +69,6 @@ public class WebController implements Initializable {
     private VBox autocomplete_results;
     @FXML
     private Button geocodeBtn;
-    @FXML
-    private VBox placesList;
     @FXML
     private Text place;
     @FXML
@@ -104,8 +97,6 @@ public class WebController implements Initializable {
         radioGroup.setVisible(false);
         autocomplete_results.setVisible(false);
         webEngine.setJavaScriptEnabled(true);
-        aside.setVisible(false);
-        closePane.setVisible(false);
         clearSearchBtn.setVisible(false);
 
         slider.setMin(0);
@@ -124,11 +115,6 @@ public class WebController implements Initializable {
         });
 
 
-        closePane.setOnAction(e -> {
-            aside.setVisible(false);
-            webEngine.executeScript("removeMarkers(); removeCircles();");
-            closePane.setVisible(false);
-        });
 
 
         shutdown.setOnAction(e -> {
@@ -137,8 +123,6 @@ public class WebController implements Initializable {
 
         restart.setOnAction(e -> {
             webEngine.executeScript("removeMarkers(); removeCircles();");
-            aside.setVisible(false);
-            closePane.setVisible(false);
         });
 
 
@@ -150,10 +134,7 @@ public class WebController implements Initializable {
 
 
 
-    public void hideAsidePane(ActionEvent event) {
-        closePane.setVisible(false);
-        aside.setVisible(false);
-    }
+
 
     public void clearSearch(ActionEvent event) {
         search.clear();
@@ -300,12 +281,6 @@ public class WebController implements Initializable {
             });
             fetchTask.thenRun(() -> {
                 Platform.runLater(() -> {
-                    aside.setVisible(true);
-                    place.setText("Restaurant");
-                    place.setFill(Paint.valueOf("#ff842f"));
-                    aside.setVisible(true);
-                    closePane.setVisible(true);
-                    placesList.getChildren().clear();
                     JSONArray coordinates = new JSONArray();
 
                     for (Place restaurant : restaurants.get()) {
@@ -313,8 +288,12 @@ public class WebController implements Initializable {
                         location.put("lat", restaurant.getLatitude());
                         location.put("lng", restaurant.getLongitude());
                         location.put("name", restaurant.getName());
+                        location.put("rating", restaurant.getRating());
+                        location.put("totalRating", restaurant.getTotalRating());
+                        location.put("isOpenNow", restaurant.getOpenNow());
+                        location.put("phone", restaurant.getPhone());
+                        location.put("address", restaurant.getAddress());
                         coordinates.add(location);
-                        loadPlaceContainer(restaurant);
                     }
 
                     JSONObject data = new JSONObject();
@@ -347,11 +326,6 @@ public class WebController implements Initializable {
             });
             fetchTask.thenRun(() -> {
                 Platform.runLater(() -> {
-                    aside.setVisible(true);
-                    place.setText("Bank");
-                    place.setFill(Paint.valueOf("#1dd878"));
-                    closePane.setVisible(true);
-                    placesList.getChildren().clear();
                     JSONArray coordinates = new JSONArray();
 
                     for (Place bank : banks.get()) {
@@ -359,8 +333,13 @@ public class WebController implements Initializable {
                         location.put("lat", bank.getLatitude());
                         location.put("lng", bank.getLongitude());
                         location.put("name", bank.getName());
+                        location.put("rating", bank.getRating());
+                        location.put("totalRating", bank.getTotalRating());
+                        location.put("isOpenNow", bank.getOpenNow());
+                        location.put("phone", bank.getPhone());
+                        location.put("address", bank.getAddress());
                         coordinates.add(location);
-                        loadPlaceContainer(bank);
+
                     }
 
                     JSONObject data = new JSONObject();
@@ -393,11 +372,6 @@ public class WebController implements Initializable {
 
             fetchTask.thenRun(() -> {
                 Platform.runLater(() -> {
-                    aside.setVisible(true);
-                    closePane.setVisible(true);
-                    place.setText("Hospital");
-                    place.setFill(Paint.valueOf("#ff2e54"));
-                    placesList.getChildren().clear();
                     JSONArray coordinates = new JSONArray();
 
                     for (Place hospital : hospitals.get()) {
@@ -405,8 +379,12 @@ public class WebController implements Initializable {
                         location.put("lat", hospital.getLatitude());
                         location.put("lng", hospital.getLongitude());
                         location.put("name", hospital.getName());
+                        location.put("rating", hospital.getRating());
+                        location.put("totalRating", hospital.getTotalRating());
+                        location.put("isOpenNow", hospital.getOpenNow());
+                        location.put("phone", hospital.getPhone());
+                        location.put("address", hospital.getAddress());
                         coordinates.add(location);
-                        loadPlaceContainer(hospital);
                     }
 
                     JSONObject data = new JSONObject();
@@ -422,22 +400,6 @@ public class WebController implements Initializable {
         catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public void loadPlaceContainer(Place place)  {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/components/place-container.fxml"));
-            VBox restaurant = fxmlLoader.load();
-            if (restaurant != null) {
-                PlaceController placeController = fxmlLoader.getController();
-                placeController.setData(place);
-                placesList.getChildren().add(restaurant);
-            }
-        }
-       catch (IOException e) {
-           System.out.println(e.getMessage());
-       }
-
     }
 
     public void goBack(ActionEvent event) throws IOException {

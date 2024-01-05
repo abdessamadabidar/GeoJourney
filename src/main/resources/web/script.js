@@ -2,11 +2,6 @@
 // current position
 const CURRENT_POSITION = [35.173867226238855, -3.862133730680905]
 
-// custom pin icon
-const CUSTOM_ICON = L.icon({
-    iconUrl: 'images/icons8-pin-48.png',
-    iconSize:     [32, 32],
-});
 
 // zoom level
 const ZOOM_LEVEL = 7
@@ -15,10 +10,6 @@ const ZOOM_LEVEL = 7
 const MAP = L.map('map', {
     zoomControl: false
 }).setView(CURRENT_POSITION, ZOOM_LEVEL).setMinZoom(3);
-
-
-// marker
-const marker = L.marker(CURRENT_POSITION, {icon: CUSTOM_ICON});
 
 
 
@@ -64,11 +55,8 @@ const baseLayers = {
     "Google Terrain": googleTerrain
 };
 
-const overlays = {
-    "Marker": marker,
-};
+// const baseLayer = L.control.layers(baseLayers).addTo(MAP);
 
-L.control.layers(baseLayers, overlays).addTo(MAP);
 
 
 function setZoom(id) {
@@ -118,6 +106,22 @@ const removeCircles = () => {
     })
 }
 
+const removePolylines = () => {
+    MAP.eachLayer(layer => {
+        if(layer instanceof L.Polyline) {
+            layer.remove()
+            console.log('ffff')
+        }
+    })
+}
+
+const removeRoutingContainer = () => {
+    let conatiner = document.querySelector(".leaflet-routing-container");
+    if (conatiner !== null) {
+        conatiner.remove()
+    }
+
+}
 
 
 const simpleIcon = L.icon({
@@ -216,7 +220,8 @@ function markHospitals(data) {
 }
 
 
-function markRestaurants(data) {
+function markRestaurants(data, radius) {
+    removeCircles()
     const coordinates = data["coordinates"];
     for (index in coordinates) {
         const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
@@ -228,7 +233,7 @@ function markRestaurants(data) {
         else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
 
         L.marker(latlng, {icon: restaurantIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
-        L.circleMarker(latlng, {radius: 15, color: "#ff842f"}).addTo(MAP)
+        L.circleMarker(latlng, {radius: radius, color: "#ff842f"}).addTo(MAP)
 
     }
     MAP.flyTo(CURRENT_POSITION, 10)
@@ -273,13 +278,17 @@ function locateMe() {
 }
 
 
+function drawRoute(data) {
+    let src = data['src']
+    let dist = data['dist']
+    const srcMarker = L.marker([src.lat, src.lng]).addTo(MAP);
+    const distMarker = L.marker([dist.lat, dist.lng]).addTo(MAP);
+    L.Routing.control({
+        waypoints: [
+            L.latLng(src.lat, src.lng),
+            L.latLng(dist.lat, dist.lng)
+        ]
+    }).addTo(MAP)
+}
 
-
-const route = L.Routing.control({
-    waypoints: [
-        L.latLng(35.136891459450766, -3.8735033658682374),
-        L.latLng(35.13752515730887, -3.848766388816785)
-    ],
-
-}).addTo(MAP);
 

@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
@@ -12,17 +13,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="809.0" prefWidth="1839.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="geojourney.geojourney.WebController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="1436.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="geojourney.geojourney.WebController">
     <children>
-        <WebView fx:id="webView" layoutX="-2.0" layoutY="2.0" prefHeight="809.0" prefWidth="1839.0" style="-fx-page-fill: #353535;">
+        <WebView fx:id="webView" layoutY="-1.0" prefHeight="766.0" prefWidth="1489.0" style="-fx-page-fill: #353535;">
          <cursor>
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </WebView>
       <TextField fx:id="search" layoutX="1326.0" layoutY="28.0" prefHeight="44.0" prefWidth="346.0" promptText="search" style="-fx-border-width: 0; -fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0); -fx-font-size: 14; -fx-font-family: 'Poppins', sans-serif; -fx-padding: 10 20; -fx-text-fill: #495057; -fx-font-weight: 600;" AnchorPane.rightAnchor="166.5999999999999" AnchorPane.topAnchor="28.0" />
-      <Button fx:id="clearSearchBtn" layoutX="1616.0" layoutY="36.0" minHeight="-Infinity" minWidth="36.0" mnemonicParsing="false" onAction="#clearSearch" prefHeight="27.0" prefWidth="36.0" style="-fx-background-color: transparent;" styleClass="close" AnchorPane.rightAnchor="169.4" AnchorPane.topAnchor="36.0">
+      <Button fx:id="clearSearchBtn" layoutX="1020.9999999999999" layoutY="36.0" minHeight="-Infinity" minWidth="36.0" mnemonicParsing="false" onAction="#clearSearch" prefHeight="27.0" prefWidth="36.0" style="-fx-background-color: transparent;" styleClass="close" AnchorPane.rightAnchor="205.4000000000001" AnchorPane.topAnchor="36.0">
          <graphic>
             <ImageView fitHeight="15.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -68,7 +71,20 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
+            <Button fx:id="route" layoutX="119.0" layoutY="10.0" mnemonicParsing="false" onAction="#openRouting" prefHeight="44.0" prefWidth="54.0">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-route-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
             <Slider fx:id="slider" prefHeight="24.0" prefWidth="210.0" />
+            <Label fx:id="radiusValue" prefHeight="18.0" prefWidth="59.0" style="-fx-text-fill: #2B67FF; -fx-font-weight: bold;" text="0 m" />
             <Button fx:id="layers" mnemonicParsing="false" onAction="#showLayers" prefHeight="44.0" prefWidth="54.0">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
@@ -171,11 +187,11 @@
          </children>
       </HBox>
       <VBox fx:id="autocomplete_results" layoutX="1219.0" layoutY="87.0" prefHeight="0.0" prefWidth="346.0" AnchorPane.rightAnchor="166.0" />
-      <Button fx:id="geocodeBtn" layoutX="1669.6" layoutY="26.0" minWidth="44.0" mnemonicParsing="false" onAction="#handleGeocode" prefHeight="44.0" prefWidth="54.0" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="28.0">
+      <Button fx:id="searchBtn" layoutX="1619.0" layoutY="35.0" minWidth="31.0" mnemonicParsing="false" onAction="#handleGeocode" prefHeight="35.0" prefWidth="35.0" style="-fx-background-radius: 30;" AnchorPane.rightAnchor="171.4000000000001" AnchorPane.topAnchor="32.0">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/icons8-search-50.png" />
+                  <Image url="@../assets/icons8-chercher-48.png" />
                </image>
             </ImageView>
          </graphic></Button>
@@ -210,5 +226,45 @@
             </Button>
          </children>
       </HBox>
+      <HBox fx:id="alert" alignment="CENTER_LEFT" layoutX="498.0" layoutY="519.0" prefHeight="51.0" prefWidth="537.0" spacing="10.0" AnchorPane.bottomAnchor="108.0" AnchorPane.rightAnchor="292.0">
+         <children>
+            <ImageView fitHeight="21.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/icons8-erreur-30.png" />
+               </image>
+            </ImageView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #FF1E1E;" text="No address found" wrappingWidth="269.9830951690674">
+               <font>
+                  <Font size="16.0" />
+               </font></Text>
+         </children>
+      </HBox>
+      <VBox fx:id="formContainer" alignment="CENTER" layoutX="81.0" layoutY="148.0" prefWidth="339.0" spacing="5.0" AnchorPane.leftAnchor="24.0">
+         <children>
+            <TextField fx:id="source" prefHeight="44.0" prefWidth="251.0" promptText="Source" style="-fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0); -fx-font-size: 14; -fx-font-family: 'Poppins', sans-serif; -fx-padding: 10 20; -fx-text-fill: #495057; -fx-font-weight: 600;" />
+            <TextField fx:id="destination" prefHeight="44.0" prefWidth="251.0" promptText="Destination" style="-fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0); -fx-font-size: 14; -fx-font-family: 'Poppins', sans-serif; -fx-padding: 10 20; -fx-text-fill: #495057; -fx-font-weight: 600;">
+               <VBox.margin>
+                  <Insets bottom="15.0" top="10.0" />
+               </VBox.margin></TextField>
+            <Button fx:id="routeBtn" mnemonicParsing="false" onAction="#getRoute" prefHeight="44.0" prefWidth="340.0" text="Get Route" />
+            <Button fx:id="removeRoute" layoutX="10.0" layoutY="138.0" mnemonicParsing="false" onAction="#cancelRoute" prefHeight="44.0" prefWidth="343.0" text="Cancel">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="closeForm" layoutX="10.0" layoutY="187.0" minWidth="34.0" mnemonicParsing="false" onAction="#closeRouting" prefHeight="32.0" prefWidth="34.0">
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-close-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
     </children>
 </AnchorPane>

@@ -17,7 +17,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class API {
-    protected static final String KEY = System.getenv("GOOGLE_MAPS_API_KEY");
+//    protected static final String KEY = System.getenv("GOOGLE_MAPS_API_KEY");
+    protected static final String KEY = OpeningController.GOOGLE_MAPS_API_KEY;
     private static final double LATITUDE = 35.173867226238855;
     private static final double LONGITUDE = -3.862133730680905;
     private static final int RADIUS = 15000;

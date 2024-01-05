@@ -1,5 +1,7 @@
 package geojourney.geojourney;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,18 +14,15 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -37,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class WebController implements Initializable {
@@ -68,8 +68,6 @@ public class WebController implements Initializable {
     @FXML
     private VBox autocomplete_results;
     @FXML
-    private Button geocodeBtn;
-    @FXML
     private Text place;
     @FXML
     private Button shutdown;
@@ -77,7 +75,20 @@ public class WebController implements Initializable {
     private Button restart;
     @FXML
     private Button back;
+    @FXML
+    private HBox alert;
+    private Timeline alertTimeline;
 
+    @FXML
+    private TextField source;
+    @FXML
+    private TextField destination;
+    @FXML
+    private Label radiusValue;
+    @FXML
+    private VBox formContainer;
+
+    private double radius;
 
 
 
@@ -94,25 +105,31 @@ public class WebController implements Initializable {
                 autocomplete_results.setVisible(false);
             }
         }));
+
+        formContainer.setVisible(false);
         radioGroup.setVisible(false);
         autocomplete_results.setVisible(false);
         webEngine.setJavaScriptEnabled(true);
         clearSearchBtn.setVisible(false);
 
         slider.setMin(0);
-        slider.setMax(1000);
-        slider.setValue(50);
-        slider.setMajorTickUnit(100);
-        slider.setMinorTickCount(50);
+        slider.setMax(50);
+        slider.setValue(0);
+        slider.setMajorTickUnit(2);
+        slider.setMinorTickCount(1);
 
-
+        alert.setVisible(false);
+        alertTimeline = new Timeline(new KeyFrame(Duration.seconds(3), this::hideAlert));
 
         slider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                radius = newValue.doubleValue();
+                radiusValue.setText(String.format("%.1f", newValue) + " m");
                 webEngine.executeScript("changeCircleRadius(" + newValue + ")");
             }
         });
+
 
 
 
@@ -122,9 +139,8 @@ public class WebController implements Initializable {
         });
 
         restart.setOnAction(e -> {
-            webEngine.executeScript("removeMarkers(); removeCircles();");
+            webEngine.executeScript("removeMarkers(); removeCircles(); removePolylines(); removeRoutingContainer();");
         });
-
 
 
 
@@ -211,26 +227,47 @@ public class WebController implements Initializable {
         webEngine.executeScript("setSatellite();");
     }
 
+    private void hideAlert(ActionEvent event) {
+        alert.setVisible(false);
+    }
+
+
 
     @FXML
     public void handleGeocode(ActionEvent event) {
+        AtomicBoolean resultIsFound = new AtomicBoolean(true);
         GeocodeAPI geocodeAPI = new GeocodeAPI();
         String searchValue = search.getText().trim();
         AtomicReference<ArrayList<Location>> locations = new AtomicReference<>(new ArrayList<>());
         if (searchValue.length() > 2) {
             autocomplete_results.setVisible(true);
+
             CompletableFuture<Void> searchTask = CompletableFuture.runAsync(() -> {
-                locations.set(geocodeAPI.getPlaceDetails(geocodeAPI.getAutocomplete(searchValue)));
+                ArrayList<Location> locationArrayList = geocodeAPI.getPlaceDetails(geocodeAPI.getAutocomplete(searchValue));
+                if (locationArrayList == null) resultIsFound.set(false);
+                locations.set(locationArrayList);
+
             });
             searchTask.thenRun(() -> {
                 Platform.runLater(() -> {
-                    for (Location location : locations.get()) {
-                        if (!location.isNoWhere()) {
-                            Button result = getResult(location);
-                            result.setOnAction(e -> {setMarker(location.getLatitude(), location.getLongitude());});
-                            autocomplete_results.getChildren().add(result);
+
+                    if (!resultIsFound.get()) {
+                        alert.setVisible(true);
+                        alertTimeline.play();
+                    }
+                    else {
+                        for (Location location : locations.get()) {
+                            if (!location.isNoWhere()) {
+                                Button result = getResult(location);
+                                result.setOnAction(e -> {setMarker(location.getLatitude(), location.getLongitude());});
+                                autocomplete_results.getChildren().add(result);
+                            }
                         }
                     }
+
+
+
+
                 });
 
             });
@@ -299,7 +336,7 @@ public class WebController implements Initializable {
                     JSONObject data = new JSONObject();
                     data.put("coordinates", coordinates);
 
-                    webEngine.executeScript("markRestaurants(" +  data + ")");
+                    webEngine.executeScript("markRestaurants(" +  data + ", " + radius + ")");
                 });
             });
 
@@ -451,4 +488,48 @@ public class WebController implements Initializable {
         }
 
     }
+
+
+
+    @FXML
+    public void getRoute(ActionEvent event) {
+        String src = source.getText();
+        String dist = destination.getText();
+
+        if (!src.isEmpty() && !dist.isEmpty() && src.length()>2 && dist.length()>2) {
+            String formattedSourceQuery = src.replaceAll(" ", "%20");
+            String formattedDestinationQuery = dist.replaceAll(" ", "%20");
+
+            GeocodeAPI geocodeAPI = new GeocodeAPI();
+            JSONObject srcJSON = geocodeAPI.getCoordinates(formattedSourceQuery);
+            JSONObject distJSON  = geocodeAPI.getCoordinates(formattedDestinationQuery);
+
+            if (srcJSON != null && distJSON != null) {
+
+                JSONObject data = new JSONObject();
+                data.put("src", srcJSON);
+                data.put("dist", distJSON);
+
+//                System.out.println(data);
+
+                webEngine.executeScript("drawRoute(" + data + ");");
+
+            }
+
+
+        }
+
+    }
+
+    public void cancelRoute(ActionEvent event) {
+        webEngine.executeScript("removePolylines(); removeMarkers(); removeRoutingContainer();");
+    }
+
+    public void openRouting(ActionEvent event) {
+        formContainer.setVisible(true);
+    }
+    public void closeRouting(ActionEvent event) {
+        formContainer.setVisible(false);
+    }
+
 }

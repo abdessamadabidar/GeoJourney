@@ -26,7 +26,7 @@ public class OpeningApplication extends Application {
             stage.setTitle("GeoJourney Application");
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/geojourney/geojourney/assets/icons8-location-94.png")));
             stage.getIcons().add(image);
-            stage.setResizable(false);
+//            stage.setResizable(false);
 
 
 

@@ -52,3 +52,20 @@
     -fx-font-style: italic;
     -fx-font-size: 14;
 }
+#apiKey {
+    -fx-background-radius: 30;
+    -fx-border-width: 0;
+    -fx-background-color: #f8f9fa;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0);
+    -fx-font-size: 14;
+    -fx-font-family: 'Product Sans', sans-serif;
+    -fx-padding:  12 15;
+    -fx-text-fill:  #403d39;
+    -fx-font-weight: 600;
+}
+
+#alert {
+    -fx-background-color: #fff0f3;
+    -fx-background-radius: 10;
+    -fx-padding: 5 10;
+}

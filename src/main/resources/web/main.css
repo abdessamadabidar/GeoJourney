@@ -35,3 +35,10 @@
     color: #252422;
     text-wrap: normal;
 }
+
+.leaflet-routing-container {
+    /*position: absolute;*/
+    top: 100px;
+    /*display: none;*/
+}
+

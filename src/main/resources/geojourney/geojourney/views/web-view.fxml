@@ -157,7 +157,7 @@
       </VBox>
       <HBox alignment="CENTER" layoutX="844.0" layoutY="33.0" prefHeight="34.0" prefWidth="378.0" spacing="15.0" AnchorPane.rightAnchor="616.5999999999999" AnchorPane.topAnchor="33.0">
          <children>
-            <Button fx:id="restaurantsBtn" mnemonicParsing="false" onAction="#fetchRestaurants" style="-fx-background-radius: 30;" text="Resaurants">
+            <Button fx:id="restaurantsBtn" mnemonicParsing="false" style="-fx-background-radius: 30;" text="Resaurants">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -166,7 +166,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="hospitalsBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#fetchHospitals" prefHeight="34.0" prefWidth="118.0" style="-fx-background-radius: 30;" text="Hospitals">
+            <Button fx:id="hospitalsBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="118.0" style="-fx-background-radius: 30;" text="Hospitals">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -175,7 +175,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="banksBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" onAction="#fetchBanks" prefHeight="34.0" prefWidth="92.0" style="-fx-background-radius: 30;" text="Banks">
+            <Button fx:id="banksBtn" layoutX="201.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="92.0" style="-fx-background-radius: 30;" text="Banks">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -226,20 +226,23 @@
             </Button>
          </children>
       </HBox>
-      <HBox fx:id="alert" alignment="CENTER_LEFT" layoutX="498.0" layoutY="519.0" prefHeight="51.0" prefWidth="537.0" spacing="10.0" AnchorPane.bottomAnchor="108.0" AnchorPane.rightAnchor="292.0">
+      <HBox fx:id="alert" alignment="CENTER_LEFT" layoutX="498.0" layoutY="519.0" prefHeight="51.0" prefWidth="650.0" spacing="10.0" AnchorPane.bottomAnchor="108.0" AnchorPane.rightAnchor="292.0">
          <children>
             <ImageView fitHeight="21.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/icons8-erreur-30.png" />
                </image>
             </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #FF1E1E;" text="No address found" wrappingWidth="269.9830951690674">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #FF1E1E;" text="No address found" wrappingWidth="571.583101272583">
                <font>
                   <Font size="16.0" />
                </font></Text>
          </children>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
       </HBox>
-      <VBox fx:id="formContainer" alignment="CENTER" layoutX="81.0" layoutY="148.0" prefWidth="339.0" spacing="5.0" AnchorPane.leftAnchor="24.0">
+      <VBox fx:id="formContainer" alignment="CENTER" layoutX="512.0" layoutY="248.0" prefHeight="294.0" prefWidth="339.0" spacing="5.0" AnchorPane.bottomAnchor="186.0" AnchorPane.leftAnchor="512.0" AnchorPane.rightAnchor="585.0" AnchorPane.topAnchor="248.0">
          <children>
             <TextField fx:id="source" prefHeight="44.0" prefWidth="251.0" promptText="Source" style="-fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0); -fx-font-size: 14; -fx-font-family: 'Poppins', sans-serif; -fx-padding: 10 20; -fx-text-fill: #495057; -fx-font-weight: 600;" />
             <TextField fx:id="destination" prefHeight="44.0" prefWidth="251.0" promptText="Destination" style="-fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0); -fx-font-size: 14; -fx-font-family: 'Poppins', sans-serif; -fx-padding: 10 20; -fx-text-fill: #495057; -fx-font-weight: 600;">
@@ -250,18 +253,6 @@
             <Button fx:id="removeRoute" layoutX="10.0" layoutY="138.0" mnemonicParsing="false" onAction="#cancelRoute" prefHeight="44.0" prefWidth="343.0" text="Cancel">
                <VBox.margin>
                   <Insets top="5.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="closeForm" layoutX="10.0" layoutY="187.0" minWidth="34.0" mnemonicParsing="false" onAction="#closeRouting" prefHeight="32.0" prefWidth="34.0">
-               <graphic>
-                  <ImageView fitHeight="18.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons8-close-50.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <VBox.margin>
-                  <Insets top="10.0" />
                </VBox.margin>
             </Button>
          </children>

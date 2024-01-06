@@ -137,8 +137,8 @@ var circleMarker = new L.circleMarker();
 
 function markLocation(lat, lng) {
     const latlng = L.latLng(lat, lng);
-    removeMarkers()
-    removeCircles()
+    // removeMarkers()
+    // removeCircles()
     L.marker(latlng, {icon: simpleIcon}).addTo(MAP);
     circleMarker =  L.circleMarker(latlng, {radius: 20}).addTo(MAP);
     MAP.flyTo(latlng, 15)
@@ -201,7 +201,7 @@ function displayPlaceCard(name, rating, ratingTotal, address, phone, isOpenNow) 
         `</div>`
 }
 
-function markHospitals(data) {
+function markHospitals(data, radius) {
     const coordinates = data["coordinates"];
     for (index in coordinates) {
         const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
@@ -213,15 +213,13 @@ function markHospitals(data) {
         else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
 
         L.marker(latlng, {icon: hospitalIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
-        L.circleMarker(latlng, {radius: 15, color: "#ff2e54"}).addTo(MAP)
+        L.circleMarker(latlng, {radius: radius, color: "#ff2e54"}).addTo(MAP)
 
     }
-    MAP.flyTo(CURRENT_POSITION, 10)
 }
 
 
 function markRestaurants(data, radius) {
-    removeCircles()
     const coordinates = data["coordinates"];
     for (index in coordinates) {
         const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
@@ -236,13 +234,12 @@ function markRestaurants(data, radius) {
         L.circleMarker(latlng, {radius: radius, color: "#ff842f"}).addTo(MAP)
 
     }
-    MAP.flyTo(CURRENT_POSITION, 10)
 }
 
 
 
 
-function markBanks(data) {
+function markBanks(data, radius) {
     const coordinates = data["coordinates"];
     for (index in coordinates) {
         const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
@@ -253,10 +250,9 @@ function markBanks(data) {
         if (coordinates[index].phone === null) phoneNumber = '<span class="tooltip-item-text">00 00 00 00 00</span>'
         else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
         L.marker(latlng, {icon: bankIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
-        L.circleMarker(latlng, {radius: 15, color: "#1dd878"}).addTo(MAP)
+        L.circleMarker(latlng, {radius: radius, color: "#1dd878"}).addTo(MAP)
 
     }
-    MAP.flyTo(CURRENT_POSITION, 10)
 }
 
 function setMarkerOnMyCurrentPosition(position) {

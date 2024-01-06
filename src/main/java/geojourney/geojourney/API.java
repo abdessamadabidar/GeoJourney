@@ -19,19 +19,19 @@ import java.util.ArrayList;
 public class API {
 //    protected static final String KEY = System.getenv("GOOGLE_MAPS_API_KEY");
     protected static final String KEY = OpeningController.GOOGLE_MAPS_API_KEY;
-    private static final double LATITUDE = 35.173867226238855;
-    private static final double LONGITUDE = -3.862133730680905;
+    private static double LATITUDE;
+    private static double LONGITUDE;
     private static final int RADIUS = 15000;
 
-    public ArrayList<String> getPlacesId(String type) throws IOException {
-        String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + LATITUDE + "%2C" + LONGITUDE + "&radius=" + RADIUS + "&type=" + type + "&key=" + KEY;
+    public static ArrayList<String> getPlacesId(String type) throws IOException {
+        String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + getLONGITUDE() + "%2C" + getLATITUDE() + "&radius=" + RADIUS + "&type=" + type + "&key=" + KEY;
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 
             HttpGet request = new HttpGet(URL);
             request.addHeader("Content-Type", "application/json");
 
             try (CloseableHttpResponse response = httpClient.execute(request)) {
-                System.out.println(response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase());   // 200
+                System.out.println(response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase() + " from get places id API");   // 200
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     String stringResult = EntityUtils.toString(entity);
@@ -58,7 +58,7 @@ public class API {
     }
 
 
-    public ArrayList<Place> getPlacesDetails(ArrayList<String> placesId) {
+    public static ArrayList<Place> getPlacesDetails(ArrayList<String> placesId) {
         ArrayList<Place> places  = new ArrayList<>();
         for (String placeId : placesId) {
             String URL = "https://maps.googleapis.com/maps/api/place/details/json?fields=name%2Copening_hours/open_now%2Cformatted_address%2Cformatted_phone_number%2Cgeometry/location%2Cuser_ratings_total%2Crating&place_id=" + placeId + "&key=";
@@ -66,6 +66,7 @@ public class API {
                 HttpGet request = new HttpGet(URL + KEY);
                 request.addHeader("Content-Type", "application/json");
                 try (CloseableHttpResponse response = httpClient.execute(request)) {
+                    System.out.println(response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase() + " from get places details API");   // 200
                     HttpEntity entity = response.getEntity();
                     if (entity != null) {
                         String stringResult = EntityUtils.toString(entity);
@@ -98,7 +99,21 @@ public class API {
 
     }
 
+    public static void setLATITUDE(double LATITUDE) {
+        API.LATITUDE = LATITUDE;
+    }
 
+    public static void setLONGITUDE(double LONGITUDE) {
+        API.LONGITUDE = LONGITUDE;
+    }
+
+    public static double getLATITUDE() {
+        return LATITUDE;
+    }
+
+    public static double getLONGITUDE() {
+        return LONGITUDE;
+    }
 }
 
 

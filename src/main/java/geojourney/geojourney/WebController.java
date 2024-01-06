@@ -88,7 +88,17 @@ public class WebController implements Initializable {
     @FXML
     private VBox formContainer;
 
+    @FXML
+    private Button route;
     private double radius;
+
+    @FXML
+    private Button restaurantsBtn;
+    @FXML
+    private Button hospitalsBtn;
+    @FXML
+    private Button banksBtn;
+
 
 
 
@@ -144,6 +154,41 @@ public class WebController implements Initializable {
 
 
 
+        route.setOnAction(e -> {
+            if (formContainer.isVisible()) this.closeRouting(e);
+            else this.openRouting(e);
+        });
+
+        restaurantsBtn.setOnAction(e -> {
+            if (API.getLATITUDE() != 0 && API.getLONGITUDE() != 0) {
+                this.fetchRestaurants(e);
+            }else {
+                Text textNode = (Text) alert.getChildren().get(1);
+                textNode.setText("Could not fetch restaurants! Address required");
+                alert.setVisible(true);
+                alertTimeline.play();
+            }
+        });
+        hospitalsBtn.setOnAction(e -> {
+            if (API.getLATITUDE() != 0 && API.getLONGITUDE() != 0) {
+                this.fetchHospitals(e);
+            }else {
+                Text textNode = (Text) alert.getChildren().get(1);
+                textNode.setText("Could not fetch hospitals! Address required");
+                alert.setVisible(true);
+                alertTimeline.play();
+            }
+        });
+        banksBtn.setOnAction(e -> {
+            if (API.getLATITUDE() != 0 && API.getLONGITUDE() != 0) {
+                this.fetchBanks(e);
+            }else {
+                Text textNode = (Text) alert.getChildren().get(1);
+                textNode.setText("Could not fetch banks! Address required");
+                alert.setVisible(true);
+                alertTimeline.play();
+            }
+        });
 
 
     }
@@ -252,6 +297,8 @@ public class WebController implements Initializable {
                 Platform.runLater(() -> {
 
                     if (!resultIsFound.get()) {
+                        Text textNode = (Text) alert.getChildren().get(1);
+                        textNode.setText("No address found");
                         alert.setVisible(true);
                         alertTimeline.play();
                     }
@@ -259,22 +306,18 @@ public class WebController implements Initializable {
                         for (Location location : locations.get()) {
                             if (!location.isNoWhere()) {
                                 Button result = getResult(location);
-                                result.setOnAction(e -> {setMarker(location.getLatitude(), location.getLongitude());});
+                                result.setOnAction(e -> {
+                                    API.setLATITUDE(location.getLatitude());
+                                    API.setLONGITUDE(location.getLongitude());
+                                    setMarker(location.getLatitude(), location.getLongitude());
+                                });
                                 autocomplete_results.getChildren().add(result);
                             }
                         }
                     }
-
-
-
-
                 });
-
             });
-
-
         }
-
     }
 
     private Button getResult(Location location) {
@@ -307,11 +350,10 @@ public class WebController implements Initializable {
     public void fetchRestaurants(ActionEvent event){
 
         try {
-            API api = new API();
             AtomicReference<ArrayList<Place>> restaurants = new AtomicReference<>(new ArrayList<>());
             CompletableFuture<Void> fetchTask = CompletableFuture.runAsync(() -> {
                 try {
-                    restaurants.set(api.getPlacesDetails(api.getPlacesId("restaurant")));
+                    restaurants.set(API.getPlacesDetails(Objects.requireNonNull(API.getPlacesId("restaurant"))));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -319,7 +361,6 @@ public class WebController implements Initializable {
             fetchTask.thenRun(() -> {
                 Platform.runLater(() -> {
                     JSONArray coordinates = new JSONArray();
-
                     for (Place restaurant : restaurants.get()) {
                         JSONObject location = new JSONObject();
                         location.put("lat", restaurant.getLatitude());
@@ -352,11 +393,10 @@ public class WebController implements Initializable {
     public void fetchBanks(ActionEvent event) {
 
         try {
-            API api = new API();
             AtomicReference<ArrayList<Place>> banks = new AtomicReference<>(new ArrayList<>());
             CompletableFuture<Void> fetchTask = CompletableFuture.runAsync(() -> {
                 try {
-                    banks.set(api.getPlacesDetails(api.getPlacesId("bank")));
+                    banks.set(API.getPlacesDetails(Objects.requireNonNull(API.getPlacesId("bank"))));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -382,7 +422,9 @@ public class WebController implements Initializable {
                     JSONObject data = new JSONObject();
                     data.put("coordinates", coordinates);
 
-                    webEngine.executeScript("markBanks(" +  data + ")");
+                    System.out.println("before execute");
+                    webEngine.executeScript("markBanks(" +  data + "," + radius + ")");
+                    System.out.println("after execute");
                 });
             });
 
@@ -397,11 +439,10 @@ public class WebController implements Initializable {
     public void fetchHospitals(ActionEvent event) {
 
         try {
-            API api = new API();
             AtomicReference<ArrayList<Place>> hospitals = new AtomicReference<>(new ArrayList<>());
             CompletableFuture<Void> fetchTask = CompletableFuture.runAsync(() -> {
                 try {
-                    hospitals.set(api.getPlacesDetails(api.getPlacesId("hospital")));
+                    hospitals.set(API.getPlacesDetails(Objects.requireNonNull(API.getPlacesId("hospital"))));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -427,7 +468,7 @@ public class WebController implements Initializable {
                     JSONObject data = new JSONObject();
                     data.put("coordinates", coordinates);
 
-                    webEngine.executeScript("markHospitals(" +  data + ")");
+                    webEngine.executeScript("markHospitals(" +  data + "," + radius  + ")");
                 });
             });
 
@@ -522,13 +563,15 @@ public class WebController implements Initializable {
     }
 
     public void cancelRoute(ActionEvent event) {
+        source.clear();
+        destination.clear();
         webEngine.executeScript("removePolylines(); removeMarkers(); removeRoutingContainer();");
     }
 
     public void openRouting(ActionEvent event) {
         formContainer.setVisible(true);
     }
-    public void closeRouting(ActionEvent event) {
+    public void closeRouting(ActionEvent e) {
         formContainer.setVisible(false);
     }
 

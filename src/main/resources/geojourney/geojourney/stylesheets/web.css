@@ -231,7 +231,7 @@
 
 
 #alert {
-    -fx-background-color: #fff0f3;
+    -fx-background-color: #fff;
     -fx-background-radius: 10;
     -fx-padding: 5 10;
 }
@@ -247,8 +247,8 @@
 }
 
 #removeRoute {
-    -fx-background-color: linear-gradient(to left bottom, #ff8080, #ff6666, #ff4d4d, #ff3333, #ff1a1a, #ff0000);;
-    -fx-text-fill: #FFF;
+    -fx-background-color: #f8f9fa;;
+    -fx-text-fill: #6c757d;
     -fx-font-family: 'Product Sans', sans-serif;
     -fx-font-size: 14;
     -fx-background-radius: 30;

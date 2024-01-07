@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +24,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import netscape.javascript.JSObject;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -100,12 +102,25 @@ public class WebController implements Initializable {
     private Button banksBtn;
 
 
+    private WebController instance;
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         webEngine = webView.getEngine();
         webEngine.load(Objects.requireNonNull(getClass().getResource("/web/index.html")).toExternalForm());
+
+        webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == Worker.State.SUCCEEDED) {
+                instance = this;
+                JSObject window = (JSObject) webEngine.executeScript("window");
+                window.setMember("WebController", instance);
+
+            }
+
+
+        });
 
         search.textProperty().addListener(((observableValue, oldValue, newValue) -> {
             clearSearchBtn.setVisible(!newValue.isEmpty());
@@ -307,8 +322,6 @@ public class WebController implements Initializable {
                             if (!location.isNoWhere()) {
                                 Button result = getResult(location);
                                 result.setOnAction(e -> {
-                                    API.setLATITUDE(location.getLatitude());
-                                    API.setLONGITUDE(location.getLongitude());
                                     setMarker(location.getLatitude(), location.getLongitude());
                                 });
                                 autocomplete_results.getChildren().add(result);
@@ -573,6 +586,13 @@ public class WebController implements Initializable {
     }
     public void closeRouting(ActionEvent e) {
         formContainer.setVisible(false);
+    }
+
+
+    public void handleCoordinatesChange(double lat, double lng) {
+        API.setLATITUDE(lat);
+        API.setLONGITUDE(lng);
+
     }
 
 }

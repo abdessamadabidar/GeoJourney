@@ -287,4 +287,13 @@ function drawRoute(data) {
     }).addTo(MAP)
 }
 
+MAP.on('click', function (e) {
+
+    let lat = e.latlng.lat
+    let lng = e.latlng.lng
+    const srcMarker = L.marker([lat, lng]).addTo(MAP);
+    WebController.handleCoordinatesChange(lat, lng);
+
+
+})
 

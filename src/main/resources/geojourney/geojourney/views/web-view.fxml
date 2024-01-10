@@ -83,8 +83,8 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Slider fx:id="slider" prefHeight="24.0" prefWidth="210.0" />
-            <Label fx:id="radiusValue" prefHeight="18.0" prefWidth="59.0" style="-fx-text-fill: #2B67FF; -fx-font-weight: bold;" text="0 m" />
+            <Slider fx:id="sliderAreaCircleRadius" prefHeight="24.0" prefWidth="210.0" />
+            <Label fx:id="radiusAreaCircleLabel" prefHeight="18.0" prefWidth="59.0" style="-fx-text-fill: #2B67FF; -fx-font-weight: bold;" text="0 m" />
             <Button fx:id="layers" mnemonicParsing="false" onAction="#showLayers" prefHeight="44.0" prefWidth="54.0">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
@@ -155,7 +155,7 @@
             </RadioButton>
          </children>
       </VBox>
-      <HBox alignment="CENTER" layoutX="844.0" layoutY="33.0" prefHeight="34.0" prefWidth="378.0" spacing="15.0" AnchorPane.rightAnchor="616.5999999999999" AnchorPane.topAnchor="33.0">
+      <HBox alignment="CENTER" layoutX="844.0" layoutY="33.0" prefHeight="34.0" prefWidth="662.0" spacing="15.0" AnchorPane.rightAnchor="558.0" AnchorPane.topAnchor="33.0">
          <children>
             <Button fx:id="restaurantsBtn" mnemonicParsing="false" style="-fx-background-radius: 30;" text="Resaurants">
                <graphic>
@@ -184,6 +184,24 @@
                   </ImageView>
                </graphic>
             </Button>
+            <Button fx:id="hotelsBtn" layoutX="25.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="106.0" style="-fx-background-radius: 30;" text="Hotels">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-bed-30.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="pharmaciesBtn" layoutX="416.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="129.0" style="-fx-background-radius: 30;" text="Pharmacies">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-hand-with-a-pill-30.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </HBox>
       <VBox fx:id="autocomplete_results" layoutX="1219.0" layoutY="87.0" prefHeight="0.0" prefWidth="346.0" AnchorPane.rightAnchor="166.0" />
@@ -195,7 +213,7 @@
                </image>
             </ImageView>
          </graphic></Button>
-      <HBox alignment="CENTER" layoutX="24.0" layoutY="38.0" prefHeight="19.0" AnchorPane.topAnchor="33.0">
+      <HBox alignment="CENTER" layoutX="24.0" layoutY="38.0" prefHeight="19.0" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="33.0">
          <children>
             <Button fx:id="shutdown" minWidth="38.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="38.0">
                <graphic>
@@ -255,6 +273,12 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Button>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="32.0" layoutY="209.0" prefHeight="239.0" prefWidth="30.0" spacing="15.0" style="-fx-background-color: #fff; -fx-background-radius: 30;" AnchorPane.leftAnchor="24.0">
+         <children>
+            <Slider fx:id="sliderPlaceCircleRadius" orientation="VERTICAL" prefHeight="168.0" prefWidth="24.0" />
+            <Label fx:id="radiusPlaceCircleLabel" style="-fx-text-fill: #2B67FF; -fx-font-weight: bold;" text="0 m" />
          </children>
       </VBox>
     </children>

@@ -115,7 +115,7 @@
     -fx-background-radius: 0 0 8 8;
 }
 
-#restaurantsBtn, #hospitalsBtn, #banksBtn {
+#restaurantsBtn, #hospitalsBtn, #banksBtn, #hotelsBtn, #pharmaciesBtn {
     -fx-background-color: #FFF;
     -fx-background-radius: 30;
     -fx-font-family: 'Product Sans', sans-serif;
@@ -127,7 +127,7 @@
 
 }
 
-#restaurantsBtn:hover, #hospitalsBtn:hover, #banksBtn:hover {
+#restaurantsBtn:hover, #hospitalsBtn:hover, #banksBtn:hover, #hotelsBtn:hover, #pharmaciesBtn:hover {
     -fx-background-color: #e9ecef;
 }
 

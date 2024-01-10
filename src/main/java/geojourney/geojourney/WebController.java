@@ -44,8 +44,9 @@ import java.util.concurrent.atomic.AtomicReference;
 public class WebController implements Initializable {
 
     @FXML
-    public Slider slider;
-
+    public Slider sliderPlaceCircleRadius;
+    @FXML
+    public Slider sliderAreaCircleRadius;
     @FXML
     private WebView webView;
     @FXML
@@ -86,13 +87,16 @@ public class WebController implements Initializable {
     @FXML
     private TextField destination;
     @FXML
-    private Label radiusValue;
+    private Label radiusPlaceCircleLabel;
+    @FXML
+    private Label radiusAreaCircleLabel;
     @FXML
     private VBox formContainer;
 
     @FXML
     private Button route;
-    private double radius;
+    private double radiusPlaceCircle;
+    private double radiusAreaCircle;
 
     @FXML
     private Button restaurantsBtn;
@@ -100,6 +104,10 @@ public class WebController implements Initializable {
     private Button hospitalsBtn;
     @FXML
     private Button banksBtn;
+    @FXML
+    private Button hotelsBtn;
+    @FXML
+    private Button pharmaciesBtn;
 
 
     private WebController instance;
@@ -137,21 +145,38 @@ public class WebController implements Initializable {
         webEngine.setJavaScriptEnabled(true);
         clearSearchBtn.setVisible(false);
 
-        slider.setMin(0);
-        slider.setMax(50);
-        slider.setValue(0);
-        slider.setMajorTickUnit(2);
-        slider.setMinorTickCount(1);
+        sliderAreaCircleRadius.setMin(100);
+        sliderAreaCircleRadius.setMax(10000);
+        sliderAreaCircleRadius.setValue(0);
+        sliderAreaCircleRadius.setMajorTickUnit(2);
+        sliderAreaCircleRadius.setMinorTickCount(1);
+
+        sliderAreaCircleRadius.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                radiusAreaCircle = newValue.doubleValue();
+                radiusAreaCircleLabel.setText(String.format("%.0f", newValue) + " m");
+//                webEngine.executeScript("changeCircleRadius(" + newValue + ")");
+            }
+        });
+
+
+
+        sliderPlaceCircleRadius.setMin(10);
+        sliderPlaceCircleRadius.setMax(50);
+        sliderPlaceCircleRadius.setValue(0);
+        sliderPlaceCircleRadius.setMajorTickUnit(2);
+        sliderPlaceCircleRadius.setMinorTickCount(1);
 
         alert.setVisible(false);
         alertTimeline = new Timeline(new KeyFrame(Duration.seconds(3), this::hideAlert));
 
-        slider.valueProperty().addListener(new ChangeListener<Number>() {
+        sliderPlaceCircleRadius.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                radius = newValue.doubleValue();
-                radiusValue.setText(String.format("%.1f", newValue) + " m");
-                webEngine.executeScript("changeCircleRadius(" + newValue + ")");
+                radiusPlaceCircle = newValue.doubleValue();
+                radiusPlaceCircleLabel.setText(String.format("%.0f", newValue) + " m");
+//                webEngine.executeScript("changeCircleRadius(" + newValue + ")");
             }
         });
 
@@ -205,6 +230,26 @@ public class WebController implements Initializable {
             }
         });
 
+        hotelsBtn.setOnAction(e -> {
+            if (API.getLATITUDE() != 0 && API.getLONGITUDE() != 0) {
+                this.fetchHotels(e);
+            }else {
+                Text textNode = (Text) alert.getChildren().get(1);
+                textNode.setText("Could not fetch hotels! Address required");
+                alert.setVisible(true);
+                alertTimeline.play();
+            }
+        });
+        pharmaciesBtn.setOnAction(e -> {
+            if (API.getLATITUDE() != 0 && API.getLONGITUDE() != 0) {
+                this.fetchPharmacies(e);
+            }else {
+                Text textNode = (Text) alert.getChildren().get(1);
+                textNode.setText("Could not fetch pharmacies! Address required");
+                alert.setVisible(true);
+                alertTimeline.play();
+            }
+        });
 
     }
 
@@ -359,40 +404,82 @@ public class WebController implements Initializable {
 
     }
 
+    public void fetchHotels(ActionEvent event) {
+        ArrayList<Place> hotels = API.getNearbyPlace("hotel", (int) radiusAreaCircle);
+
+        JSONArray coordinates = new JSONArray();
+        for (Place hotel : hotels) {
+            System.out.println(place);
+            JSONObject location = new JSONObject();
+            location.put("lat", hotel.getLatitude());
+            location.put("lng", hotel.getLongitude());
+            location.put("name", hotel.getName());
+            location.put("rating", hotel.getRating());
+            location.put("totalRating", hotel.getTotalRating());
+            location.put("isOpenNow", hotel.getOpenNow());
+            location.put("phone", hotel.getPhone());
+            location.put("address", hotel.getAddress());
+            coordinates.add(location);
+        }
+
+        JSONObject data = new JSONObject();
+        data.put("coordinates", coordinates);
+
+        webEngine.executeScript("markHotels(" +  data + ", " + radiusAreaCircle + ", " + radiusPlaceCircle + ", " +  API.getLATITUDE() + ", " +  API.getLONGITUDE() + ")");
+
+    }
+
+    public void fetchPharmacies(ActionEvent event) {
+        try {
+            ArrayList<Place> pharmacies = API.getNearbyPlace("pharmacy", (int) radiusAreaCircle);
+            JSONArray coordinates = new JSONArray();
+            for (Place pharmacy : pharmacies) {
+                JSONObject location = new JSONObject();
+                location.put("lat", pharmacy.getLatitude());
+                location.put("lng", pharmacy.getLongitude());
+                location.put("name", pharmacy.getName());
+                location.put("rating", pharmacy.getRating());
+                location.put("totalRating", pharmacy.getTotalRating());
+                location.put("isOpenNow", pharmacy.getOpenNow());
+                location.put("phone", pharmacy.getPhone());
+                location.put("address", pharmacy.getAddress());
+                coordinates.add(location);
+            }
+
+            JSONObject data = new JSONObject();
+            data.put("coordinates", coordinates);
+
+            webEngine.executeScript("markPharmacies(" +  data + ", " + radiusAreaCircle + ", " + radiusPlaceCircle + ", " +  API.getLATITUDE() + ", " +  API.getLONGITUDE() + ")");
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     @FXML
     public void fetchRestaurants(ActionEvent event){
 
         try {
-            AtomicReference<ArrayList<Place>> restaurants = new AtomicReference<>(new ArrayList<>());
-            CompletableFuture<Void> fetchTask = CompletableFuture.runAsync(() -> {
-                try {
-                    restaurants.set(API.getPlacesDetails(Objects.requireNonNull(API.getPlacesId("restaurant"))));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            fetchTask.thenRun(() -> {
-                Platform.runLater(() -> {
-                    JSONArray coordinates = new JSONArray();
-                    for (Place restaurant : restaurants.get()) {
-                        JSONObject location = new JSONObject();
-                        location.put("lat", restaurant.getLatitude());
-                        location.put("lng", restaurant.getLongitude());
-                        location.put("name", restaurant.getName());
-                        location.put("rating", restaurant.getRating());
-                        location.put("totalRating", restaurant.getTotalRating());
-                        location.put("isOpenNow", restaurant.getOpenNow());
-                        location.put("phone", restaurant.getPhone());
-                        location.put("address", restaurant.getAddress());
-                        coordinates.add(location);
-                    }
+            ArrayList<Place> restaurants = API.getNearbyPlace("restaurant", (int) radiusAreaCircle);
+            JSONArray coordinates = new JSONArray();
+            for (Place restaurant : restaurants) {
+                JSONObject location = new JSONObject();
+                location.put("lat", restaurant.getLatitude());
+                location.put("lng", restaurant.getLongitude());
+                location.put("name", restaurant.getName());
+                location.put("rating", restaurant.getRating());
+                location.put("totalRating", restaurant.getTotalRating());
+                location.put("isOpenNow", restaurant.getOpenNow());
+                location.put("phone", restaurant.getPhone());
+                location.put("address", restaurant.getAddress());
+                coordinates.add(location);
+            }
 
-                    JSONObject data = new JSONObject();
-                    data.put("coordinates", coordinates);
+            JSONObject data = new JSONObject();
+            data.put("coordinates", coordinates);
 
-                    webEngine.executeScript("markRestaurants(" +  data + ", " + radius + ")");
-                });
-            });
+            webEngine.executeScript("markRestaurants(" +  data + ", " + radiusAreaCircle + ", " + radiusPlaceCircle + ", " +  API.getLATITUDE() + ", " +  API.getLONGITUDE() + ")");
 
 
         }
@@ -406,40 +493,28 @@ public class WebController implements Initializable {
     public void fetchBanks(ActionEvent event) {
 
         try {
-            AtomicReference<ArrayList<Place>> banks = new AtomicReference<>(new ArrayList<>());
-            CompletableFuture<Void> fetchTask = CompletableFuture.runAsync(() -> {
-                try {
-                    banks.set(API.getPlacesDetails(Objects.requireNonNull(API.getPlacesId("bank"))));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            fetchTask.thenRun(() -> {
-                Platform.runLater(() -> {
-                    JSONArray coordinates = new JSONArray();
+            ArrayList<Place> banks = API.getNearbyPlace("bank", (int) radiusAreaCircle);
+            JSONArray coordinates = new JSONArray();
 
-                    for (Place bank : banks.get()) {
-                        JSONObject location = new JSONObject();
-                        location.put("lat", bank.getLatitude());
-                        location.put("lng", bank.getLongitude());
-                        location.put("name", bank.getName());
-                        location.put("rating", bank.getRating());
-                        location.put("totalRating", bank.getTotalRating());
-                        location.put("isOpenNow", bank.getOpenNow());
-                        location.put("phone", bank.getPhone());
-                        location.put("address", bank.getAddress());
-                        coordinates.add(location);
+            for (Place bank : banks) {
+                JSONObject location = new JSONObject();
+                location.put("lat", bank.getLatitude());
+                location.put("lng", bank.getLongitude());
+                location.put("name", bank.getName());
+                location.put("rating", bank.getRating());
+                location.put("totalRating", bank.getTotalRating());
+                location.put("isOpenNow", bank.getOpenNow());
+                location.put("phone", bank.getPhone());
+                location.put("address", bank.getAddress());
+                coordinates.add(location);
+            }
 
-                    }
+            JSONObject data = new JSONObject();
+            data.put("coordinates", coordinates);
 
-                    JSONObject data = new JSONObject();
-                    data.put("coordinates", coordinates);
-
-                    System.out.println("before execute");
-                    webEngine.executeScript("markBanks(" +  data + "," + radius + ")");
-                    System.out.println("after execute");
-                });
-            });
+            System.out.println("before execute");
+            webEngine.executeScript("markBanks(" +  data + ", " + radiusAreaCircle + ", " + radiusPlaceCircle + ", " +  API.getLATITUDE() + ", " +  API.getLONGITUDE() +")");
+            System.out.println("after execute");
 
 
         }
@@ -452,38 +527,26 @@ public class WebController implements Initializable {
     public void fetchHospitals(ActionEvent event) {
 
         try {
-            AtomicReference<ArrayList<Place>> hospitals = new AtomicReference<>(new ArrayList<>());
-            CompletableFuture<Void> fetchTask = CompletableFuture.runAsync(() -> {
-                try {
-                    hospitals.set(API.getPlacesDetails(Objects.requireNonNull(API.getPlacesId("hospital"))));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            ArrayList<Place>hospitals = API.getNearbyPlace("hospital", (int) radiusAreaCircle);
+            JSONArray coordinates = new JSONArray();
 
-            fetchTask.thenRun(() -> {
-                Platform.runLater(() -> {
-                    JSONArray coordinates = new JSONArray();
+            for (Place hospital : hospitals) {
+                JSONObject location = new JSONObject();
+                location.put("lat", hospital.getLatitude());
+                location.put("lng", hospital.getLongitude());
+                location.put("name", hospital.getName());
+                location.put("rating", hospital.getRating());
+                location.put("totalRating", hospital.getTotalRating());
+                location.put("isOpenNow", hospital.getOpenNow());
+                location.put("phone", hospital.getPhone());
+                location.put("address", hospital.getAddress());
+                coordinates.add(location);
+            }
 
-                    for (Place hospital : hospitals.get()) {
-                        JSONObject location = new JSONObject();
-                        location.put("lat", hospital.getLatitude());
-                        location.put("lng", hospital.getLongitude());
-                        location.put("name", hospital.getName());
-                        location.put("rating", hospital.getRating());
-                        location.put("totalRating", hospital.getTotalRating());
-                        location.put("isOpenNow", hospital.getOpenNow());
-                        location.put("phone", hospital.getPhone());
-                        location.put("address", hospital.getAddress());
-                        coordinates.add(location);
-                    }
+            JSONObject data = new JSONObject();
+            data.put("coordinates", coordinates);
 
-                    JSONObject data = new JSONObject();
-                    data.put("coordinates", coordinates);
-
-                    webEngine.executeScript("markHospitals(" +  data + "," + radius  + ")");
-                });
-            });
+            webEngine.executeScript("markHospitals("  +  data + ", " + radiusAreaCircle + ", " + radiusPlaceCircle + ", " +  API.getLATITUDE() + ", " +  API.getLONGITUDE() + ")");
 
 
 

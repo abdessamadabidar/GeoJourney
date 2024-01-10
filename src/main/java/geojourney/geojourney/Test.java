@@ -2,6 +2,6 @@ package geojourney.geojourney;
 
 public class Test {
     public static void main(String[] args) {
-        API.getNearbyHotels();
+
     }
 }

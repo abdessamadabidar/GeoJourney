@@ -36,6 +36,7 @@ public class OpeningController   implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        apiKey.setText("AIzaSyBGto3yQEzfnIeJaBaLI94Eht5aiD1DVzI");
         alert.setVisible(false);
          alertTimeline = new Timeline(new KeyFrame(Duration.seconds(3), this::hideAlert));
     }

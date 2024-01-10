@@ -201,7 +201,7 @@ function displayPlaceCard(name, rating, ratingTotal, address, phone, isOpenNow) 
         `</div>`
 }
 
-function markHospitals(data, radius) {
+function markHospitals(data, radiusAreaCircle, radiusPlaceCircle, lat, lng) {
     const coordinates = data["coordinates"];
     for (index in coordinates) {
         const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
@@ -213,13 +213,14 @@ function markHospitals(data, radius) {
         else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
 
         L.marker(latlng, {icon: hospitalIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
-        L.circleMarker(latlng, {radius: radius, color: "#ff2e54"}).addTo(MAP)
+        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#ff2e54"}).addTo(MAP)
+        drawAreaCircle(lat, lng, radiusAreaCircle)
 
     }
 }
 
 
-function markRestaurants(data, radius) {
+function markRestaurants(data, radiusAreaCircle, radiusPlaceCircle, lat, lng) {
     const coordinates = data["coordinates"];
     for (index in coordinates) {
         const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
@@ -231,15 +232,31 @@ function markRestaurants(data, radius) {
         else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
 
         L.marker(latlng, {icon: restaurantIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
-        L.circleMarker(latlng, {radius: radius, color: "#ff842f"}).addTo(MAP)
+        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#ff842f"}).addTo(MAP)
+        drawAreaCircle(lat, lng, radiusAreaCircle)
+    }
+}
+function markHotels(data, radiusAreaCircle, radiusPlaceCircle, lat, lng) {
+    const coordinates = data["coordinates"];
+    for (index in coordinates) {
+        const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
+        let isOpenNow = ''
+        if (coordinates[index].isOpenNow) isOpenNow = '<span class="tooltip-item-text" style="color: forestgreen">Open</span>'
+        else isOpenNow = '<span class="tooltip-item-text" style="color: tomato">Close</span>'
+        let phoneNumber = '';
+        if (coordinates[index].phone === null) phoneNumber = '<span class="tooltip-item-text">00 00 00 00 00</span>'
+        else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
 
+        L.marker(latlng, {icon: simpleIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
+        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#2667ff"}).addTo(MAP)
+        drawAreaCircle(lat, lng, radiusAreaCircle)
     }
 }
 
 
 
 
-function markBanks(data, radius) {
+function markBanks(data, radiusAreaCircle, radiusPlaceCircle, lat, lng) {
     const coordinates = data["coordinates"];
     for (index in coordinates) {
         const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
@@ -250,9 +267,30 @@ function markBanks(data, radius) {
         if (coordinates[index].phone === null) phoneNumber = '<span class="tooltip-item-text">00 00 00 00 00</span>'
         else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
         L.marker(latlng, {icon: bankIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
-        L.circleMarker(latlng, {radius: radius, color: "#1dd878"}).addTo(MAP)
-
+        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#1dd878"}).addTo(MAP)
+        drawAreaCircle(lat, lng, radiusAreaCircle)
     }
+}
+
+function markPharmacies(data, radiusAreaCircle, radiusPlaceCircle, lat, lng) {
+    const coordinates = data["coordinates"];
+    for (index in coordinates) {
+        const latlng = L.latLng(coordinates[index].lat, coordinates[index].lng);
+        let isOpenNow = ''
+        if (coordinates[index].isOpenNow) isOpenNow = '<span class="tooltip-item-text" style="color: forestgreen">Open</span>'
+        else isOpenNow = '<span class="tooltip-item-text" style="color: tomato">Close</span>'
+        let phoneNumber = '';
+        if (coordinates[index].phone === null) phoneNumber = '<span class="tooltip-item-text">00 00 00 00 00</span>'
+        else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
+        L.marker(latlng, {icon: simpleIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
+        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#ffb950"}).addTo(MAP)
+        drawAreaCircle(lat, lng, radiusAreaCircle)
+    }
+}
+
+
+function drawAreaCircle(lat, lng, radiusAreaCircle) {
+    L.circle([lat, lng], {radius: radiusAreaCircle, fill: false}).addTo(MAP);
 }
 
 function setMarkerOnMyCurrentPosition(position) {

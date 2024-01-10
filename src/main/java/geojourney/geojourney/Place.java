@@ -53,16 +53,8 @@ public class Place {
         return phone;
     }
 
-    public void displayPlaceDetails() {
-        System.out.println("#######################################");
-        System.out.println("name : " + name);
-        System.out.println("address : " + address);
-        System.out.println("is open now : " + openNow);
-        System.out.println("latitude : " + latitude);
-        System.out.println("longitude : " + longitude);
-        System.out.println("rating : " + rating);
-        System.out.println("total rating : " + totalRating);
-        System.out.println("phone number : " + phone);
-        System.out.println("#######################################");
-    }
+   @Override
+    public String toString() {
+        return "place name " + name;
+   }
 }

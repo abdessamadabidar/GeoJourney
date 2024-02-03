@@ -20,6 +20,7 @@
     display: flex;
     flex-direction: column;
     row-gap: 10px;
+    width: 100%;
 }
 
 .tooltip-container__flex__item {
@@ -39,6 +40,6 @@
 .leaflet-routing-container {
     /*position: absolute;*/
     top: 100px;
-    /*display: none;*/
+    display: none;
 }
 

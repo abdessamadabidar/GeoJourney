@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -35,7 +35,7 @@
                </VBox.margin></Text>
             <TextFlow prefWidth="580.0">
                <children>
-                  <Text fx:id="description" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 200; fx-font-size: 16; -fx-fill: #403d39;" text="GeoJourney is a web-based application that provides a precise and smooth detection of any place around the world by using search technique, as well as locating hospitals, restaurants and banks those are near you based on where you are, technically based on the coordinates (latitude, longitude) of user’s current position.">
+                  <Text fx:id="description" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 200; fx-font-size: 16; -fx-fill: #403d39;" text="GeoJourney is a web-based application that employs precise and smooth location detection worldwide through advanced search techniques. Additionally, it allows users to locate nearby hospitals, restaurants, banks, hotels, and pharmacies with just a single mouse click.">
                      <stroke>
                         <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                            <stops>
@@ -60,7 +60,7 @@
             </TextFlow>
             <HBox alignment="CENTER_LEFT" prefHeight="73.0" prefWidth="580.0" spacing="20.0">
                <children>
-                  <TextField fx:id="apiKey" prefHeight="26.0" prefWidth="363.0" promptText="Your Google Maps API Key" />
+                  <PasswordField fx:id="apiKey" prefHeight="26.0" prefWidth="363.0" promptText="Your Google Maps API Key" />
                   <Button fx:id="startBtn" mnemonicParsing="false" onAction="#openWebStage" prefHeight="43.0" prefWidth="144.0" style="-fx-background-color: linear-gradient(to left bottom, #3283ca, #298ace, #2090d2, #1697d5, #0b9dd8, #00a2d9, #00a8da, #00addb, #00b3da, #00b9d7, #00bed4, #00c3d0); -fx-background-radius: 30;" text="Get started" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="28.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">

@@ -270,3 +270,14 @@
     -fx-padding: 30 20;
 }
 
+#routeInfoContainer {
+    -fx-background-radius: 20;
+    -fx-background-color: linear-gradient(to left bottom, #3283ca, #298ace, #2090d2, #1697d5, #0b9dd8, #00a2d9, #00a8da, #00addb, #00b3da, #00b9d7, #00bed4, #00c3d0);
+}
+
+#routeName, #routeDistance, #routeTime {
+    -fx-font-size: 16;
+    -fx-fill: #FFF;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Product Sans', sans-serif;
+}

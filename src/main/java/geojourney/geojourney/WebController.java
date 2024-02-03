@@ -109,7 +109,14 @@ public class WebController implements Initializable {
     @FXML
     private Button pharmaciesBtn;
 
-
+    @FXML
+    private Text routeName;
+    @FXML
+    private Text routeDistance;
+    @FXML
+    private Text routeTime;
+    @FXML
+    private HBox routeInfoContainer;
     private WebController instance;
 
 
@@ -182,6 +189,7 @@ public class WebController implements Initializable {
 
 
 
+        routeInfoContainer.setVisible(false);
 
 
         shutdown.setOnAction(e -> {
@@ -627,9 +635,10 @@ public class WebController implements Initializable {
                 data.put("src", srcJSON);
                 data.put("dist", distJSON);
 
-//                System.out.println(data);
 
                 webEngine.executeScript("drawRoute(" + data + ");");
+                routeInfoContainer.setVisible(true);
+                formContainer.setVisible(false);
 
             }
 
@@ -641,6 +650,7 @@ public class WebController implements Initializable {
     public void cancelRoute(ActionEvent event) {
         source.clear();
         destination.clear();
+        routeInfoContainer.setVisible(false);
         webEngine.executeScript("removePolylines(); removeMarkers(); removeRoutingContainer();");
     }
 
@@ -658,4 +668,10 @@ public class WebController implements Initializable {
 
     }
 
+    public void getRouteInfos(String name, double distance, double time) {
+        routeName.setText(name);
+        routeDistance.setText(String.format("%.1f", distance / 1000) + " km");
+        routeTime.setText((int) time / 3600 + " h " + (int) (time % 3600) / 60 + " min");
+
+    }
 }

@@ -84,7 +84,7 @@
                </cursor>
             </Button>
             <Slider fx:id="sliderAreaCircleRadius" prefHeight="24.0" prefWidth="210.0" />
-            <Label fx:id="radiusAreaCircleLabel" prefHeight="18.0" prefWidth="59.0" style="-fx-text-fill: #2B67FF; -fx-font-weight: bold;" text="0 m" />
+            <Label fx:id="radiusAreaCircleLabel" prefHeight="18.0" prefWidth="59.0" style="-fx-text-fill: #0496ff; -fx-font-weight: bold;" text="0 m" />
             <Button fx:id="layers" mnemonicParsing="false" onAction="#showLayers" prefHeight="44.0" prefWidth="54.0">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
@@ -260,7 +260,7 @@
             <Insets left="20.0" right="20.0" />
          </padding>
       </HBox>
-      <VBox fx:id="formContainer" alignment="CENTER" layoutX="512.0" layoutY="248.0" prefHeight="294.0" prefWidth="339.0" spacing="5.0" AnchorPane.bottomAnchor="186.0" AnchorPane.leftAnchor="512.0" AnchorPane.rightAnchor="585.0" AnchorPane.topAnchor="248.0">
+      <VBox fx:id="formContainer" alignment="CENTER" layoutX="512.0" layoutY="243.0" prefHeight="287.0" prefWidth="339.0" spacing="5.0" AnchorPane.bottomAnchor="198.0" AnchorPane.leftAnchor="512.0" AnchorPane.rightAnchor="585.0" AnchorPane.topAnchor="243.0">
          <children>
             <TextField fx:id="source" prefHeight="44.0" prefWidth="251.0" promptText="Source" style="-fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0); -fx-font-size: 14; -fx-font-family: 'Poppins', sans-serif; -fx-padding: 10 20; -fx-text-fill: #495057; -fx-font-weight: 600;" />
             <TextField fx:id="destination" prefHeight="44.0" prefWidth="251.0" promptText="Destination" style="-fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 0, 30, 0, 0); -fx-font-size: 14; -fx-font-family: 'Poppins', sans-serif; -fx-padding: 10 20; -fx-text-fill: #495057; -fx-font-weight: 600;">
@@ -278,8 +278,44 @@
       <VBox alignment="CENTER" layoutX="32.0" layoutY="209.0" prefHeight="239.0" prefWidth="30.0" spacing="15.0" style="-fx-background-color: #fff; -fx-background-radius: 30;" AnchorPane.leftAnchor="24.0">
          <children>
             <Slider fx:id="sliderPlaceCircleRadius" orientation="VERTICAL" prefHeight="168.0" prefWidth="24.0" />
-            <Label fx:id="radiusPlaceCircleLabel" style="-fx-text-fill: #2B67FF; -fx-font-weight: bold;" text="0 m" />
+            <Label fx:id="radiusPlaceCircleLabel" style="-fx-text-fill: #0496ff; -fx-font-weight: bold;" text="0 m" />
          </children>
       </VBox>
+      <HBox fx:id="routeInfoContainer" alignment="CENTER_LEFT" layoutX="414.0" layoutY="552.0" prefHeight="68.0" prefWidth="650.0" spacing="20.0" AnchorPane.bottomAnchor="110.0" AnchorPane.rightAnchor="208.4000000000001">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-route-30.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="routeName" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="463.58310890197754" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-car-24.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="routeDistance" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="85.18320655822754" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icons8-time-30.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="routeTime" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="84.38309669494629" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding></HBox>
     </children>
 </AnchorPane>

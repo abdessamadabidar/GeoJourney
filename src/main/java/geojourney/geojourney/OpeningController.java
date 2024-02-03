@@ -9,7 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -25,7 +25,7 @@ public class OpeningController   implements Initializable {
     private Button startBtn;
 
     @FXML
-    private TextField apiKey;
+    private PasswordField apiKey;
 
     @FXML
     private HBox alert;
@@ -37,8 +37,9 @@ public class OpeningController   implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         apiKey.setText("AIzaSyBGto3yQEzfnIeJaBaLI94Eht5aiD1DVzI");
+        apiKey.setFocusTraversable(false);
         alert.setVisible(false);
-         alertTimeline = new Timeline(new KeyFrame(Duration.seconds(3), this::hideAlert));
+        alertTimeline = new Timeline(new KeyFrame(Duration.seconds(3), this::hideAlert));
     }
 
     private void hideAlert(ActionEvent event) {

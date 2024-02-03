@@ -124,10 +124,10 @@ const removeRoutingContainer = () => {
 }
 
 
-const simpleIcon = L.icon({
-    iconUrl: 'images/simple.png',
-    iconSize: [38, 40],
-    iconAnchor: [20, 35],
+const defaultIcon = L.icon({
+    iconUrl: 'images/default.svg',
+    iconSize: [50, 58],
+    iconAnchor: [24, 40],
     popupAnchor: [-3, -76],
 });
 
@@ -139,7 +139,7 @@ function markLocation(lat, lng) {
     const latlng = L.latLng(lat, lng);
     // removeMarkers()
     // removeCircles()
-    L.marker(latlng, {icon: simpleIcon}).addTo(MAP);
+    L.marker(latlng, {icon: defaultIcon}).addTo(MAP);
     circleMarker =  L.circleMarker(latlng, {radius: 20}).addTo(MAP);
     MAP.flyTo(latlng, 15)
 
@@ -156,25 +156,40 @@ function changeCircleRadius(radius) {
 
 // hospital icon marker
 const hospitalIcon = L.icon({
-    iconUrl: 'images/hospital.png',
-    iconSize: [38, 40],
-    iconAnchor: [20, 35],
+    iconUrl: 'images/hospital.svg',
+    iconSize: [50, 58],
+    iconAnchor: [24, 40],
     popupAnchor: [-3, -76],
 });
 
 const restaurantIcon = L.icon({
-    iconUrl: 'images/restaurant.png',
-    iconSize: [38, 40],
-    iconAnchor: [20, 35],
+    iconUrl: 'images/restaurant.svg',
+    iconSize: [50, 58],
+    iconAnchor: [24, 40],
+    popupAnchor: [-3, -76],
+});
+
+const pharmacyIcon = L.icon({
+    iconUrl: 'images/pharmacy.svg',
+    iconSize: [50, 58],
+    iconAnchor: [24, 40],
     popupAnchor: [-3, -76],
 });
 
 const bankIcon = L.icon({
-    iconUrl: 'images/bank.png',
-    iconSize: [38, 40],
-    iconAnchor: [20, 35],
+    iconUrl: 'images/bank.svg',
+    iconSize: [50, 58],
+    iconAnchor: [24, 40],
     popupAnchor: [-3, -76],
 });
+
+const hotelIcon = L.icon({
+    iconUrl: 'images/hotel.svg',
+    iconSize: [50, 58],
+    iconAnchor: [24, 40],
+    popupAnchor: [-3, -76],
+});
+
 
 function displayPlaceCard(name, rating, ratingTotal, address, phone, isOpenNow) {
     return `<div class="tooltip-container__flex">` +
@@ -213,7 +228,7 @@ function markHospitals(data, radiusAreaCircle, radiusPlaceCircle, lat, lng) {
         else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
 
         L.marker(latlng, {icon: hospitalIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
-        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#ff2e54"}).addTo(MAP)
+        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#e63030"}).addTo(MAP)
         drawAreaCircle(lat, lng, radiusAreaCircle)
 
     }
@@ -232,7 +247,7 @@ function markRestaurants(data, radiusAreaCircle, radiusPlaceCircle, lat, lng) {
         else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
 
         L.marker(latlng, {icon: restaurantIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
-        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#ff842f"}).addTo(MAP)
+        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#ff6d00"}).addTo(MAP)
         drawAreaCircle(lat, lng, radiusAreaCircle)
     }
 }
@@ -247,8 +262,8 @@ function markHotels(data, radiusAreaCircle, radiusPlaceCircle, lat, lng) {
         if (coordinates[index].phone === null) phoneNumber = '<span class="tooltip-item-text">00 00 00 00 00</span>'
         else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
 
-        L.marker(latlng, {icon: simpleIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
-        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#2667ff"}).addTo(MAP)
+        L.marker(latlng, {icon: hotelIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
+        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#52b788"}).addTo(MAP)
         drawAreaCircle(lat, lng, radiusAreaCircle)
     }
 }
@@ -267,7 +282,7 @@ function markBanks(data, radiusAreaCircle, radiusPlaceCircle, lat, lng) {
         if (coordinates[index].phone === null) phoneNumber = '<span class="tooltip-item-text">00 00 00 00 00</span>'
         else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
         L.marker(latlng, {icon: bankIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
-        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#1dd878"}).addTo(MAP)
+        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#9c4edc"}).addTo(MAP)
         drawAreaCircle(lat, lng, radiusAreaCircle)
     }
 }
@@ -282,15 +297,15 @@ function markPharmacies(data, radiusAreaCircle, radiusPlaceCircle, lat, lng) {
         let phoneNumber = '';
         if (coordinates[index].phone === null) phoneNumber = '<span class="tooltip-item-text">00 00 00 00 00</span>'
         else phoneNumber = `<span className="tooltip-item-text">${coordinates[index].phone}</span>`
-        L.marker(latlng, {icon: simpleIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
-        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#ffb950"}).addTo(MAP)
+        L.marker(latlng, {icon: pharmacyIcon}).bindTooltip(displayPlaceCard(coordinates[index].name, coordinates[index].rating, coordinates[index].totalRating, coordinates[index].address, phoneNumber, isOpenNow), {opacity: 1, className: 'tooltip-container'}).openTooltip().addTo(MAP);
+        L.circleMarker(latlng, {radius: radiusPlaceCircle, color: "#fe7aa2"}).addTo(MAP)
         drawAreaCircle(lat, lng, radiusAreaCircle)
     }
 }
 
 
 function drawAreaCircle(lat, lng, radiusAreaCircle) {
-    L.circle([lat, lng], {radius: radiusAreaCircle, fill: false}).addTo(MAP);
+    L.circle([lat, lng], {radius: radiusAreaCircle, fillOpacity: 0.01}).bindTooltip(`<h6>Area Radius : ${Number(radiusAreaCircle/1000).toFixed(2)} km</h6>`).addTo(MAP);
 }
 
 function setMarkerOnMyCurrentPosition(position) {
@@ -322,7 +337,14 @@ function drawRoute(data) {
             L.latLng(src.lat, src.lng),
             L.latLng(dist.lat, dist.lng)
         ]
-    }).addTo(MAP)
+    })
+        .on('routesfound', function(e) {
+            const distance = e.routes[0].summary.totalDistance
+            const time = e.routes[0].summary.totalTime
+            const name = e.routes[0].name
+            WebController.getRouteInfos(name, distance, time);
+        })
+        .addTo(MAP)
 }
 
 MAP.on('click', function (e) {
@@ -332,6 +354,31 @@ MAP.on('click', function (e) {
     const srcMarker = L.marker([lat, lng]).addTo(MAP);
     WebController.handleCoordinatesChange(lat, lng);
 
-
 })
 
+// MAP.on('zoomend',  () => {
+//     let zoomLevel = MAP.getZoom();
+//     let scale = Math.pow(2, zoomLevel - 13);
+//     MAP.eachLayer(layer => {
+//         if(layer instanceof L.CircleMarker){
+//
+//         }
+//     })
+// })
+
+
+// MAP.on('click', function (e) {
+//     const mar = L.marker([e.latlng.lat, e.latlng.lng]).addTo(MAP);
+//     L.Routing.control({
+//         waypoints: [
+//             L.latLng(28.9818, -10.0545),
+//             L.latLng(e.latlng.lat, e.latlng.lng)
+//         ]
+//     })
+//         .on('routesfound', function(e) {
+//             console.log(e.routes[0].summary.totalDistance)
+//             console.log(e.routes[0].summary.totalTime)
+//             console.log(e.routes[0].name)
+//         })
+//         .addTo(MAP)
+// })
